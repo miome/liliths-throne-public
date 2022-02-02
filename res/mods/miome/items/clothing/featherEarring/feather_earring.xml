@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<clothing>
+	<coreAttributes>
+		<value>100</value>
+		<determiner><![CDATA[a]]></determiner>
+		<name><![CDATA[feather earring]]></name>
+		<namePlural pluralByDefault="false"><![CDATA[feather earrings]]></namePlural>
+		<description><![CDATA[A pair of stud earrings with dangling feathers.]]></description>
+		<physicalResistance>0</physicalResistance>
+		<femininity>FEMININE</femininity>
+		<slot>PIERCING_EAR</slot>
+		<rarity>COMMON</rarity>
+		<clothingSet/>
+		<imageName>feather_earring.svg</imageName>
+		<imageEquippedName/>
+		<enchantmentLimit/>
+		<effects/>
+		
+		<blockedPartsList>
+			<blockedParts>
+				<displacementType>REMOVE_OR_EQUIP</displacementType>
+				<clothingAccessRequired/>
+				<blockedBodyParts/>
+				<clothingAccessBlocked/>
+				<concealedSlots/>
+			</blockedParts>
+		</blockedPartsList>
+		
+		<incompatibleSlots/>
+		
+		<primaryColours values="ALL" />
+		<primaryColoursDye values="ALL"/>
+		<secondaryColours values="ALL" />
+		<secondaryColoursDye values="ALL"/>
+		<tertiaryColours values="ALL_METAL"/>
+		<tertiaryColoursDye values="ALL_METAL"/>
+	
+		<itemTags>
+			<tag>GIFT</tag>
+		</itemTags>
+	</coreAttributes>
+
+    <replacementText type="REMOVE_OR_EQUIP">
+    <self>
+      <![CDATA[[npc.Name] [npc.verb(slide)] the feather earrings into [npc.her] [npc.ears].]]>
+    </self>
+    <other>
+      <![CDATA[[npc.Name] [npc.verb(slide)] the feather earrings into [npc2.namePos] [npc2.ears].]]>
+    </other>
+    <otherRough>
+      <![CDATA[[npc.Name] roughly [npc.verb(slide)] the feather earrings into [npc2.namePos] [npc2.ears].]]>
+    </otherRough>
+  </replacementText>
+
+  <displacementText type="REMOVE_OR_EQUIP">
+    <self>
+      <![CDATA[[npc.Name] [npc.verb(slide)] [npc.her] feather earrings out of [npc.her] [npc.ears].]]>
+    </self>
+    <other>
+      <![CDATA[[npc.Name] [npc.verb(slide)] [npc2.namePos] feather earrings out of [npc2.her] [npc2.ears].]]>
+    </other>
+    <otherRough>
+      <![CDATA[[npc.Name] roughly [npc.verb(slide)] [npc2.namePos] feather earrings out of [npc2.her] [npc2.ears].]]>
+    </otherRough>
+  </displacementText>
+
+</clothing>

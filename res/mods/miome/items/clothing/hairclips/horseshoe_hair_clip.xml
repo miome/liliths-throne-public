@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<clothing>
+	<coreAttributes>
+		<value>10</value>
+		<determiner><![CDATA[a]]></determiner>
+		<name><![CDATA[horseshoe hair clip]]></name>
+		<namePlural pluralByDefault="false"><![CDATA[horseshow hair clips]]></namePlural>
+		<description><![CDATA[A cheap plastic hair clip in the shape of a horseshoe.]]></description>
+		<physicalResistance>0</physicalResistance>
+		<femininity>FEMININE</femininity>
+		<slot>HAIR</slot>
+		<rarity>COMMON</rarity>
+		<clothingSet/>
+		<imageName>horseshoe_hair_clip.svg</imageName>
+		<imageEquippedName/>
+		<enchantmentLimit/>
+		<effects/>
+		
+		<blockedPartsList>
+			<blockedParts>
+				<displacementType>REMOVE_OR_EQUIP</displacementType>
+				<clothingAccessRequired/>
+				<blockedBodyParts/>
+				<clothingAccessBlocked/>
+				<concealedSlots/>
+			</blockedParts>
+		</blockedPartsList>
+		
+		<incompatibleSlots/>
+		
+		<primaryColours values="ALL" />
+		<primaryColoursDye values="ALL_WITH_METALS"/>
+		<secondaryColours values="METAL" />
+		<secondaryColoursDye values="ALL_WITH_METALS"/>
+		<tertiaryColours/>
+		<tertiaryColoursDye/>
+	
+		<itemTags>
+			<tag>GIFT</tag>
+		</itemTags>
+	</coreAttributes>
+
+  <replacementText type="REMOVE_OR_EQUIP">
+    <self>
+      <![CDATA[[npc.Name] [npc.verb(tuck)] the clip into [npc.her] [npc.hair(true)].]]>
+    </self>
+    <other>
+      <![CDATA[[npc.Name] [npc.verb(tuck)] the clip into [npc2.namePos] [npc2.hair(true)].]]>
+    </other>
+    <otherRough>
+      <![CDATA[[npc.Name] roughly [npc.verb(push)] the clip into [npc2.namePos] [npc2.hair(true)].]]>
+    </otherRough>
+  </replacementText>
+
+  <displacementText type="REMOVE_OR_EQUIP">
+    <self>
+      <![CDATA[[npc.Name] [npc.verb(take)] the clip out of [npc.her] [npc.hair(true)].]]>
+    </self>
+    <other>
+      <![CDATA[[npc.Name] [npc.verb(take)] the clip out of [npc2.namePos] [npc2.hair(true)].]]>
+    </other>
+    <otherRough>
+      <![CDATA[[npc.Name] [npc.verb(snatch)] the clip out of [npc2.namePos] [npc2.hair(true)].]]>
+    </otherRough>
+  </displacementText>
+  
+</clothing>
