@@ -18,23 +18,23 @@
      borderopacity="1.0"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
+     inkscape:pagecheckerboard="true"
      showgrid="false"
-     inkscape:zoom="1.8689597"
-     inkscape:cx="77.315737"
-     inkscape:cy="76.245623"
+     inkscape:zoom="6.0588889"
+     inkscape:cx="129.14909"
+     inkscape:cy="122.21713"
      inkscape:window-width="1853"
      inkscape:window-height="1024"
      inkscape:window-x="67"
      inkscape:window-y="28"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g3198"
+     inkscape:current-layer="g3192"
      inkscape:snap-nodes="false" />
   <defs
      id="defs24827">
     <linearGradient
        inkscape:collect="always"
-       id="innograd4">
+       id="innoGrad4">
       <stop
          style="stop-color:#ff8080;stop-opacity:1"
          offset="0"
@@ -45,7 +45,7 @@
          id="stop2082" />
     </linearGradient>
     <linearGradient
-       id="innograd0"
+       id="innoGrad0"
        inkscape:swatch="gradient">
       <stop
          style="stop-color:#ff9955;stop-opacity:1;"
@@ -58,7 +58,7 @@
     </linearGradient>
     <linearGradient
        inkscape:collect="always"
-       id="innograd3">
+       id="innoGrad3">
       <stop
          style="stop-color:#fff6d5;stop-opacity:1;"
          offset="0"
@@ -68,30 +68,9 @@
          offset="1"
          id="stop42522" />
     </linearGradient>
-    <linearGradient
-       id="linearGradient846-5"
-       x1="227.7798"
-       x2="103.59606"
-       y1="68.408913"
-       y2="210.15329"
-       gradientTransform="matrix(1.1119322,-0.04588389,0.04403346,1.0671229,-32.302515,-2.0328809)"
-       gradientUnits="userSpaceOnUse">
-      <stop
-         stop-color="#4d4d4d"
-         offset="0"
-         id="stop24820" />
-      <stop
-         stop-color="#808080"
-         offset=".34443"
-         id="stop24822" />
-      <stop
-         stop-color="#4d4d4d"
-         offset="1"
-         id="stop24824" />
-    </linearGradient>
     <radialGradient
        inkscape:collect="always"
-       xlink:href="#innograd3"
+       xlink:href="#innoGrad3"
        id="radialGradient42526"
        cx="-183.13966"
        cy="-197.53802"
@@ -103,7 +82,7 @@
        spreadMethod="reflect" />
     <linearGradient
        inkscape:collect="always"
-       xlink:href="#innograd4"
+       xlink:href="#innoGrad4"
        id="linearGradient2086"
        x1="64.59235"
        y1="110.26626"
@@ -112,7 +91,7 @@
        gradientUnits="userSpaceOnUse" />
     <radialGradient
        inkscape:collect="always"
-       xlink:href="#innograd3"
+       xlink:href="#innoGrad3"
        id="radialGradient3200"
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(0.62423463,-0.03911108,0.04301795,0.6865905,285.53345,142.36604)"
@@ -124,12 +103,12 @@
        spreadMethod="reflect" />
     <linearGradient
        inkscape:collect="always"
-       xlink:href="#innograd4"
+       xlink:href="#innoGrad4"
        id="linearGradient3202"
        gradientUnits="userSpaceOnUse"
-       x1="64.59235"
+       x1="64.592346"
        y1="110.26626"
-       x2="224.94799"
+       x2="224.94798"
        y2="110.26626" />
   </defs>
   <g
@@ -294,7 +273,7 @@
          stroke="#000000"
          stroke-width="0.9801"
          id="path3140"
-         style="display:inline;fill:url(#linearGradient3202);fill-opacity:1" />
+         style="display:inline;fill:url(#linearGradient3202);fill-opacity:1.0" />
       <path
          d="m 70.121747,209.92683 52.197923,-84.61534 c 34.19954,-37.594743 87.52291,-74.638143 101.75535,-112.807829 2.50022,35.668828 -28.68319,64.952068 -43.11818,97.410679 l -32.01255,12.58969 30.98671,-8.53878 c -2.38927,9.52449 -6.02527,18.41823 -11.09863,27.09642 l -28.93231,11.03511 23.75074,-2.95598 c -6.05737,8.67967 -13.64293,17.26777 -22.95572,26.19039 l -31.47023,9.4831 28.0609,-5.33387 c -22.41191,19.69327 -42.965694,30.43754 -67.163727,30.44957 z"
          fill-opacity="0.178"
@@ -404,7 +383,8 @@
          fill-rule="evenodd"
          stroke="#000000"
          stroke-width="1.0902"
-         id="path3190" />
+         id="path3190"
+         style="fill-opacity:1;fill:#4d4d4d" />
     </g>
     <ellipse
        style="display:inline;fill:url(#radialGradient3200);fill-opacity:1;stroke:#000000;stroke-width:0.860404;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
