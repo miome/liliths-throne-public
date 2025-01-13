@@ -26,6 +26,7 @@ import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
+import com.lilithsthrone.threading.DocBuilders;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -233,8 +234,8 @@ import com.lilithsthrone.world.places.PlaceType;
 import com.lilithsthrone.world.places.PlaceUpgrade;
 
 // Prepend 'org.open' to these if using JDK11+
-import jdk.nashorn.api.scripting.NashornScriptEngine;
-import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
+import org.openjdk.nashorn.api.scripting.NashornScriptEngine;
+import org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory;
 
 /**
  * @since 0.1.0
@@ -259,7 +260,7 @@ public class UtilText {
 	private static boolean parseAddPronoun;
 
 	private static NashornScriptEngineFactory factory = new NashornScriptEngineFactory();
-	private static ScriptEngine engine;
+	public static ScriptEngine engine;
 	
 	private static List<String> specialParsingStrings = new ArrayList<>();
 	private static List<GameCharacter> parsingCharactersForSpeech = new ArrayList<>();
@@ -898,7 +899,7 @@ public class UtilText {
 		
 		if(file.exists()) {
 			try {
-				Document doc = Main.getDocBuilder().parse(file);
+				Document doc = DocBuilders.parseDoc(file);
 				
 				// Cast magic:
 				doc.getDocumentElement().normalize();
@@ -945,7 +946,7 @@ public class UtilText {
 		
 		if (file.exists()) {
 			try {
-				Document doc = Main.getDocBuilder().parse(file);
+				Document doc = DocBuilders.parseDoc(file);
 				
 				// Cast magic:
 				doc.getDocumentElement().normalize();

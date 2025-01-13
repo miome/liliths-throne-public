@@ -10,12 +10,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import com.lilithsthrone.threading.DocBuilders;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -971,7 +973,8 @@ public class EnchantmentDialogue {
 
 		try {
 			// Starting stuff:
-			Document doc = Main.getDocBuilder().newDocument();
+			DocumentBuilder db = DocBuilders.getNextDocBuilder();
+			Document doc = db.newDocument();
 			
 			Element enchantment = doc.createElement("enchantment");
 			doc.appendChild(enchantment);
@@ -1026,7 +1029,8 @@ public class EnchantmentDialogue {
 			StreamResult result = new StreamResult(saveLocation);
 			
 			transformer.transform(source, result);
-			
+
+			db.reset();
 		} catch (TransformerException tfe) {
 			tfe.printStackTrace();
 		}
@@ -1043,7 +1047,7 @@ public class EnchantmentDialogue {
 
 			if (file.exists()) {
 				try {
-					Document doc = Main.getDocBuilder().parse(file);
+					Document doc = DocBuilders.parseDoc(file);
 					
 					// Cast magic:
 					doc.getDocumentElement().normalize();

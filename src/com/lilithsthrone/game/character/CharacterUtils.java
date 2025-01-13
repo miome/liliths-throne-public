@@ -14,12 +14,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import com.lilithsthrone.threading.DocBuilders;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -154,8 +156,8 @@ public class CharacterUtils {
 		try {
 //			long timeStart = System.nanoTime();
 //			System.out.println(timeStart);
-
-			Document doc = Main.getDocBuilder().newDocument();
+			DocumentBuilder db = DocBuilders.getNextDocBuilder();
+			Document doc = db.newDocument();
 			
 			Element properties = doc.createElement("playerCharacter");
 			doc.appendChild(properties);
@@ -204,7 +206,8 @@ public class CharacterUtils {
 			StreamResult result = new StreamResult(saveLocation);
 			
 			transformer.transform(source, result);
-		
+
+			db.reset();
 		} catch (TransformerException e) {
 			e.printStackTrace();
 		}
@@ -231,7 +234,7 @@ public class CharacterUtils {
 		
 		if (xmlFile.exists()) {
 			try {
-				Document doc = Main.getDocBuilder().parse(xmlFile);
+				Document doc = DocBuilders.parseDoc(xmlFile);
 				
 				// Cast magic:
 				doc.getDocumentElement().normalize();

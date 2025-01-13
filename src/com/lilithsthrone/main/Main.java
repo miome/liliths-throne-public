@@ -40,6 +40,7 @@ import com.lilithsthrone.game.dialogue.story.CharacterCreation;
 import com.lilithsthrone.game.dialogue.utils.MapTravelType;
 import com.lilithsthrone.game.dialogue.utils.OptionsDialogue;
 import com.lilithsthrone.game.sex.Sex;
+import com.lilithsthrone.threading.PreInitializationThread;
 import com.lilithsthrone.utils.CreditsSlot;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.colours.PresetColour;
@@ -72,15 +73,16 @@ public class Main extends Application {
 	public static Game game;
 	public static Sex sex;
 	public static Combat combat;
+	public static Main instance;
+	public static Thread currentThread;
+
+	public static final boolean TIME_TESTING = true;
+	public static long TIME_STARTED;
 
 	public static TransformerFactory transformerFactory = TransformerFactory.newInstance();
-	private static DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-	private static DocumentBuilder docBuilder;
 
 	public static MainController mainController;
-
 	public static Scene mainScene;
-
 	public static Stage primaryStage;
 	
 	public static final String AUTHOR = "Innoxia";
@@ -497,6 +499,9 @@ public class Main extends Application {
 		}
 
 		mainController = loader.getController();
+		currentThread = Thread.currentThread();
+		currentThread.setName("Main Thread");
+		instance = this;
 		Main.primaryStage.setScene(mainScene);
 		Main.primaryStage.show();
 		Main.game = new Game();
@@ -522,8 +527,14 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 		
+		resetContent();
+		if (TIME_TESTING)
+			System.out.println("Time taken to startup : " + (System.currentTimeMillis() - TIME_STARTED) + " ms");
+	}
+
+	public void resetContent() {
+//		System.out.println(Thread.currentThread().getName() + " is resetting content.");
 		Main.game.setContent(new Response("", "", OptionsDialogue.MENU));
-		
 	}
 	
 	protected static void CheckForDataDirectory() {
@@ -602,17 +613,6 @@ public class Main extends Application {
 		return Paths.get(path).toUri().toString().replaceAll("%20", " ");
 	}
 
-	public static DocumentBuilder getDocBuilder() {
-		if (docBuilder == null) {
-			try {
-				docBuilder = docFactory.newDocumentBuilder();
-			} catch (ParserConfigurationException e) {
-				e.printStackTrace();
-			}
-		}
-		return docBuilder;
-	}
-
 	public static String getPatchNotes() {
 		if (!patchNotes.isEmpty()) {
 			return patchNotes;
@@ -659,6 +659,7 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) {
+		TIME_STARTED = System.currentTimeMillis();
 		
 		// Create folders:
 		File dir = new File("data/");
@@ -712,6 +713,8 @@ public class Main extends Application {
 			properties = new Properties();
 			properties.savePropertiesAsXML();
 		}
+
+		PreInitializationThread.preloadData();
 
 		launch(args);
 	}
