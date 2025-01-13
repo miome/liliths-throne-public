@@ -12,43 +12,13 @@ import javafx.application.Platform;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * @since 0.4.10.7
+ * @version 0.4.10.7
+ * @author KeldonSlayer (DrZed)
+ */
 public class PreInitializationThread  extends Thread {
-    /*
-    ##############################
-    # Load Save Time Test        #
-    ##############################
-    Without Thread Preloading
-        Time taken to startup : 7758 ms
-        Import Game Took: 8660 ms
-
-        Time taken to startup : 7819 ms
-        Import Game Took: 8592 ms
-
-        Time taken to startup : 7781 ms
-        Import Game Took: 8571 ms
-
-        Time taken to startup : 8077 ms
-        Import Game Took: 8487 ms
-
-        Time taken to startup : 8298 ms
-        Import Game Took: 9043 ms
-
-    With Thread Preloading
-        Time taken to startup : 7930 ms
-        Import Game Took: 2224 ms
-
-        Time taken to startup : 7945 ms
-        Import Game Took: 2083 ms
-
-        Time taken to startup : 7959 ms
-        Import Game Took: 2131 ms
-
-        Time taken to startup : 7977 ms
-        Import Game Took: 2137 ms
-
-        Time taken to startup : 8731 ms
-        Import Game Took: 2306 ms
-    */
+    /* The next step to improving this is investigating why certain ones take so long, likely due to XML parsing not certain */
 
     /* Debug in name only, it's for timing the threads to find the slowest source, PRINT_COUNT allows ensuring the thresholds are met safely */
     private static final boolean DEBUG_PRE_INIT = false, PRINT_COUNT = false, MULTITHREADED_PRELOADING = true;
@@ -67,8 +37,8 @@ public class PreInitializationThread  extends Thread {
             INIT_TONGUE = new AtomicBoolean(false), INIT_TORSO = new AtomicBoolean(false),
             INIT_VAGINA = new AtomicBoolean(false), INIT_WING = new AtomicBoolean(false),
             INIT_WORLD = new AtomicBoolean(false), INIT_PLACE = new AtomicBoolean(false);
-    private static boolean hasRedrawnMainScene = false;
-    private static int initializedItems = 0;
+    private static boolean hasRedrawnMainScene = false;// safety check, funny because I don't lock the UI for the official branch
+    private static int initializedItems = 0; // we use this as a primary check to ensure it's ready, without polling all the AtomicBooleans every cycle
 
     public static void preloadData() {// Makes Loading Saves up to 400% faster (or in other terms, take 76~% less time)
         if (MULTITHREADED_PRELOADING) {
@@ -180,7 +150,7 @@ public class PreInitializationThread  extends Thread {
         }
     }
 
-    private void initHead() {
+    private void initHead() {// 1600-2400ms
         long timeStarted = System.currentTimeMillis(), timeSegment = System.currentTimeMillis();
         do {
             if (!INIT_RACES.get()) continue;
