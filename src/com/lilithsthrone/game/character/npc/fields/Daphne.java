@@ -48,7 +48,6 @@ import com.lilithsthrone.game.dialogue.DialogueNode;
 import com.lilithsthrone.game.inventory.CharacterInventory;
 import com.lilithsthrone.game.inventory.InventorySlot;
 import com.lilithsthrone.game.inventory.clothing.AbstractClothing;
-import com.lilithsthrone.game.inventory.clothing.ClothingType;
 import com.lilithsthrone.game.inventory.clothing.DisplacementType;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.rendering.Pattern;
@@ -79,7 +78,7 @@ public class Daphne extends NPC {
 				WorldType.EMPTY, PlaceType.GENERIC_EMPTY_TILE,
 				true);
 		if(!isImported) {
-			this.hourlyUpdate();
+			this.hourlyUpdate(0);
 		}
 	}
 	
@@ -208,7 +207,7 @@ public class Daphne extends NPC {
 		AbstractClothing jacket = this.getClothingInSlot(InventorySlot.TORSO_OVER);
 		this.isAbleToBeDisplaced(jacket, DisplacementType.UNZIPS, true, true, this);
 		
-		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing(ClothingType.WRIST_BANGLE, PresetColour.CLOTHING_BRASS, false), true, this);
+		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_wrist_bangle", PresetColour.CLOTHING_BRASS, false), true, this);
 		
 		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_leg_micro_skirt_belted", PresetColour.CLOTHING_DESATURATED_BROWN_DARK, PresetColour.CLOTHING_BRASS, null, false), true, this);
 		
@@ -236,7 +235,7 @@ public class Daphne extends NPC {
 	}
 
 	@Override
-	public void hourlyUpdate() {
+	public void hourlyUpdate(int hour) {
 		if(!Main.game.isInSex()) {
 			this.useItem(Main.game.getItemGen().generateItem("innoxia_pills_sterility"), this, false);
 		}

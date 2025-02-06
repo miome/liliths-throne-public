@@ -11,7 +11,7 @@ import com.lilithsthrone.main.Main;
 
 /**
  * @since 0.1.0
- * @version 0.3.7
+ * @version 0.4.9.7
  * @author Innoxia
  */
 public class Eye implements BodyPartInterface {
@@ -20,7 +20,8 @@ public class Eye implements BodyPartInterface {
 	
 	protected AbstractEyeType type;
 	protected int eyePairs;
-	protected EyeShape irisShape, pupilShape;
+	protected EyeShape irisShape;
+	protected EyeShape pupilShape;
 	
 	public Eye(AbstractEyeType type) {
 		this.type = type;
@@ -29,6 +30,13 @@ public class Eye implements BodyPartInterface {
 		pupilShape = type.getDefaultPupilShape();
 	}
 
+	public Eye(Eye eyeToCopy) {
+		this.type = eyeToCopy.type;
+		this.eyePairs = eyeToCopy.eyePairs;
+		this.irisShape = eyeToCopy.irisShape;
+		this.pupilShape = eyeToCopy.pupilShape;
+	}
+	
 	@Override
 	public AbstractEyeType getType() {
 		return type;
@@ -65,6 +73,7 @@ public class Eye implements BodyPartInterface {
 			irisShape = type.getDefaultIrisShape();
 			pupilShape = type.getDefaultPupilShape();
 			if(owner!=null) {
+				owner.resetAreaKnownByCharacters(CoverableArea.EYES);
 				owner.postTransformationCalculation();
 			}
 			return "";
@@ -91,6 +100,7 @@ public class Eye implements BodyPartInterface {
 		this.type = type;
 		irisShape = type.getDefaultIrisShape();
 		pupilShape = type.getDefaultPupilShape();
+		owner.resetAreaKnownByCharacters(CoverableArea.EYES);
 
 		sb.append(type.getTransformationDescription(owner));
 		
@@ -140,6 +150,10 @@ public class Eye implements BodyPartInterface {
 	}
 
 	public String setIrisShape(GameCharacter owner, EyeShape irisShape) {
+		if(owner==null) {
+			this.irisShape = irisShape;
+			return "";
+		}
 		if(owner.getIrisShape() == irisShape) {
 			return "<p style='text-align:center;'>[style.colourDisabled(Nothing happens...)]</p>";
 		}
@@ -158,6 +172,10 @@ public class Eye implements BodyPartInterface {
 	}
 
 	public String setPupilShape(GameCharacter owner, EyeShape pupilShape) {
+		if(owner==null) {
+			this.pupilShape = pupilShape;
+			return "";
+		}
 		if(owner.getPupilShape() == pupilShape) {
 			return "<p style='text-align:center;'>[style.colourDisabled(Nothing happens...)]</p>";
 		}

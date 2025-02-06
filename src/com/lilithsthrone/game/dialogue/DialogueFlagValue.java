@@ -54,12 +54,6 @@ public class DialogueFlagValue {
 
 	public static AbstractDialogueFlagValue badEnd = new AbstractDialogueFlagValue(); // When the game is in a state of a bad end (meaning that the player is in an inescapable gameplay loop)
 	
-	// Gym:
-	public static AbstractDialogueFlagValue gymIntroduced = new AbstractDialogueFlagValue();
-	public static AbstractDialogueFlagValue gymHadTour = new AbstractDialogueFlagValue();
-	public static AbstractDialogueFlagValue gymIsMember = new AbstractDialogueFlagValue();
-	
-	
 	// Introductions:
 	public static AbstractDialogueFlagValue angelIntroduced = new AbstractDialogueFlagValue();
 	public static AbstractDialogueFlagValue angelsOfficeIntroduced = new AbstractDialogueFlagValue();
@@ -104,8 +98,6 @@ public class DialogueFlagValue {
 	public static AbstractDialogueFlagValue ashleySexToysDiscovered = new AbstractDialogueFlagValue();
 	public static AbstractDialogueFlagValue ashleyAttitude = new AbstractDialogueFlagValue();
 	
-	public static AbstractDialogueFlagValue reactedToKatePregnancy = new AbstractDialogueFlagValue();
-	
 	// Nyan:
 	public static AbstractDialogueFlagValue nyanHiding = new AbstractDialogueFlagValue();
 	public static AbstractDialogueFlagValue nyanDating = new AbstractDialogueFlagValue();
@@ -148,11 +140,14 @@ public class DialogueFlagValue {
 	public static AbstractDialogueFlagValue lilayaReactedToPlayerAsDemon = new AbstractDialogueFlagValue();
 	public static AbstractDialogueFlagValue lilayaHug = new AbstractDialogueFlagValue(true);
 	public static AbstractDialogueFlagValue obtainedScientistClothing = new AbstractDialogueFlagValue();
+
+	public static AbstractDialogueFlagValue lilayaGardenPickRose = new AbstractDialogueFlagValue(true);
 	
 	public static AbstractDialogueFlagValue readBook1 = new AbstractDialogueFlagValue();
 	public static AbstractDialogueFlagValue readBook2 = new AbstractDialogueFlagValue();
 	public static AbstractDialogueFlagValue readBook3 = new AbstractDialogueFlagValue();
 	public static AbstractDialogueFlagValue readBook4 = new AbstractDialogueFlagValue();
+	public static AbstractDialogueFlagValue readBook5 = new AbstractDialogueFlagValue();
 	public static AbstractDialogueFlagValue readBookSlavery = new AbstractDialogueFlagValue();
 	
 	public static AbstractDialogueFlagValue arthursPackageObtained = new AbstractDialogueFlagValue();
@@ -266,6 +261,10 @@ public class DialogueFlagValue {
 	public static AbstractDialogueFlagValue natalyaBusy = new AbstractDialogueFlagValue(true);
 	public static AbstractDialogueFlagValue natalyaDailySexAsSub = new AbstractDialogueFlagValue(true);
 	public static AbstractDialogueFlagValue natalyaDailySexAsDom = new AbstractDialogueFlagValue(true);
+
+	public static AbstractDialogueFlagValue natalyaParkEncounter = new AbstractDialogueFlagValue();
+	public static AbstractDialogueFlagValue playerSubmittedToNatalyaInPark = new AbstractDialogueFlagValue();
+	
 	
 	// Kay:
 	public static AbstractDialogueFlagValue kayTalkedTo = new AbstractDialogueFlagValue(true);
@@ -296,6 +295,8 @@ public class DialogueFlagValue {
 	public static AbstractDialogueFlagValue zaranixKellySubdued = new AbstractDialogueFlagValue();
 
 	public static AbstractDialogueFlagValue zaranixTransformedPlayer = new AbstractDialogueFlagValue();
+	
+	public static AbstractDialogueFlagValue amberSatOnFloor = new AbstractDialogueFlagValue();
 	
 	public static AbstractDialogueFlagValue amberRepeatEncountered = new AbstractDialogueFlagValue();
 	public static AbstractDialogueFlagValue katherineRepeatEncountered = new AbstractDialogueFlagValue();
@@ -341,6 +342,14 @@ public class DialogueFlagValue {
 	// Nightlife:
 	public static AbstractDialogueFlagValue julesIntroduced = new AbstractDialogueFlagValue();
 	public static AbstractDialogueFlagValue suckedJulesCock = new AbstractDialogueFlagValue();
+	public static AbstractDialogueFlagValue fuckedJules = new AbstractDialogueFlagValue();
+	public static AbstractDialogueFlagValue fuckedJulesTonight = new AbstractDialogueFlagValue() {
+		@Override
+		public int getResetHour() {
+			return 12;
+		}
+	};
+	
 	public static AbstractDialogueFlagValue passedJules = new AbstractDialogueFlagValue();
 	public static AbstractDialogueFlagValue kalahariIntroduced = new AbstractDialogueFlagValue();
 	public static AbstractDialogueFlagValue kalahariWantsSex = new AbstractDialogueFlagValue();
@@ -360,21 +369,27 @@ public class DialogueFlagValue {
 	public static AbstractDialogueFlagValue impCitadelTreasurySearched = new AbstractDialogueFlagValue();
 	public static AbstractDialogueFlagValue impCitadelLaboratorySearched = new AbstractDialogueFlagValue();
 
+	public static AbstractDialogueFlagValue meraxisTrickedWithRing = new AbstractDialogueFlagValue();
+	
+
 	public static AbstractDialogueFlagValue impCitadelPrisonerMale = new AbstractDialogueFlagValue();
 	public static AbstractDialogueFlagValue impCitadelPrisonerFemale = new AbstractDialogueFlagValue();
 	public static AbstractDialogueFlagValue impCitadelPrisonerAlpha = new AbstractDialogueFlagValue();
 	
 	public static AbstractDialogueFlagValue impFortressAlphaGuardsPacified = new AbstractDialogueFlagValue();
+	public static AbstractDialogueFlagValue impFortressAlphaGuardsKnowPlayerDemon = new AbstractDialogueFlagValue();
 	public static AbstractDialogueFlagValue impFortressAlphaBossEncountered = new AbstractDialogueFlagValue();
 	public static AbstractDialogueFlagValue impFortressAlphaPacified = new AbstractDialogueFlagValue();
 	public static AbstractDialogueFlagValue impFortressAlphaDefeated = new AbstractDialogueFlagValue();
 	
 	public static AbstractDialogueFlagValue impFortressFemalesGuardsPacified = new AbstractDialogueFlagValue();
+	public static AbstractDialogueFlagValue impFortressFemalesGuardsKnowPlayerDemon = new AbstractDialogueFlagValue();
 	public static AbstractDialogueFlagValue impFortressFemalesBossEncountered = new AbstractDialogueFlagValue();
 	public static AbstractDialogueFlagValue impFortressFemalesPacified = new AbstractDialogueFlagValue();
 	public static AbstractDialogueFlagValue impFortressFemalesDefeated = new AbstractDialogueFlagValue();
 	
 	public static AbstractDialogueFlagValue impFortressMalesGuardsPacified = new AbstractDialogueFlagValue();
+	public static AbstractDialogueFlagValue impFortressMalesGuardsKnowPlayerDemon = new AbstractDialogueFlagValue();
 	public static AbstractDialogueFlagValue impFortressMalesBossEncountered = new AbstractDialogueFlagValue();
 	public static AbstractDialogueFlagValue impFortressMalesPacified = new AbstractDialogueFlagValue();
 	public static AbstractDialogueFlagValue impFortressMalesDefeated = new AbstractDialogueFlagValue();
@@ -385,6 +400,7 @@ public class DialogueFlagValue {
 	
 	public static AbstractDialogueFlagValue elizabethAskedAboutUniforms = new AbstractDialogueFlagValue();
 	public static AbstractDialogueFlagValue elizabethAskedAboutSurname = new AbstractDialogueFlagValue();
+	public static AbstractDialogueFlagValue elizabethAskedAboutRoutine = new AbstractDialogueFlagValue();
 	
 	public static AbstractDialogueFlagValue lyssiethQuestionAsked1 = new AbstractDialogueFlagValue();
 	public static AbstractDialogueFlagValue lyssiethQuestionAsked2 = new AbstractDialogueFlagValue();
@@ -498,15 +514,30 @@ public class DialogueFlagValue {
 	 * @return The flag that has an id closest to the supplied id. <b>Will return null</b> if the matching distance is greater than 3 (which typically will be more than enough to catch spelling errors, indicating that the flag has been removed).
 	 */
 	public static AbstractDialogueFlagValue getDialogueFlagValueFromId(String id) {
+
+//		public static AbstractDialogueFlagValue gymIntroduced = new AbstractDialogueFlagValue();
+//		public static AbstractDialogueFlagValue gymHadTour = new AbstractDialogueFlagValue();
+//		public static AbstractDialogueFlagValue gymIsMember = new AbstractDialogueFlagValue();
 		// Removed flags:
 		if(id.equals("ratWarrensRaid")
-				|| id.equals("suppliersTriedConvincing")) {
+				|| id.equals("suppliersTriedConvincing")
+				|| id.equals("reactedToKatePregnancy")
+				// Reset gym flags so that the new gym starts out as a fresh start for versions loaded from prior to 0.4.7.8:
+				|| id.equals("gymIsMember")
+				|| id.equals("gymIntroduced")
+				|| id.equals("gymHadTour")) {
 			return null;
 		}
 		
 		if(id.equals("innoxia_elis_alleyway_transformations_applied")) {
 			id = "innoxia_alleyway_transformations_applied";
 		}
+//		if(id.equals("gymIntroduced")) {
+//			id = "innoxia_pix_introduced";
+//		}
+//		if(id.equals("gymHadTour")) {
+//			id = "innoxia_pix_had_tour";
+//		}
 		
 		id = Util.getClosestStringMatch(id, idToDialogueFlagValueMap.keySet(), 3);
 				

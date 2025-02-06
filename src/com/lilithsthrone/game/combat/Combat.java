@@ -46,7 +46,7 @@ import com.lilithsthrone.utils.colours.PresetColour;
  * Call initialiseCombat() before using.
  *
  * @since 0.1.0
- * @version 0.4.2.1
+ * @version 0.4.9
  * @author Innoxia, Irbynx
  */
 public class Combat {
@@ -62,6 +62,7 @@ public class Combat {
 	private List<GameCharacter> activeCombatants; // A list of combatants who are still active in the fight. This is updated at the very end of each combat turn, and removes characters which have been defeated during the last turn.
 	
 	private float escapeChance = 0;
+	private boolean submitBlocked = false;
 	private Map<GameCharacter, Float> totalDamageTaken;
 	private int turn = 0;
 	private boolean attemptedEscape = false;
@@ -107,6 +108,7 @@ public class Combat {
 				enemyLeader,
 				enemies,
 				openingDescriptions,
+				false,
 				false);
 	}
 	/**
@@ -122,7 +124,8 @@ public class Combat {
 			NPC enemyLeader,
 			List<NPC> enemies,
 			Map<GameCharacter, String> openingDescriptions,
-			boolean escapeBlocked) {
+			boolean escapeBlocked,
+			boolean submitBlocked) {
 		
 		// These should be set manually after initialising combat
 		playerPostVictoryDialogue = null;
@@ -218,6 +221,8 @@ public class Combat {
 				}
 			}
 		}
+		
+		this.submitBlocked = submitBlocked;
 		
 		String startingEffect = "";
 		
@@ -327,7 +332,11 @@ public class Combat {
 			predictionContent.put(npc, npc.getMovesPredictionString(npcEnemies, npcAllies));
 		}
 		
-		Main.mainController.openInventory();
+		// I don't know why openInventory() was being called here, so I commented it out in v0.4.6.8. It caused a bug that was hard to reproduce but which threw this error:
+			//Exception in thread "JavaFX Application Thread" java.lang.NullPointerException
+			//at com.lilithsthrone.rendering.RenderingEngine.getInventoryIconsForPage(RenderingEngine.java:954)
+			//at com.lilithsthrone.rendering.RenderingEngine.getInventoryDiv(RenderingEngine.java:797)
+//		Main.mainController.openInventory();
 	}
 
 	public void setCharacterTurnContent(GameCharacter character, List<String> descriptions) {
@@ -966,11 +975,15 @@ public class Combat {
 								:index-7;
 					
 					if(index==9) {
-						return new Response("Submit",
-								(getEnemies(Main.game.getPlayer()).size()==1
-									?"Surrender this fight to your opponent, allowing them to do whatever they want to you."
-									:"Surrender this fight to your enemies, allowing them to do whatever they want to you."),
-								SUBMIT);
+						if(Main.combat.isSubmitBlocked()) {
+							return new Response("Submit", "You cannot submit in this combat scene!", null);
+						} else {
+							return new Response("Submit",
+									(getEnemies(Main.game.getPlayer()).size()==1
+										?"Surrender this fight to your opponent, allowing them to do whatever they want to you."
+										:"Surrender this fight to your enemies, allowing them to do whatever they want to you."),
+									SUBMIT);
+						}
 						
 					} else if(index==10) {
 						if (escapeChance == 0) {
@@ -1246,8 +1259,8 @@ public class Combat {
 			} else if(index==14) {
 				return new Response("Reset",
 						Main.game.getPlayer().getSelectedMoves().size()==0
-								?""
-								:".",
+								?"You cannot reset your selected moves as you haven't selected any yet!"
+								:"Resets your selected moves, allowing you to choose different ones for this turn of combat.",
 							Main.game.getPlayer().getSelectedMoves().size()==0
 								?null
 								:ENEMY_ATTACK) {
@@ -1320,7 +1333,13 @@ public class Combat {
 			@Override
 			public void effects() {
 				Main.game.getPlayer().selectMove(Main.game.getPlayer().getSelectedMoves().size(), move, moveTarget, pcEnemies, pcAllies);
-				predictionContent.get(Main.game.getPlayer()).add(move.getPrediction(selectedMoveIndex, Main.game.getPlayer(), moveTarget, pcEnemies, pcAllies));
+				// Reset prediction content as this selected move may have altered the prediction of previous moves:
+				predictionContent.put(Main.game.getPlayer(), new ArrayList<>());
+				int i=0;
+				for(Value<GameCharacter, AbstractCombatMove> selectedMove : Main.game.getPlayer().getSelectedMoves()) {
+					predictionContent.get(Main.game.getPlayer()).add(selectedMove.getValue().getPrediction(i, Main.game.getPlayer(), selectedMove.getKey(), pcEnemies, pcAllies));
+					i++;
+				}
 			}
 			@Override
 			public Colour getHighlightColour() {
@@ -1545,7 +1564,7 @@ public class Combat {
 		for(GameCharacter character : getAllCombatants(true)) {
 			combatContent.put(character, new ArrayList<>());
 		}
-		for(int i=0;i<3;i++) {
+		for(int i=0;i<order.length;i++) {
 			for(GameCharacter character : combatants) {
 				if(attackCharacter(character)) {
 					List<GameCharacter> npcAllies = getAllies(character);
@@ -2178,5 +2197,9 @@ public class Combat {
 
 	public void setPlayerPostDefeatDialogue(DialogueNode playerPostDefeatDialogue) {
 		this.playerPostDefeatDialogue = playerPostDefeatDialogue;
+	}
+
+	public boolean isSubmitBlocked() {
+		return submitBlocked;
 	}
 }

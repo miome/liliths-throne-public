@@ -68,7 +68,6 @@ import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.game.inventory.CharacterInventory;
 import com.lilithsthrone.game.inventory.InventorySlot;
 import com.lilithsthrone.game.inventory.clothing.AbstractClothing;
-import com.lilithsthrone.game.inventory.clothing.ClothingType;
 import com.lilithsthrone.game.sex.SexAreaOrifice;
 import com.lilithsthrone.game.sex.SexAreaPenetration;
 import com.lilithsthrone.game.sex.SexPace;
@@ -108,7 +107,7 @@ public class Amber extends NPC {
 	public Amber(boolean isImported) {
 		super(isImported, new NameTriplet("Amber"), "Lireceamartu",
 				"The highest-ranking of Zaranix's maids, Amber is clearly outraged by the fact that you're wandering around her master's house unsupervised.",
-				39, Month.OCTOBER, 17,
+				117, Month.OCTOBER, 17,
 				15,
 				null, null, null,
 				new CharacterInventory(10), WorldType.ZARANIX_HOUSE_GROUND_FLOOR, PlaceType.ZARANIX_GF_LOUNGE, true);
@@ -123,7 +122,7 @@ public class Amber extends NPC {
 			resetBodyAfterVersion_2_10_5();
 		}
 		if(Main.isVersionOlderThan(Game.loadingVersion, "0.2.11")) {
-			this.setAgeAppearanceDifferenceToAppearAsAge(28);
+			this.setAgeAppearanceAbsolute(28);
 		}
 		if(this.getBodyMaterial()!=BodyMaterial.FLESH) {
 			this.setBodyMaterial(BodyMaterial.FLESH);
@@ -150,11 +149,18 @@ public class Amber extends NPC {
 		if(Main.isVersionOlderThan(Game.loadingVersion, "0.4.1")) {
 			this.setFetishDesire(Fetish.FETISH_BONDAGE_APPLIER, FetishDesire.THREE_LIKE);
 		}
+		if(Main.isVersionOlderThan(Game.loadingVersion, "0.4.7.11")) {
+			this.addSpecialPerk(Perk.MARTIAL_ARTIST);
+		}
+		if(Main.isVersionOlderThan(Game.loadingVersion, "0.4.9.8")) {
+			this.setAge(117);
+		}
 	}
 
 	@Override
 	public void setupPerks(boolean autoSelectPerks) {
 		this.addSpecialPerk(Perk.SPECIAL_DIRTY_MINDED);
+		this.addSpecialPerk(Perk.MARTIAL_ARTIST);
 		
 		PerkManager.initialisePerks(this,
 				Util.newArrayListOfValues(
@@ -189,7 +195,7 @@ public class Amber extends NPC {
 		
 		// Body:
 		// Add full body reset as this method is called after leaving Zaranix's house:
-		this.setAgeAppearanceDifferenceToAppearAsAge(28);
+		this.setAgeAppearanceAbsolute(28);
 		this.setBody(Gender.F_P_V_B_FUTANARI, Subspecies.DEMON, RaceStage.GREATER, false);
 		this.setTailType(TailType.DEMON_HAIR_TIP);
 		this.setWingType(WingType.NONE);
@@ -286,13 +292,13 @@ public class Amber extends NPC {
 		// Scars
 
 		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_groin_crotchless_thong", PresetColour.CLOTHING_RED_DARK, false), true, this);
-		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing(ClothingType.CHEST_OPEN_CUP_BRA, PresetColour.CLOTHING_RED_DARK, false), true, this);
+		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_chest_open_cup_bra", PresetColour.CLOTHING_RED_DARK, false), true, this);
 		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_stomach_underbust_corset", PresetColour.CLOTHING_BLACK, false), true, this);
-		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing(ClothingType.MAID_DRESS, PresetColour.CLOTHING_BLACK, false), true, this);
-		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing(ClothingType.MAID_HEADPIECE, PresetColour.CLOTHING_BLACK, false), true, this);
-		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing(ClothingType.MAID_STOCKINGS, PresetColour.CLOTHING_BLACK, false), true, this);
-		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing(ClothingType.MAID_SLEEVES, PresetColour.CLOTHING_BLACK, false), true, this);
-		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing(ClothingType.MAID_HEELS, PresetColour.CLOTHING_BLACK, false), true, this);
+		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_maid_dress", PresetColour.CLOTHING_BLACK, false), true, this);
+		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_maid_headpiece", PresetColour.CLOTHING_BLACK, false), true, this);
+		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_maid_stockings", PresetColour.CLOTHING_BLACK, false), true, this);
+		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_maid_sleeves", PresetColour.CLOTHING_BLACK, false), true, this);
+		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_maid_heels", PresetColour.CLOTHING_BLACK, false), true, this);
 
 	}
 
@@ -340,7 +346,7 @@ public class Amber extends NPC {
 	
 	@Override
 	public void endSex() {
-		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing(ClothingType.MAID_DRESS, PresetColour.CLOTHING_BLACK, false), true, this);
+		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_maid_dress", PresetColour.CLOTHING_BLACK, false), true, this);
 	}
 	
 	@Override

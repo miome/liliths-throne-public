@@ -32,8 +32,13 @@ public class Artwork {
 	private final List<String> nakedImages;
 
 	public static List<Artist> allArtists;
+	
+	public static Artist customArtist;
+	
 	static {
 		allArtists = new ArrayList<>();
+		
+		customArtist = new Artist("Custom", PresetColour.BASE_GREY, "custom", new ArrayList<>());
 		
 		File dir = new File("res/images/characters");
 		
@@ -77,7 +82,7 @@ public class Artwork {
 			}
 
 			// Add artist template for custom art
-			allArtists.add(new Artist("Custom", PresetColour.BASE_GREY, "custom", new ArrayList<>()));
+			allArtists.add(customArtist);
 		}
 	}
 	
@@ -160,8 +165,24 @@ public class Artwork {
 	
 	private List<String> getFilteredImages(List<String> images) {
 		List<String> filteredImages = new ArrayList<>(images);
-		filteredImages.removeIf(s -> s.contains("penis") && !character.hasPenisIgnoreDildo());
-		filteredImages.removeIf(s -> s.contains("vagina") && !character.hasVagina());
+		if(Main.game.isStarted()) {
+			filteredImages.removeIf(s -> s.toLowerCase().contains("#penis") && !character.hasPenisIgnoreDildo());
+			filteredImages.removeIf(s -> s.toLowerCase().contains("#nopenis") && character.hasPenisIgnoreDildo());
+			filteredImages.removeIf(s -> s.toLowerCase().contains("#vagina") && !character.hasVagina());
+			filteredImages.removeIf(s -> s.toLowerCase().contains("#novagina") && character.hasVagina());
+			filteredImages.removeIf(s -> s.toLowerCase().contains("#preg") && !character.isVisiblyPregnant());
+			filteredImages.removeIf(s -> s.toLowerCase().contains("#nopreg") && character.isVisiblyPregnant());
+			filteredImages.removeIf(s -> s.toLowerCase().contains("#udders") && (!Main.game.isUdderContentEnabled() || !character.hasBreastsCrotch()));
+			filteredImages.removeIf(s -> s.toLowerCase().contains("#noudders") && Main.game.isUdderContentEnabled() && character.hasBreastsCrotch());
+		}
 		return filteredImages;
+	}
+	
+	public List<String> getAllImagePaths() {
+		List<String> imagePaths = new ArrayList<>();
+		imagePaths.addAll(clothedImages);
+		imagePaths.addAll(partialImages);
+		imagePaths.addAll(nakedImages);
+		return imagePaths;
 	}
 }

@@ -30,6 +30,7 @@ import com.lilithsthrone.game.dialogue.places.dominion.nyansApartment.NyanDateFi
 import com.lilithsthrone.game.dialogue.places.dominion.nyansApartment.NyanFirstDate;
 import com.lilithsthrone.game.dialogue.places.dominion.nyansApartment.NyanFirstDoubleDate;
 import com.lilithsthrone.game.dialogue.places.dominion.nyansApartment.NyanRepeatDate;
+import com.lilithsthrone.game.dialogue.places.submission.BatCaverns;
 import com.lilithsthrone.game.dialogue.places.submission.SubmissionGenericPlaces;
 import com.lilithsthrone.game.dialogue.responses.Response;
 import com.lilithsthrone.game.dialogue.responses.ResponseEffectsOnly;
@@ -43,6 +44,7 @@ import com.lilithsthrone.utils.Vector2i;
 import com.lilithsthrone.utils.colours.PresetColour;
 import com.lilithsthrone.world.Season;
 import com.lilithsthrone.world.Weather;
+import com.lilithsthrone.world.WorldRegion;
 import com.lilithsthrone.world.WorldType;
 import com.lilithsthrone.world.places.PlaceType;
 
@@ -97,13 +99,20 @@ public class DominionPlaces {
 				break;
 			}
 			if(Main.game.getPlayer().getFriendlyOccupants().contains(npc.getId())) {
-				occupantSB.append(
-						UtilText.parse(npc,
-								"<p>"
-									+ "<b style='color:"+PresetColour.GENERIC_GOOD.toWebHexString()+";'>[npc.NamePos] Apartment:</b><br/>"
-									+ "[npc.Name], the [npc.race] that you rescued from a life of crime, lives in an apartment building nearby."
-									+ " If you wanted to, you could pay [npc.herHim] a visit..."
-								+ "</p>"));
+				occupantSB.append("<p>");
+				occupantSB.append(UtilText.parse(npc,
+								"<b style='color:"+PresetColour.GENERIC_GOOD.toWebHexString()+";'>[npc.NamePos] Apartment:</b><br/>"
+									+ "After moving out from Lilaya's home, [npc.name] has ended up living in an apartment building near to this location."));
+
+				if(npc.isAsleep()) {
+					occupantSB.append(UtilText.parse(npc,
+							" If you wanted to, you could pay the [npc.race] a visit, but as [npc.sheIs] currently [style.colourSleep(sleeping)] you'll have to wake [npc.herHim] up..."));
+				} else {
+					occupantSB.append(UtilText.parse(npc, " If you wanted to, you could pay the [npc.race] a visit..."));
+				}
+				occupantSB.append("<br/>");
+				occupantSB.append(UtilText.parse(npc, "<i>[npc.Name] sleeps between the hours of [style.time("+npc.getSleepStartHour()+")]-[style.time("+npc.getSleepEndHour()+")]</i>"));
+				occupantSB.append("</p>");
 				break;
 			}
 			
@@ -182,8 +191,7 @@ public class DominionPlaces {
 							"You've already taken Nyan and [nyanmum.name] out for a date this weekend. You'll have to wait until next weekend before taking them out again...",
 							null));
 					
-				} else if((Main.game.getDayOfWeek()==DayOfWeek.FRIDAY || Main.game.getDayOfWeek()==DayOfWeek.SATURDAY)
-						&& (Main.game.getHourOfDay()>=18 && Main.game.getHourOfDay()<23)) {
+				} else if((Main.game.getDayOfWeek()==DayOfWeek.FRIDAY || Main.game.getDayOfWeek()==DayOfWeek.SATURDAY) && (Main.game.isHourBetween(20, 23))) {
 					if(Main.game.getNpc(Nyan.class).getWorldLocation()!=WorldType.NYANS_APARTMENT) {
 						mommyResponses.add(new Response("Double date ("+UtilText.formatAsMoneyUncoloured(dateCost, "span")+")",
 								"Nyan and [nyanmum.name] are not at home at the moment. You'll have to come back after their work day ends...",
@@ -220,9 +228,9 @@ public class DominionPlaces {
 									?"[style.italicsMinorGood(Saturday)]"
 									:"[style.italicsMinorBad(Saturday)]")
 								+", and between the hours of "
-								+ (Main.game.getHourOfDay()>=18 && Main.game.getHourOfDay()<23
-									?"[style.italicsMinorGood([unit.time(18)]-[unit.time(23)])]"
-									:"[style.italicsMinorBad([unit.time(18)]-[unit.time(23)])]")
+								+ (Main.game.isHourBetween(20, 23)
+									?"[style.italicsMinorGood([unit.time(20)]-[unit.time(23)])]"
+									:"[style.italicsMinorBad([unit.time(20)]-[unit.time(23)])]")
 								+" in order to take Nyan and [nyanmum.name] out for a date!",
 							null));
 				}
@@ -686,8 +694,68 @@ public class DominionPlaces {
 		}
 	};
 
+	private static Set<Integer> viewedNewsIndexes = new HashSet<>();
+	private static boolean viewedAllNews = false;
+	
+	private static String getRandomNewsText() {
+		List<AbstractSubspecies> possibleSubspecies = new ArrayList<>();
+		for(AbstractSubspecies s : Subspecies.allSubspecies) {
+			if(s.getMostCommonWorldRegions().contains(WorldRegion.DOMINION)) {
+				possibleSubspecies.add(s);
+			}
+		}
+		
+		String randomFemalePerson = Util.randomItemFrom(possibleSubspecies).getSingularFemaleName(null);
+		String randomMalePerson = Util.randomItemFrom(possibleSubspecies).getSingularMaleName(null);
+		
+		List<String> strings = Util.newArrayListOfValues(
+				"A rough-looking "+randomMalePerson+" unrolls a large scroll, before clearing his throat and calling out,"
+						+ " [maleNPC.speech(By decree of Lilith, and in the interests of Dominion's security,"
+							+ " any human seen walking the streets outside of daylight hours may legally be subjected to a full body search from any Enforcer.)]",
+					Util.capitaliseSentence(UtilText.addDeterminer(randomFemalePerson))+" holds up an official-looking piece of paper, complete with a red wax seal, and declares,"
+						+ " [femaleNPC.speech(A reward of two-hundred-thousand flames has been issued for any information leading to the arrest of the person or persons responsible"
+							+ " for distributing illegal newspapers in the districts beneath the Harpy Nests!)]",
+					"A rather wild-looking succubus, dressed in a very Halloween-esque witch's costume, points to different members of the crowd as she screams,"
+						+ " [femaleNPC.speech(I count no less than three demons in the crowd who are without a cultist's uniform!"
+							+ " What would Lilith say if she could see this now?!)]",
+					Util.capitaliseSentence(UtilText.addDeterminer(randomMalePerson))+" relays several boring, mundane pieces of news to the crowd."
+							+ " There's nothing that is of any interest to you, and you eventually turn away, having felt as though you just wasted your time.",
+					Util.capitaliseSentence(UtilText.addDeterminer(randomFemalePerson))+" relays several boring, mundane pieces of news to the crowd."
+							+ " There's nothing that is of any interest to you, and you eventually turn away, having felt as though you just wasted your time.",
+					Util.capitaliseSentence(UtilText.addDeterminer(randomMalePerson))+" is currently reading out a list of advertisements for shops in the local area."
+							+ " There's really nothing of interest to be heard, and you soon find yourself turning away and moving on.",
+					Util.capitaliseSentence(UtilText.addDeterminer(randomFemalePerson))+" is currently reading out a list of advertisements for shops in the local area."
+							+ " There's really nothing of interest to be heard, and you soon find yourself turning away and moving on.");
+		
+		List<Integer> availableIndexes = new ArrayList<>();
+		for(int i=0; i<strings.size(); i++) {
+			availableIndexes.add(i);
+		}
+		for(Integer i : viewedNewsIndexes) {
+			availableIndexes.remove(i);
+		}
+		if(availableIndexes.isEmpty()) {
+			viewedAllNews = true;
+			return "<p style='text-align:center;'>"
+						+ "[style.italicsDisabled(You've listened to everything that's being said...)]"
+					+ "</p>";
+			
+		} else {
+			int index = Util.randomItemFrom(availableIndexes);
+			viewedNewsIndexes.add(index);
+			
+			return "<p>"
+						+ strings.get(index)
+					+ "</p>";
+		}
+	}
 	
 	public static final DialogueNode DOMINION_PLAZA = new DialogueNode("Lilith's Plaza", "", false) {
+		@Override
+		public void applyPreParsingEffects() {
+			viewedNewsIndexes.clear();
+			viewedAllNews = false;
+		}
 		@Override
 		public int getSecondsPassed() {
 			return 3*60;
@@ -700,8 +768,10 @@ public class DominionPlaces {
 		public Response getResponse(int responseTab, int index) {
 			if(index == 1) {
 				if(Main.game.getCurrentWeather()==Weather.MAGIC_STORM) {
-					return new Response(
-							"News", "Due to the ongoing arcane storm, there's nobody here at the moment...", null);
+					return new Response("News", "Due to the ongoing arcane storm, there's nobody here at the moment...", null);
+					
+				} else if(viewedAllNews) {
+					return new Response("News", "You've listened to everything that's being said...", null);
 					
 				} else {
 					return new Response(
@@ -709,41 +779,14 @@ public class DominionPlaces {
 							"Decide to stay a while and listen to one of the orators...", DOMINION_PLAZA_NEWS){
 								@Override
 								public void effects() {
-									List<AbstractSubspecies> possibleSubspecies = new ArrayList<>();
-									possibleSubspecies.add(Subspecies.CAT_MORPH);
-									possibleSubspecies.add(Subspecies.DOG_MORPH);
-									possibleSubspecies.add(Subspecies.HORSE_MORPH);
-									possibleSubspecies.add(Subspecies.WOLF_MORPH);
-									
-									String randomFemalePerson = possibleSubspecies.get(Util.random.nextInt(possibleSubspecies.size())).getSingularFemaleName(null);
-									String randomMalePerson = possibleSubspecies.get(Util.random.nextInt(possibleSubspecies.size())).getSingularMaleName(null);
-									
 									Main.game.getTextEndStringBuilder().append("<p>"
-											+UtilText.returnStringAtRandom(
-													"A rough-looking "+randomMalePerson+" unrolls a large scroll, before clearing his throat and calling out,"
-														+ " [maleNPC.speech(By decree of Lilith, and in the interests of Dominion's security,"
-															+ " any human seen walking the streets outside of daylight hours may legally be subjected to a full body search from any Enforcer.)]",
-													Util.capitaliseSentence(UtilText.generateSingularDeterminer(randomFemalePerson))+" "+randomFemalePerson+" holds up an official-looking piece of paper, complete with a red wax seal, and declares,"
-														+ " [femaleNPC.speech(A reward of two-hundred-thousand flames has been issued for any information leading to the arrest of the person or persons responsible"
-															+ " for distributing illegal newspapers in the districts beneath the Harpy Nests!)]",
-													"A rather wild-looking succubus, dressed in a very Halloween-esque witch's costume, points to different members of the crowd as she screams,"
-														+ " [femaleNPC.speech(I count no less than three demons in the crowd who are without a cultist's uniform!"
-															+ " What would Lilith say if she could see this now?!)]",
-													Util.capitaliseSentence(UtilText.generateSingularDeterminer(randomMalePerson))+" "+randomMalePerson+" relays several boring, mundane pieces of news to the crowd."
-															+ " There's nothing that is of any interest to you, and you eventually turn away, having felt as though you just wasted your time.",
-													Util.capitaliseSentence(UtilText.generateSingularDeterminer(randomFemalePerson))+" "+randomFemalePerson+" relays several boring, mundane pieces of news to the crowd."
-															+ " There's nothing that is of any interest to you, and you eventually turn away, having felt as though you just wasted your time.",
-													Util.capitaliseSentence(UtilText.generateSingularDeterminer(randomMalePerson))+" "+randomMalePerson+" is currently reading out a list of advertisements for shops in the local area."
-															+ " There's really nothing of interest to be heard, and you soon find yourself turning away and moving on.",
-													Util.capitaliseSentence(UtilText.generateSingularDeterminer(randomFemalePerson))+" "+randomFemalePerson+" is currently reading out a list of advertisements for shops in the local area."
-															+ " There's really nothing of interest to be heard, and you soon find yourself turning away and moving on.")
+											+ getRandomNewsText()
 											+"</p>");
 								}
 							};
 				}
-			} else {
-				return null;
 			}
+			return null;
 		}
 	};
 	
@@ -768,92 +811,6 @@ public class DominionPlaces {
 		@Override
 		public Response getResponse(int responseTab, int index) {
 			return DOMINION_PLAZA.getResponse(responseTab, index);
-		}
-	};
-	
-	public static final DialogueNode PARK = new DialogueNode("Park", ".", false) {
-
-		@Override
-		public String getAuthor() {
-			return "Kumiko";
-		}
-		
-		@Override
-		public int getSecondsPassed() {
-			return 3*60;
-		}
-
-		@Override
-		public String getContent() {
-			return "<p>"
-						+ "This area of Dominion is taken up by a gigantic park, filled with a lush amount of foliage, which makes the air here feel very fresh compared to the rest of the city."
-						+ " The park consists of several alternating areas of open lawn and woodland, connected by a series of winding paths."
-						+ " There's a small lake situated in one corner of the park, and adjacent to that, there's a small field of wild flowers."
-						+ " A couple of food stands have been set up in one area for people that didn't come prepared with a picnic."
-					+ "</p>"
-					+ "<p>"
-						+ "The most noteworthy feature is at the very centre of the park, and takes the form of a huge statue of Lilith herself."
-						+ " The sultry smile carved into the white marble almost feels at though it's mocking you, and you can't help but feel as though you don't want to stick around here for long."
-					+ "</p>"
-					+ "<p>"
-						+ "For now, you don't have much reason to wander through this park, but if you had someone else with you, it would be a nice place to spend an afternoon; if you can ignore the statue, that is..."
-					+ "</p>";
-		}
-
-		@Override
-		public Response getResponse(int responseTab, int index) {
-			if(index==1) {
-				return new Response("Rose Garden", "There's a beautiful rose garden just off to your right. Walk over to it and take a closer look.", PARK_ROSE_GARDEN) {
-					@Override
-					public void effects() {
-						Main.game.getTextEndStringBuilder().append(Main.game.getPlayer().addClothing(Main.game.getItemGen().generateClothing("innoxia_hair_rose", false), false));
-					}
-				};
-			} else {
-				return null;
-			}
-		}
-	};
-	
-	public static final DialogueNode PARK_ROSE_GARDEN = new DialogueNode("Park", ".", false, true) {
-
-		@Override
-		public String getAuthor() {
-			return "Innoxia";
-		}
-		
-		@Override
-		public int getSecondsPassed() {
-			return 30;
-		}
-
-		@Override
-		public String getContent() {
-			return "<p>"
-					+ "You find your attention drawn towards a small rose garden that's positioned near the park's entrance."
-					+ " Walking over towards it, you see that someone's placed a little sign just in front of the border, which reads:"
-				+ "</p>"
-				+ "<p style='text-align:center;'>"
-					+ "<i>"
-						+ "<b>William's Rose Garden</b><br/>"
-						+ "Please feel free to help yourself to these roses!"
-						+ " I hope you or your partner gets as much happiness out of them as I do from growing them.<br/>"
-						+ "- William"
-					+ "</i>"
-				+ "</p>"
-				+ "<p>"
-					+ "You look around, but don't see anyone nearby who could be this 'William' character."
-					+ " Focusing your attention back to his rose garden, you decide to do as his sign says, and after [pc.stepping] forwards, you pluck a single rose from the nearest bush."
-				+ "</p>";
-		}
-
-		@Override
-		public Response getResponse(int responseTab, int index) {
-			if(index==1) {
-				return new Response("Rose Garden", "You've already taken a rose from the garden.", null);
-			} else {
-				return null;
-			}
 		}
 	};
 	
@@ -1111,6 +1068,54 @@ public class DominionPlaces {
 			} else {
 				return null;
 			}
+		}
+	};
+	
+	public static final DialogueNode CITY_EXIT_BAT_CAVERNS = new DialogueNode("", "", false) {
+		@Override
+		public int getSecondsPassed() {
+			return TRAVEL_TIME_STREET;
+		}
+		@Override
+		public String getContent() {
+			return UtilText.parseFromXMLFile("places/dominion/dominionPlaces", "CITY_EXIT_BAT_CAVERNS");
+		}
+		@Override
+		public Response getResponse(int responseTab, int index) {
+			if (index == 1) {
+				if(Main.game.getPlayer().isAbleToFly()) {
+					if(!Main.game.getPlayer().isPartyAbleToFly()) {
+						return new Response("Bat Caverns", "As your party members are unable to fly, you cannot use the shaft to travel down to the Bat Caverns...", null);
+						
+					} else {
+						return new Response("Bat Caverns", "Fly down the shaft to return to the Bat Caverns.", CITY_EXIT_BAT_CAVERNS_FLY_DOWN) {
+							@Override
+							public void effects() {
+								Main.game.getPlayer().setLocation(WorldType.BAT_CAVERNS, PlaceType.BAT_CAVERN_SHAFT, false);
+							}
+						};
+					}
+					
+				} else {
+					return new Response("Bat Caverns", "As you are unable to fly, you cannot use the shaft to travel down to the Bat Caverns...", null);
+				}
+			}
+			return null;
+		}
+	};
+	
+	public static final DialogueNode CITY_EXIT_BAT_CAVERNS_FLY_DOWN = new DialogueNode("", "", false) {
+		@Override
+		public int getSecondsPassed() {
+			return 2*60;
+		}
+		@Override
+		public String getContent() {
+			return UtilText.parseFromXMLFile("places/dominion/dominionPlaces", "CITY_EXIT_BAT_CAVERNS_FLY_DOWN");
+		}
+		@Override
+		public Response getResponse(int responseTab, int index) {
+			return BatCaverns.SHAFT.getResponse(responseTab, index);
 		}
 	};
 	

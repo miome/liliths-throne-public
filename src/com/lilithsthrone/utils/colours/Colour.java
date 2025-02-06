@@ -159,6 +159,11 @@ public class Colour {
 		return "#"+getColor().toString().substring(2, 8);
 	}
 
+	public String toRGBA(double alpha) {
+		Color color = Color.web(this.toWebHexString());
+		return "rgba(" + (int)(color.getRed()*255) + ", " + (int)(color.getGreen()*255) + ",  " + (int)(color.getBlue()*255) + ", " + alpha + ")";
+	}
+
 	/**
 	 * The colour that should be used when displaying icons to the player in covering recolouring screens. Will usually be the same as toWebHexString().
 	 * @return A String in the format #RRGGBB
@@ -182,12 +187,20 @@ public class Colour {
 		}
 	}
 
+	public boolean isDesaturated() {
+		return false;
+	}
+	
 	public boolean isMetallic() {
 		return metallic;
 	}
 
 	public List<String> getRainbowColours() {
 		return null;
+	}
+
+	public boolean isRainbow() {
+		return getRainbowColours()!=null;
 	}
 	
 	public String getRainbowDiv(int rainbowPixels) {
@@ -363,5 +376,21 @@ public class Colour {
 	*/
 	public boolean isOneOf(Colour... values) {
 		return Arrays.asList(values).contains(this);
+	}
+	
+	public Colour getDesaturatedVersion() {
+		double desaturationValue = 0.5; // 0.7 is the default from Color.class's desaturate() method
+		double brightnessValue = 0.9; // 1.0 is the default from Color.class's desaturate() method
+		String id = getId();
+		return new Colour(isMetallic(), colour.deriveColor(0, desaturationValue, brightnessValue, 1.0), lightColour.deriveColor(0, desaturationValue, brightnessValue, 1.0), "dull "+getName()) {
+			@Override
+			public String getId() {
+				return id+"_DESAT";
+			}
+			@Override
+			public boolean isDesaturated() {
+				return true;
+			}
+		};
 	}
 }

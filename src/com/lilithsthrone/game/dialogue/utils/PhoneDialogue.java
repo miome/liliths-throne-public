@@ -1,5 +1,6 @@
 package com.lilithsthrone.game.dialogue.utils;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -12,10 +13,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.lilithsthrone.game.Game;
 import com.lilithsthrone.game.PropertyValue;
 import com.lilithsthrone.game.character.GameCharacter;
-import com.lilithsthrone.game.character.Litter;
-import com.lilithsthrone.game.character.PregnancyPossibility;
 import com.lilithsthrone.game.character.attributes.AbstractAttribute;
 import com.lilithsthrone.game.character.attributes.Attribute;
 import com.lilithsthrone.game.character.attributes.CorruptionLevel;
@@ -40,6 +40,8 @@ import com.lilithsthrone.game.character.gender.Gender;
 import com.lilithsthrone.game.character.npc.NPC;
 import com.lilithsthrone.game.character.npc.misc.OffspringSeed;
 import com.lilithsthrone.game.character.persona.Relationship;
+import com.lilithsthrone.game.character.pregnancy.Litter;
+import com.lilithsthrone.game.character.pregnancy.PregnancyPossibility;
 import com.lilithsthrone.game.character.quests.Quest;
 import com.lilithsthrone.game.character.quests.QuestLine;
 import com.lilithsthrone.game.character.quests.QuestType;
@@ -78,6 +80,8 @@ import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
 import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.utils.colours.PresetColour;
+import com.lilithsthrone.utils.time.DateAndTime;
+import com.lilithsthrone.utils.time.SolarElevationAngle;
 import com.lilithsthrone.world.AbstractWorldType;
 import com.lilithsthrone.world.WorldRegion;
 import com.lilithsthrone.world.WorldType;
@@ -91,6 +95,7 @@ public class PhoneDialogue {
 	
 	private static class offspringTableLineSubject {
 		boolean female;
+		boolean is_feral;
 		String child_name;
 		String race_color;
 		String species_name;
@@ -101,6 +106,7 @@ public class PhoneDialogue {
 
 		offspringTableLineSubject(NPC npc) {
 			this.female = npc.isFeminine();
+			this.is_feral = npc.isFeral();
 			this.child_name = npc.getName(true);
 			this.race_color = npc.getRace().getColour().toWebHexString();
 			this.species_name = this.female
@@ -144,6 +150,7 @@ public class PhoneDialogue {
 
 		offspringTableLineSubject(OffspringSeed os) {
 			this.female = os.isFeminine();
+			this.is_feral = os.isFeral();
 			this.child_name = "Unknown";
 			this.race_color = os.getRace().getColour().toWebHexString();
 			this.species_name = this.female
@@ -715,7 +722,9 @@ public class PhoneDialogue {
 			
 			if(incubationOffspringBirthed.size()==1) {
 				try {
-					UtilText.nodeContentSB.append(UtilText.parseFromXMLFile("misc/misc", "INCUBATION_EGG_LAYING_FINISHED_END_SINGLE", Main.game.getNPCById(incubationOffspringBirthed.iterator().next())));
+					OffspringSeed offspring = Main.game.getOffspringSeedById(incubationOffspringBirthed.iterator().next());
+					UtilText.addSpecialParsingString(offspring.getSubspecies().getName(offspring.getBody()), true);
+					UtilText.nodeContentSB.append(UtilText.parseFromXMLFile("misc/misc", "INCUBATION_EGG_LAYING_FINISHED_END_SINGLE"));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -1900,7 +1909,7 @@ public class PhoneDialogue {
 							oddRow));
 
 			oddRow = !oddRow;
-					
+			
 			sb.append((Main.game.isAnalContentEnabled()
 							?sexStatRow(PresetColour.AROUSAL_STAGE_TWO, "Anal sex",
 									Main.game.getPlayer().getTotalSexCount(new SexType(SexParticipantType.NORMAL, SexAreaPenetration.PENIS, SexAreaOrifice.ANUS)),
@@ -2009,6 +2018,7 @@ public class PhoneDialogue {
 
 		private void offspringTableLine(StringBuilder output, offspringTableLineSubject subject, boolean evenRow, boolean includeIncubationColumn) {
 			String color = subject.female ? PresetColour.FEMININE.toWebHexString() : PresetColour.MASCULINE.toWebHexString();
+			String feralString = "<span style='color:" + RaceStage.FERAL.getColour().toWebHexString() + ";'>" + Util.capitaliseSentence(RaceStage.FERAL.getName()) + "</span> ";
 			
 			String innerEntryStyle = "background:transparent; margin:0; padding:0; width:"+(includeIncubationColumn?"15":"20")+"%;";
 			String innerEntryStyle2 = "background:transparent; margin:0; padding:0; width:15%;";
@@ -2023,8 +2033,9 @@ public class PhoneDialogue {
 				output.append("</div>");
 	
 				output.append("<div class='container-full-width' style='"+innerEntryStyle2+"'>");
+					output.append(subject.is_feral ? feralString : "");
 					output.append("<span style='color:").append(subject.race_color).append(";'>");
-						output.append(subject.species_name);
+						output.append(subject.is_feral ? subject.species_name.toLowerCase() : subject.species_name);
 					output.append("</span>");
 				output.append("</div>");
 	
@@ -2795,7 +2806,7 @@ public class PhoneDialogue {
 
 					+ "<div class='container-full-width' style='background:transparent;margin:0;padding:0;width:6%;text-align:left;'>"
 						+" | "	
-						+ (bonusAttributeValue > 0 
+						+ (bonusAttributeValue > 0
 								? "<b style='color:" + PresetColour.GENERIC_MINOR_GOOD.getShades()[1] + ";"
 								: (bonusAttributeValue < 0
 									? "<b style='color:" + PresetColour.GENERIC_MINOR_BAD.getShades()[1] + ";"
@@ -2954,6 +2965,8 @@ public class PhoneDialogue {
 		return Math.min(size, Main.getProperties().getItemsDiscoveredCount())+"/"+size;
 	}
 	
+	private static int encyclopediaItemIndex = 0;
+	
 	public static final DialogueNode ENCYCLOPEDIA = new DialogueNode("Encyclopedia", "", true) {
 		@Override
 		public String getContent() {
@@ -3023,6 +3036,7 @@ public class PhoneDialogue {
 						"Have a look at all the different items that you've encountered in your travels.", ITEM_CATALOGUE){
 					@Override
 					public void effects() {
+						encyclopediaItemIndex = 0;
 						Main.getProperties().setValue(PropertyValue.newItemDiscovered, false);
 					}
 				};
@@ -3176,9 +3190,10 @@ public class PhoneDialogue {
 								+ "</div>";
 				sbDamageTypes.setLength(0);
 				if(discovered) {
+					float width = weaponType.getAvailableDamageTypes().size()>4?(72/weaponType.getAvailableDamageTypes().size()):18;
 					for(DamageType dt : weaponType.getAvailableDamageTypes()) {
 						sbDamageTypes.append("<div class='square-button' "+(discovered?"id='"+(weaponType.getId()+"_"+dt.toString())+"'":"")
-												+ " style='cursor:default; width:18%; margin:1%; padding:0; background-color:"+dt.getMultiplierAttribute().getColour().toWebHexString()+";'>"
+												+ " style='cursor:default; width:"+width+"%; margin:1%; padding:0; background-color:"+dt.getMultiplierAttribute().getColour().toWebHexString()+";'>"
 											+ "</div>");
 					}
 				}
@@ -3375,45 +3390,91 @@ public class PhoneDialogue {
 				}
 			}
 			
-			sb.append("<div class='container-full-width'>");
-				sb.append("<p style='width:100%; text-align:center; padding:0 margin:0;'>");
-					sb.append("[style.boldBlueLight(Items ("+itemKnownCount+"/"+itemCount+"))]");
-				sb.append("</p>");
-				sb.append(sbItems.toString());
-			sb.append("</div>");
+			if(encyclopediaItemIndex==0) {
+				sb.append("<div class='container-full-width'>");
+					sb.append("<p style='width:100%; text-align:center; padding:0 margin:0;'>");
+						sb.append("[style.boldBlueLight(Items ("+itemKnownCount+"/"+itemCount+"))]");
+					sb.append("</p>");
+					sb.append(sbItems.toString());
+				sb.append("</div>");
+			}
 
-			sb.append("<div class='container-full-width'>");
-				sb.append("<p style='width:100%; text-align:center; padding:0 margin:0;'>");
-					sb.append("[style.boldOrange(Books ("+bookKnownCount+"/"+bookCount+"))]");
-				sb.append("</p>");
-				sb.append(sbBooks.toString());
-			sb.append("</div>");
+			if(encyclopediaItemIndex==1) {
+				sb.append("<div class='container-full-width'>");
+					sb.append("<p style='width:100%; text-align:center; padding:0 margin:0;'>");
+						sb.append("[style.boldOrange(Books ("+bookKnownCount+"/"+bookCount+"))]");
+					sb.append("</p>");
+					sb.append(sbBooks.toString());
+				sb.append("</div>");
+				
+				sb.append("<div class='container-full-width'>");
+					sb.append("<p style='width:100%; text-align:center; padding:0 margin:0;'>");
+						sb.append("[style.boldArcane(Essences ("+essenceKnownCount+"/"+essenceCount+"))]");
+					sb.append("</p>");
+					sb.append(sbEssences.toString());
+				sb.append("</div>");
+			}
 
-			sb.append("<div class='container-full-width'>");
-				sb.append("<p style='width:100%; text-align:center; padding:0 margin:0;'>");
-					sb.append("[style.boldArcane(Essences ("+essenceKnownCount+"/"+essenceCount+"))]");
-				sb.append("</p>");
-				sb.append(sbEssences.toString());
-			sb.append("</div>");
-
-			sb.append("<div class='container-full-width'>");
-				sb.append("<p style='width:100%; text-align:center; padding:0 margin:0;'>");
-					sb.append("[style.boldSpells(Spells ("+spellKnownCount+"/"+spellCount+"))]");
-				sb.append("</p>");
-				sb.append(sbSpells.toString());
-			sb.append("</div>");
+			if(encyclopediaItemIndex==2) {
+				sb.append("<div class='container-full-width'>");
+					sb.append("<p style='width:100%; text-align:center; padding:0 margin:0;'>");
+						sb.append("[style.boldSpells(Spells ("+spellKnownCount+"/"+spellCount+"))]");
+					sb.append("</p>");
+					sb.append(sbSpells.toString());
+				sb.append("</div>");
+			}
 			
 			return sb.toString();
 		}
 
 		@Override
 		public Response getResponse(int responseTab, int index) {
-			if (index == 0) {
+			if(index==1) {
+				return new Response("Items",
+						encyclopediaItemIndex==0
+							?"You're already viewing all of the items that you've discovered..."
+							:"View all of the items that you've discovered.",
+						encyclopediaItemIndex==0
+							?null
+							:ITEM_CATALOGUE){
+					@Override
+					public void effects() {
+						encyclopediaItemIndex = 0;
+					}
+				};
+				
+			} else if(index==2) {
+				return new Response("Books & essences",
+						encyclopediaItemIndex==1
+							?"You're already viewing all of the racial books and essences that you've discovered..."
+							:"View all of the racial books and essences that you've discovered.",
+						encyclopediaItemIndex==1
+							?null
+							:ITEM_CATALOGUE){
+					@Override
+					public void effects() {
+						encyclopediaItemIndex = 1;
+					}
+				};
+				
+			} else if(index==3) {
+				return new Response("Spell books",
+						encyclopediaItemIndex==2
+							?"You're already viewing all of the spell books that you've discovered..."
+							:"View all of the spell books that you've discovered.",
+						encyclopediaItemIndex==2
+							?null
+							:ITEM_CATALOGUE){
+					@Override
+					public void effects() {
+						encyclopediaItemIndex = 2;
+					}
+				};
+				
+			} else if (index == 0) {
 				return new Response("Back", "Return to the encyclopedia.", ENCYCLOPEDIA);
-			
-			} else {
-				return null;
 			}
+			return null;
 		}
 
 		@Override
@@ -3426,6 +3487,7 @@ public class PhoneDialogue {
 	private static List<AbstractSubspecies> subspeciesDiscovered = new ArrayList<>();
 	private static AbstractRace raceSelected;
 	private static AbstractSubspecies subspeciesSelected;
+	private static Body bodyForSubspeciesSelected;
 	private static StringBuilder subspeciesSB = new StringBuilder();
 	
 	public static void resetContentForRaces() {
@@ -3499,6 +3561,7 @@ public class PhoneDialogue {
 								}
 							}
 						}
+						bodyForSubspeciesSelected = Main.game.getCharacterUtils().generateBody(null, Gender.M_P_MALE, subspeciesSelected, RaceStage.GREATER);
 					}
 				};
 			
@@ -3521,7 +3584,7 @@ public class PhoneDialogue {
 		ArrayList<String> fullModList = new ArrayList<>(getSubspeciesAttributeModifiersToStringList(attMods));
 		fullModList.addAll(subspecies.getExtraEffects(null));
 		
-		if(subspecies.isFeralConfigurationAvailable()) {
+		if(subspecies.isFeralConfigurationAvailable(null)) {
 			fullModList.add("<br/><b>Additional bonuses when in [style.boldFeral(feral form)]:</b>");
 			
 			for(String s : subspecies.getFeralEffects()) {
@@ -3606,6 +3669,16 @@ public class PhoneDialogue {
 							+ "<td>-</td>"
 						+ "</tr>"
 					+ "</table>"
+					+ "<hr/>"
+					+ "<p style='width:100%; text-align:center;'>"
+						+ "Nocturnality: "+Util.capitaliseSentence(subspeciesSelected.getNocturnality().getName())
+						+ "<br/>"
+						+ "Aquatic: "+(subspeciesSelected.isAquatic()?"Yes":"No")
+						+ "<br/>"
+						+ "Leg configuration: "+Util.capitaliseSentence(bodyForSubspeciesSelected.getLegConfiguration().getName())
+						+ "<br/>"
+						+ "Short stature: "+(subspeciesSelected.isShortStature()?"Yes":"No")
+					+"</p>"
 				+ "</div>");
 					
 			subspeciesSB.append("<p>"
@@ -3619,10 +3692,17 @@ public class PhoneDialogue {
 					+ "Feminine: <span style='color:"+Femininity.valueOf(femaleBody.getFemininity()).getColour().toWebHexString()+";'>"+Util.capitaliseSentence(subspeciesSelected.getSingularFemaleName(null))+"</span>");
 
 			subspeciesSB.append("<br/><br/>"
-					+ "<b>Race bonuses:</b>");
-			for(String s : getSubspeciesModifiersAsStringList(subspeciesSelected)) {
+					+"<b>Race bonuses:</b>");
+			if(Main.getProperties().isAdvancedRaceKnowledgeDiscovered(subspeciesSelected)) {
+				for (String s : getSubspeciesModifiersAsStringList(subspeciesSelected)) {
+					subspeciesSB.append("<br/>");
+					subspeciesSB.append(s);
+				}
+			} else {
 				subspeciesSB.append("<br/>");
-				subspeciesSB.append(s);
+				subspeciesSB.append("<span style='color:"+PresetColour.TEXT_GREY.toWebHexString()+";'>");
+					subspeciesSB.append("Race bonuses can be discovered in books!");
+				subspeciesSB.append("</span>");
 			}
 			
 			subspeciesSB.append("<br/><br/>"
@@ -3670,6 +3750,7 @@ public class PhoneDialogue {
 					@Override
 					public void effects() {
 						subspeciesSelected = indexSubspecies;
+						bodyForSubspeciesSelected = Main.game.getCharacterUtils().generateBody(null, Gender.M_P_MALE, subspeciesSelected, RaceStage.GREATER);
 					}
 				};
 			
@@ -3704,11 +3785,13 @@ public class PhoneDialogue {
 					+ "</details>");
 			
 			UtilText.nodeContentSB.append(PerkManager.MANAGER.getPerkTreeDisplay(Main.game.getPlayer(), true));
+			UtilText.nodeContentSB.append("</div>");
 			
-			UtilText.nodeContentSB.append("</div>"
-					+ "<div class='container-full-width' style='padding:8px; text-align:center;'>"
-						+ "[style.italicsBad(Please note that this perk tree is a work-in-progress. This is not the final version, and is just a proof of concept!)]"
-					+ "</div>");
+			if(!Main.game.getPlayer().isDoll()) {
+				UtilText.nodeContentSB.append("<div class='container-full-width' style='padding:8px; text-align:center;'>"
+							+ "[style.italicsBad(Please note that this perk tree is a work-in-progress. This is not the final version, and is just a proof of concept!)]"
+						+ "</div>");
+			}
 			
 			return UtilText.nodeContentSB.toString();
 		}
@@ -3721,6 +3804,9 @@ public class PhoneDialogue {
 		@Override
 		public Response getResponse(int responseTab, int index) {
 			if(index==1) {
+				if(Main.game.getPlayer().isDoll()) {
+					return new Response("Reset", "You cannot reset your perks and traits while you're a doll!", null);
+				}
 				return new Response("Reset", "Reset all perks and traits, refunding all points spent. (This is a temporary action while the perk tree is still under development.)", CHARACTER_PERK_TREE) {
 					@Override
 					public void effects() {
@@ -3764,49 +3850,38 @@ public class PhoneDialogue {
 			// Normal fetishes:
 
 			journalSB.append("<div class='container-full-width' style='text-align:center; font-weight:bold;'><h6>Fetishes</h6></div>");
-			journalSB.append(getFetishEntry(Main.game.getPlayer(), Fetish.FETISH_DOMINANT, Fetish.FETISH_SUBMISSIVE));
-			journalSB.append(getFetishEntry(Main.game.getPlayer(), Fetish.FETISH_VAGINAL_GIVING, Fetish.FETISH_VAGINAL_RECEIVING));
-			journalSB.append(getFetishEntry(Main.game.getPlayer(), Fetish.FETISH_PENIS_GIVING, Fetish.FETISH_PENIS_RECEIVING));
-			if(Main.game.isAnalContentEnabled()) {
-				journalSB.append(getFetishEntry(Main.game.getPlayer(), Fetish.FETISH_ANAL_GIVING, Fetish.FETISH_ANAL_RECEIVING));
-			}
-			journalSB.append(getFetishEntry(Main.game.getPlayer(), Fetish.FETISH_BREASTS_OTHERS, Fetish.FETISH_BREASTS_SELF));
-			if(Main.game.isLactationContentEnabled()) {
-				journalSB.append(getFetishEntry(Main.game.getPlayer(), Fetish.FETISH_LACTATION_OTHERS, Fetish.FETISH_LACTATION_SELF));
-			}
-			journalSB.append(getFetishEntry(Main.game.getPlayer(), Fetish.FETISH_ORAL_RECEIVING, Fetish.FETISH_ORAL_GIVING));
-			journalSB.append(getFetishEntry(Main.game.getPlayer(), Fetish.FETISH_LEG_LOVER, Fetish.FETISH_STRUTTER));
-			if(Main.game.isFootContentEnabled()) {
-				journalSB.append(getFetishEntry(Main.game.getPlayer(), Fetish.FETISH_FOOT_GIVING, Fetish.FETISH_FOOT_RECEIVING));
-			}
-			if(Main.game.isArmpitContentEnabled()) {
-				journalSB.append(getFetishEntry(Main.game.getPlayer(), Fetish.FETISH_ARMPIT_GIVING, Fetish.FETISH_ARMPIT_RECEIVING));
-			}
-			journalSB.append(getFetishEntry(Main.game.getPlayer(), Fetish.FETISH_CUM_STUD, Fetish.FETISH_CUM_ADDICT));
-			journalSB.append(getFetishEntry(Main.game.getPlayer(), Fetish.FETISH_DEFLOWERING, Fetish.FETISH_PURE_VIRGIN));
-			journalSB.append(getFetishEntry(Main.game.getPlayer(), Fetish.FETISH_IMPREGNATION, Fetish.FETISH_PREGNANCY));
-			journalSB.append(getFetishEntry(Main.game.getPlayer(), Fetish.FETISH_TRANSFORMATION_GIVING, Fetish.FETISH_TRANSFORMATION_RECEIVING));
-			journalSB.append(getFetishEntry(Main.game.getPlayer(), Fetish.FETISH_KINK_GIVING, Fetish.FETISH_KINK_RECEIVING));
-			journalSB.append(getFetishEntry(Main.game.getPlayer(), Fetish.FETISH_SADIST, Fetish.FETISH_MASOCHIST));
-			if(Main.game.isNonConEnabled()) {
-				journalSB.append(getFetishEntry(Main.game.getPlayer(), Fetish.FETISH_NON_CON_DOM, Fetish.FETISH_NON_CON_SUB));
-			}
-
-			journalSB.append(getFetishEntry(Main.game.getPlayer(), Fetish.FETISH_BONDAGE_APPLIER, Fetish.FETISH_BONDAGE_VICTIM));
-			journalSB.append(getFetishEntry(Main.game.getPlayer(), Fetish.FETISH_DENIAL, Fetish.FETISH_DENIAL_SELF));
-			journalSB.append(getFetishEntry(Main.game.getPlayer(), Fetish.FETISH_VOYEURIST, Fetish.FETISH_EXHIBITIONIST));
-			journalSB.append(getFetishEntry(Main.game.getPlayer(), Fetish.FETISH_BIMBO, Fetish.FETISH_CROSS_DRESSER));
-			if(Main.game.isIncestEnabled()) {
-				journalSB.append(getFetishEntry(Main.game.getPlayer(), Fetish.FETISH_MASTURBATION, Fetish.FETISH_INCEST));
-				if(Main.game.isPenetrationLimitationsEnabled()) {
-					journalSB.append(getFetishEntry(Main.game.getPlayer(), Fetish.FETISH_SIZE_QUEEN, null));
+			ArrayList<AbstractFetish> derivedFetishList = new ArrayList<>();
+			ArrayList<AbstractFetish> pairedFetishList = new ArrayList<>();
+			ArrayList<AbstractFetish> soloFetishList = new ArrayList<>();
+			for(AbstractFetish fetish : Fetish.getAllFetishes()) {
+				if(fetish.isContentEnabled()) {
+					if(!fetish.getFetishesForAutomaticUnlock().isEmpty()) {
+						derivedFetishList.add(fetish);
+					} else if(fetish.getOpposite()!=null) {
+						pairedFetishList.add(fetish);
+					} else {
+						soloFetishList.add(fetish);
+					}
 				}
-			} else {
-				if(Main.game.isPenetrationLimitationsEnabled()) {
-					journalSB.append(getFetishEntry(Main.game.getPlayer(), Fetish.FETISH_MASTURBATION, Fetish.FETISH_SIZE_QUEEN));
-				} else {
-					journalSB.append(getFetishEntry(Main.game.getPlayer(), Fetish.FETISH_MASTURBATION, null));
+			}
+			while (pairedFetishList.size() > 0) {
+				AbstractFetish fetish = pairedFetishList.remove(0);
+				if(fetish!=null) {
+					pairedFetishList.remove(fetish.getOpposite());
+					if (fetish.isTopFetish()) {
+						journalSB.append(getFetishEntry(Main.game.getPlayer(), fetish, fetish.getOpposite()));
+					} else {
+						journalSB.append(getFetishEntry(Main.game.getPlayer(), fetish.getOpposite(), fetish));
+					}
 				}
+			}
+			while (soloFetishList.size() > 0) {
+				AbstractFetish fetish = soloFetishList.remove(0);
+				AbstractFetish fetish2 = null;
+				if(soloFetishList.size() > 0) {
+					fetish2 = soloFetishList.remove(0);
+				}
+				journalSB.append(getFetishEntry(Main.game.getPlayer(), fetish, fetish2));
 			}
 			
 			// Derived fetishes:
@@ -3814,22 +3889,20 @@ public class PhoneDialogue {
 			journalSB.append("<div class='container-full-width' style='text-align:center; font-weight:bold; margin-top:16px;'><h6>Derived Fetishes</h6></div>");
 			journalSB.append("<div class='fetish-container'>");
 			
-			for(AbstractFetish fetish : Fetish.getAllFetishes()) {
-				if(!fetish.getFetishesForAutomaticUnlock().isEmpty()) {
-					journalSB.append(
-							"<div id='FETISH_" + Fetish.getIdFromFetish(fetish) + "' class='fetish-icon" + (Main.game.getPlayer().hasFetish(fetish)
-							? " owned' style='border:2px solid " + PresetColour.FETISH.getShades()[1] + ";'>"
-							: (fetish.isAvailable(Main.game.getPlayer())
-									? " unlocked' style='border:2px solid " +  PresetColour.TEXT_GREY.toWebHexString() + ";" + "'>"
-									: " locked' style='border:2px solid " + PresetColour.TEXT_GREY.toWebHexString() + ";'>"))
-							+ "<div class='fetish-icon-content'>"+fetish.getSVGString(Main.game.getPlayer())+"</div>"
-							+ (Main.game.getPlayer().hasFetish(fetish) // Overlay to create disabled effect:
-									? ""
-									: (fetish.isAvailable(Main.game.getPlayer())
-											? "<div style='position:absolute; left:0; top:0; margin:0; padding:0; width:100%; height:100%; background-color:#000; opacity:0.5; border-radius:5px;'></div>"
-											: "<div style='position:absolute; left:0; top:0; margin:0; padding:0; width:100%; height:100%; background-color:#000; opacity:0.7; border-radius:5px;'></div>"))
-							+ "</div>");
-				}
+			for(AbstractFetish fetish : derivedFetishList) {
+				journalSB.append(
+						"<div id='FETISH_" + Fetish.getIdFromFetish(fetish) + "' class='fetish-icon" + (Main.game.getPlayer().hasFetish(fetish)
+						? " owned' style='border:2px solid " + PresetColour.FETISH.getShades()[1] + ";'>"
+						: (fetish.isAvailable(Main.game.getPlayer())
+								? " unlocked' style='border:2px solid " +  PresetColour.TEXT_GREY.toWebHexString() + ";" + "'>"
+								: " locked' style='border:2px solid " + PresetColour.TEXT_GREY.toWebHexString() + ";'>"))
+						+ "<div class='fetish-icon-content'>"+fetish.getSVGString(Main.game.getPlayer())+"</div>"
+						+ (Main.game.getPlayer().hasFetish(fetish) // Overlay to create disabled effect:
+								? ""
+								: (fetish.isAvailable(Main.game.getPlayer())
+										? "<div style='position:absolute; left:0; top:0; margin:0; padding:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5); border-radius:5px;'></div>"
+										: "<div style='position:absolute; left:0; top:0; margin:0; padding:0; width:100%; height:100%; background-color:rgba(0,0,0,0.7); border-radius:5px;'></div>"))
+						+ "</div>");
 			}
 			
 			// Free Fetishes:
@@ -3859,9 +3932,9 @@ public class PhoneDialogue {
 	
 	public static String getFetishEntry(GameCharacter targetedCharacter, AbstractFetish othersFetish, AbstractFetish selfFetish) {
 		return "<div class='container-full-width' style='background:transparent; margin:2px 0; width:100%;'>"
-					+ getIndividualFetishEntry(targetedCharacter, othersFetish)
-					+ (selfFetish==null?"":getIndividualFetishEntry(targetedCharacter, selfFetish))
-				+ "</div>";
+				+getIndividualFetishEntry(targetedCharacter, othersFetish)
+				+(selfFetish == null?"":getIndividualFetishEntry(targetedCharacter, selfFetish))
+				+"</div>";
 	}
 	
 	private static String getIndividualFetishEntry(GameCharacter targetedCharacter, AbstractFetish fetish) {
@@ -3891,8 +3964,8 @@ public class PhoneDialogue {
 										+ (targetedCharacter.hasFetish(fetish) // Overlay to create disabled effect:
 											? ""
 											: (fetish.isAvailable(targetedCharacter)
-													? "<div style='position:absolute; left:0; top:0; margin:0; padding:0; width:100%; height:100%; background-color:#000; opacity:0.5; border-radius:5px;'></div>"
-													: "<div style='position:absolute; left:0; top:0; margin:0; padding:0; width:100%; height:100%; background-color:#000; opacity:0.7; border-radius:5px;'></div>"))
+													? "<div style='position:absolute; left:0; top:0; margin:0; padding:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5); border-radius:5px;'></div>"
+													: "<div style='position:absolute; left:0; top:0; margin:0; padding:0; width:100%; height:100%; background-color:rgba(0,0,0,0.7); border-radius:5px;'></div>"))
 						+ "</div>"
 					+ "</div>"
 					+"<div class='container-full-width' style='margin:0; padding:0; width:100%;'>"
@@ -3918,9 +3991,9 @@ public class PhoneDialogue {
 								:"")+"width:10%; margin:0 5%; float:left; cursor:pointer;'>"
 				+ "<div class='square-button-content'>"+(targetedCharacter.getFetishDesire(fetish)==desire?desire.getSVGImage():desire.getSVGImageDesaturated())+"</div>"
 				+ (targetedCharacter.hasFetish(fetish) && targetedCharacter.getFetishDesire(fetish)!=desire
-					?"<div style='position:absolute; left:0; top:0; margin:0; padding:0; width:100%; height:100%; background-color:#000; opacity:0.8; border-radius:5px;'></div>"
+					?"<div style='position:absolute; left:0; top:0; margin:0; padding:0; width:100%; height:100%; background-color:rgba(0,0,0,0.8); border-radius:5px;'></div>"
 					:targetedCharacter.getFetishDesire(fetish)!=desire
-						?"<div style='position:absolute; left:0; top:0; margin:0; padding:0; width:100%; height:100%; background-color:#000; opacity:0.6; border-radius:5px;'></div>"
+						?"<div style='position:absolute; left:0; top:0; margin:0; padding:0; width:100%; height:100%; background-color:rgba(0,0,0,0.6); border-radius:5px;'></div>"
 						:"")
 			+ "</div>";
 	}
@@ -4078,7 +4151,16 @@ public class PhoneDialogue {
 			if (index == 0) {
 				return new Response("Back", "Decide against loitering in this area.", MENU);
 			}
+			
 			if(index == 1) {
+				return new ResponseEffectsOnly("5 minutes", "Loiter in this area for the next five minutes.") {
+					@Override
+					public void effects() {
+						loiter(5);
+					}
+				};
+				
+			} else if(index == 2) {
 				return new ResponseEffectsOnly("15 minutes", "Loiter in this area for the next fifteen minutes.") {
 					@Override
 					public void effects() {
@@ -4086,7 +4168,15 @@ public class PhoneDialogue {
 					}
 				};
 				
-			} else if(index == 2) {
+			} else if(index == 3) {
+				return new ResponseEffectsOnly("30 minutes", "Loiter in this area for the next thirty minutes.") {
+					@Override
+					public void effects() {
+						loiter(30);
+					}
+				};
+				
+			} else if(index == 4) {
 				return new ResponseEffectsOnly("1 hour", "Loiter in this area for the next hour.") {
 					@Override
 					public void effects() {
@@ -4094,7 +4184,15 @@ public class PhoneDialogue {
 					}
 				};
 				
-			} else if(index == 3) {
+			} else if(index == 5) {
+				return new ResponseEffectsOnly("2 hours", "Loiter in this area for the next two hours.") {
+					@Override
+					public void effects() {
+						loiter(60*2);
+					}
+				};
+				
+			} else if(index == 6) {
 				return new ResponseEffectsOnly("4 hours", "Loiter in this area for the next four hours.") {
 					@Override
 					public void effects() {
@@ -4102,7 +4200,23 @@ public class PhoneDialogue {
 					}
 				};
 				
-			} else if(index == 4) {
+			} else if(index == 7) {
+				return new ResponseEffectsOnly("6 hours", "Loiter in this area for the next six hours.") {
+					@Override
+					public void effects() {
+						loiter(60*6);
+					}
+				};
+				
+			} else if(index == 8) {
+				return new ResponseEffectsOnly("8 hours", "Loiter in this area for the next eight hours.") {
+					@Override
+					public void effects() {
+						loiter(60*8);
+					}
+				};
+				
+			} else if(index == 9) {
 				return new ResponseEffectsOnly("12 hours", "Loiter in this area for the next twelve hours.") {
 					@Override
 					public void effects() {
@@ -4110,14 +4224,42 @@ public class PhoneDialogue {
 					}
 				};
 				
-			} else if(index == 5) {
+			} else if(index == 10) {
 				return new ResponseEffectsOnly("24 hours", "Loiter in this area for the next twenty-four hours.") {
 					@Override
 					public void effects() {
 						loiter(60*24);
 					}
 				};
+				
+			} else if(index==11) {
+				int timeUntilChange = Main.game.getMinutesUntilNextSunrise() + 5; // Add 5 minutes so that if the days are drawing in, you don't get stuck in a loop of always loitering to sunset/sunrise
+				LocalDateTime[] sunriseSunset = DateAndTime.getTimeOfSolarElevationChange(Main.game.getDateNow(), SolarElevationAngle.SUN_ALTITUDE_SUNRISE_SUNSET, Game.DOMINION_LATITUDE, Game.DOMINION_LONGITUDE);
+				return new ResponseEffectsOnly("Next sunrise",
+						"Loiter in this area for " + (timeUntilChange >= 60 ?timeUntilChange / 60 + " hours " : " ")
+							+ (timeUntilChange % 60 != 0 ? timeUntilChange % 60 + " minutes" : "")
+							+ " until five minutes past sunrise ("+Units.time(sunriseSunset[0].plusMinutes(5))+")."){
+					@Override
+					public void effects() {
+						loiter(timeUntilChange);
+					}
+				};
+				
+			} else if(index==12) {
+				int timeUntilChange = Main.game.getMinutesUntilNextSunset() + 5; // Add 5 minutes so that if the days are drawing in, you don't get stuck in a loop of always loitering to sunset/sunrise
+				LocalDateTime[] sunriseSunset = DateAndTime.getTimeOfSolarElevationChange(Main.game.getDateNow(), SolarElevationAngle.SUN_ALTITUDE_SUNRISE_SUNSET, Game.DOMINION_LATITUDE, Game.DOMINION_LONGITUDE);
+				return new ResponseEffectsOnly("Next sunset",
+						"Loiter in this area for " + (timeUntilChange >= 60 ?timeUntilChange / 60 + " hours " : " ")
+							+ (timeUntilChange % 60 != 0 ? timeUntilChange % 60 + " minutes" : "")
+							+ " until five minutes past sunrise ("+Units.time(sunriseSunset[1].plusMinutes(5))+")."){
+					@Override
+					public void effects() {
+						loiter(timeUntilChange);
+					}
+				};
+				
 			}
+			
 			return null;
 		}
 
@@ -4138,8 +4280,10 @@ public class PhoneDialogue {
 					"<i>You spend the next ").append(period).append("loitering about, doing nothing in particular...</i>").append("</p>");
 			Main.game.getPlayer().setActive(false);
 			Main.game.endTurn(60*minutes);
+			Main.game.endTurnTimeTakenAddition = Main.game.endTurnTimeTaken;
 			Main.game.getPlayer().setActive(true);
 			Main.game.setContent(new Response("", "", Main.game.getDefaultDialogue()));
+			Main.game.endTurnTimeTakenAddition = Main.game.endTurnTimeTaken;
 		}
 
 		@Override

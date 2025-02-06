@@ -11,12 +11,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.lilithsthrone.game.character.GameCharacter;
-import com.lilithsthrone.game.character.attributes.AbstractAttribute;
 import com.lilithsthrone.game.character.attributes.Attribute;
 import com.lilithsthrone.game.character.attributes.CorruptionLevel;
 import com.lilithsthrone.game.character.attributes.IntelligenceLevel;
 import com.lilithsthrone.game.character.body.CoverableArea;
 import com.lilithsthrone.game.character.effects.AbstractStatusEffect;
+import com.lilithsthrone.game.character.effects.Perk;
 import com.lilithsthrone.game.character.effects.StatusEffect;
 import com.lilithsthrone.game.character.quests.QuestLine;
 import com.lilithsthrone.game.character.race.AbstractSubspecies;
@@ -41,6 +41,7 @@ import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.SvgUtil;
 import com.lilithsthrone.utils.Units;
 import com.lilithsthrone.utils.Util;
+import com.lilithsthrone.utils.Util.Value;
 import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.utils.colours.PresetColour;
 import com.lilithsthrone.world.places.PlaceType;
@@ -80,16 +81,18 @@ public class ItemType {
 	}
 	
 	public static AbstractItemType FETISH_UNREFINED = new AbstractItemType(500,
-			"a vial of",
+			"a bottle of",
 			false,
-			"Mystery Kink",
-			"Mystery Kinks",
-			"A delicate glass bottle, filled with a viscous, glowing-pink liquid."
-					+ " From the label on one side reading 'Mystery Kink', it's quite safe to assume that this concoction carries a potent enchantment, which somehow influences the drinker's fetishes.",
+			"Succubus's Kiss",
+			"Succubus's Kisses",
+			"A heart-shaped glass bottle, filled with a swirling, glowing-pink liquid."
+					+ " The words 'Succubus's Kiss' have been etched into the bottle in an ornate script, and beneath that the words 'Fool-proof love potion' make it clear what this liquid will do.",
 			"fetishDrink",
-			PresetColour.GENERIC_SEX,
-			null,
-			null,
+			Util.newArrayListOfValues(
+					PresetColour.CLOTHING_PINK,
+					PresetColour.CLOTHING_PINK_LIGHT,
+					PresetColour.CLOTHING_WHITE,
+					PresetColour.CLOTHING_PINK_DARK),
 			Rarity.EPIC,
 			Util.newArrayListOfValues(new ItemEffect(ItemEffectType.MYSTERY_KINK)),
 			Util.newArrayListOfValues(
@@ -97,36 +100,32 @@ public class ItemType {
 					ItemTag.SUBMISSION_TUNNEL_SPAWN,
 					ItemTag.BAT_CAVERNS_SPAWN,
 					ItemTag.MISC_TF_ITEM,
-					ItemTag.SOLD_BY_RALPH)) {
-
-		@Override
-		public boolean isFetishGiving() {
-			return true;
-		}
-		
+					ItemTag.SOLD_BY_RALPH,
+					ItemTag.DRINK)) {
+//		@Override
+//		public boolean isFetishGiving() {
+//			return true;
+//		}
 		@Override
 		public AbstractItemEffectType getEnchantmentEffect() {
 			return ItemEffectType.FETISH_ENHANCEMENT;
 		}
-
 		@Override
 		public AbstractItemType getEnchantmentItemType(List<ItemEffect> effects) {
 			return FETISH_REFINED;
 		}
-
 		@Override
 		public String getUseName() {
 			return "drink";
 		}
-
 		@Override
 		public String getUseDescription(GameCharacter user, GameCharacter target) {
 			return getGenericUseDescription(user, target,
-					"You pull the stopper out from the top of the bottle of 'Mystery Kink', before bringing it to your lips and gulping down the thick pink liquid that's contained within.",
-					"You pull the stopper out from the top of the bottle of 'Mystery Kink', before bringing it to [npc.namePos] lips and forcing [npc.herHim] to drink down the liquid within.",
-					"[npc.Name] pulls out a bottle of 'Mystery Kink', and, after quickly pulling out the stopper, [npc.she] promptly downs the entire bottle.",
-					"[npc.Name] pulls out a bottle of 'Mystery Kink', and, after quickly pulling out the stopper,"
-							+ " [npc.she] brings it to your lips before tilting your head back and forcing you to quickly gulp down the thick pink liquid that's contained within.");
+					"You pull the stopper out from the top of the bottle of 'Succubus's Kiss', before bringing it to your [pc.lips] and gulping down the sweet pink liquid that's contained within.",
+					"You pull the stopper out from the top of the bottle of 'Succubus's Kiss', before bringing it to [npc.namePos] [npc.lips] and forcing [npc.herHim] to drink down the sweet pink liquid within.",
+					"[npc.Name] pulls out a bottle of 'Succubus's Kiss', and, after quickly pulling out the stopper, [npc.she] promptly downs the entire bottle.",
+					"[npc.Name] pulls out a bottle of 'Succubus's Kiss', and, after quickly pulling out the stopper,"
+							+ " [npc.she] brings it to your lips before tilting your head back and forcing you to quickly gulp down the sweet pink liquid that's contained within.");
 		}
 	};
 	
@@ -135,15 +134,15 @@ public class ItemType {
 			false,
 			"Fetish Endowment",
 			"Fetish Endowments",
-			"A vial of bubbling pink liquid, which was refined from a bottle of 'Mystery Kink'."
-					+ " Its potent enchantment is far more refined than that of the liquid it was distilled from, and is able to add or remove specific fetishes.",
+			"A vial of bubbling pink liquid, which was refined from a bottle of 'Succubus's Kiss'."
+					+ " Its potent enchantment is very different from the effects of the liquid that it was distilled from, and is able to add or remove specific fetishes.",
 			"fetishDrinkRefined",
 			PresetColour.FETISH,
 			null,
 			null,
 			Rarity.EPIC,
 			null,
-			null) {
+			Util.newArrayListOfValues(ItemTag.DRINK)) {
 		@Override
 		public boolean isFetishGiving() {
 			return true;
@@ -180,7 +179,8 @@ public class ItemType {
 					ItemTag.DOMINION_ALLEYWAY_SPAWN,
 					ItemTag.SUBMISSION_TUNNEL_SPAWN,
 					ItemTag.BAT_CAVERNS_SPAWN,
-					ItemTag.SOLD_BY_RALPH)) {
+					ItemTag.SOLD_BY_RALPH,
+					ItemTag.DRINK_QUALITY)) {
 		@Override
 		public String getUseName() {
 			return "drink";
@@ -217,7 +217,7 @@ public class ItemType {
 			null,
 			Rarity.LEGENDARY,
 			null,
-			null) {
+			Util.newArrayListOfValues(ItemTag.DRINK_QUALITY)) {
 		@Override
 		public String getUseName() {
 			return "drink";
@@ -420,7 +420,8 @@ public class ItemType {
 			Util.newArrayListOfValues(new ItemEffect(ItemEffectType.BIMBO_LOLLIPOP)),
 			Util.newArrayListOfValues(
 					ItemTag.RACIAL_TF_ITEM,
-					ItemTag.NOT_FOR_SALE)) {
+					ItemTag.NOT_FOR_SALE,
+					ItemTag.FOOD)) {
 
 		
 		@Override
@@ -465,7 +466,8 @@ public class ItemType {
 			Util.newArrayListOfValues(new ItemEffect(ItemEffectType.NYMPHO_LOLLIPOP)),
 			Util.newArrayListOfValues(
 					ItemTag.RACIAL_TF_ITEM,
-					ItemTag.NOT_FOR_SALE)) {
+					ItemTag.NOT_FOR_SALE,
+					ItemTag.FOOD)) {
 
 		
 		@Override
@@ -709,7 +711,7 @@ public class ItemType {
 			false,
 			"used condom-webbing",
 			"used condom-webbings",
-			"A used condom-like sheath of spider's webbing, tied at the top and filled with someone's cum. While most people would simply throw this away, those with a particularly dirty mind might find a use for it...",
+			"A used, condom-like sheath of spider's webbing, tied at the top and filled with someone's cum. While most people would simply throw this away, those with a particularly dirty mind might find a use for it...",
 			"condomUsedWebbing",
 			PresetColour.CLOTHING_WHITE,
 			null,
@@ -720,20 +722,15 @@ public class ItemType {
 					ItemTag.REMOVE_FROM_DEBUG_SPAWNER)) {
 		@Override
 		public String getUseName() {
-			return "drink";
+			return CONDOM_USED.getUseName();
 		}
 		@Override
 		public String getUseDescription(GameCharacter user, GameCharacter target) {
-			return getGenericUseDescription(user, target,
-					"Untying the top of the used condom-webbing, you bring it up to your lips and swallow the slimy contents.",
-					"Untying the top of the used condom-webbing, you bring it up to [npc.namePos] [npc.lips], and force [npc.herHim] to swallow the slimy contents.",
-					"Untying the top of the used condom-webbing, [npc.name] brings it up to [npc.her] [npc.lips], and swallows the slimy contents.",
-					"Untying the top of the used condom-webbing, [npc.name] brings it up to your [pc.lips], and forces you to swallow the slimy contents.");
+			return CONDOM_USED.getUseDescription(user, target);
 		}
 		@Override
-		public String getUnableToBeUsedDescription(GameCharacter target) {
-			return "You can't think of a use for this. Maybe it's best to throw it away...<br/>"
-					+ "(You need have at least a <b style='color:"+CorruptionLevel.THREE_DIRTY.getColour().toWebHexString()+";'>"+CorruptionLevel.THREE_DIRTY.getName()+"</b> level of corruption to know how to use this!)";
+		public String getUnableToBeUsedDescription(GameCharacter user, GameCharacter target) {
+			return CONDOM_USED.getUnableToBeUsedDescription(user, target);
 		}
 		@Override
 		public boolean isAbleToBeUsedInCombatAllies() {
@@ -741,8 +738,12 @@ public class ItemType {
 		}
 		@Override
 		public boolean isAbleToBeUsedInSex() {
-			return false;
+			return true;
 		}
+//		@Override
+//		public boolean isAbleToBeUsedWhileTrading() {
+//			return false;
+//		}
 	};
 
 	public static AbstractItemType CONDOM_USED = new AbstractItemType(1,
@@ -761,18 +762,18 @@ public class ItemType {
 					ItemTag.REMOVE_FROM_DEBUG_SPAWNER)) {
 		@Override
 		public String getUseName() {
-			return "drink";
+			return "open";
 		}
 		@Override
 		public String getUseDescription(GameCharacter user, GameCharacter target) {
-			return getGenericUseDescription(user, target,
-					"Untying the top of the used condom, you bring it up to your lips and swallow the slimy contents.",
-					"Untying the top of the used condom, you bring it up to [npc.namePos] [npc.lips], and force [npc.herHim] to swallow the slimy contents.",
-					"Untying the top of the used condom, [npc.name] brings it up to [npc.her] [npc.lips], and swallows the slimy contents.",
-					"Untying the top of the used condom, [npc.name] brings it up to your [pc.lips], and forces you to swallow the slimy contents.");
+			if(user==target) {
+				return UtilText.parse(user, target, "Untying the top of the used condom, [npc.name] [npc.verb(wonder)] how best to use the contents.");
+			} else {
+				return UtilText.parse(user, target, "Untying the top of the used condom, [npc.name] [npc.verb(wonder)] how best to use the contents on [npc2.name].");
+			}
 		}
 		@Override
-		public String getUnableToBeUsedDescription(GameCharacter target) {
+		public String getUnableToBeUsedDescription(GameCharacter user, GameCharacter target) {
 			return "You can't think of a use for this. Maybe it's best to throw it away...<br/>"
 					+ "(You need have at least a <b style='color:"+CorruptionLevel.THREE_DIRTY.getColour().toWebHexString()+";'>"+CorruptionLevel.THREE_DIRTY.getName()+"</b> level of corruption to know how to use this!)";
 		}
@@ -782,8 +783,12 @@ public class ItemType {
 		}
 		@Override
 		public boolean isAbleToBeUsedInSex() {
-			return false;
+			return true;
 		}
+//		@Override
+//		public boolean isAbleToBeUsedWhileTrading() {
+//			return false;
+//		}
 	};
 	
 	public static AbstractItemType ORIENTATION_HYPNO_WATCH = new AbstractItemType(50000,
@@ -962,12 +967,12 @@ public class ItemType {
 		}
 
 		@Override
-		public boolean isAbleToBeUsed(GameCharacter target) {
+		public boolean isAbleToBeUsed(GameCharacter user, GameCharacter target) {
 			return target.isAbleToAccessCoverableArea(CoverableArea.NIPPLES, true) && target.getBreastRawMilkStorageValue()>=5;
 		}
 
 		@Override
-		public String getUnableToBeUsedDescription(GameCharacter target) {
+		public String getUnableToBeUsedDescription(GameCharacter user, GameCharacter target) {
 			if(target.isPlayer()) {
 				if(!target.isAbleToAccessCoverableArea(CoverableArea.NIPPLES, true)) {
 					return "You need to be able to access your nipples in order to use this!";
@@ -1067,7 +1072,8 @@ public class ItemType {
 			Util.newArrayListOfValues(
 					ItemTag.DOMINION_ALLEYWAY_SPAWN,
 					ItemTag.SUBMISSION_TUNNEL_SPAWN,
-					ItemTag.SOLD_BY_RALPH)) {
+					ItemTag.SOLD_BY_RALPH,
+					ItemTag.DRINK)) {
 
 
 		@Override
@@ -1090,18 +1096,19 @@ public class ItemType {
 			false,
 			"rejuvenation potion",
 			"rejuvenation potions",
-			"A decorative glass bottle with an ornate bronze-and-glass stopper."
-					+ " It's filled with a purple liquid, and a little informative sticker on the underside of the container informs you that it's a '<i>rejuvenating potion, guaranteed to restore and revitalise over-used orifices</i>'.",
+			"A decorative glass bottle, filled with a light blue liquid and sealed with an ornate gold-and-glass stopper."
+					+ " An informative sticker on the underside of the bottle reads: '<i>Rejuvenation potion; guaranteed to restore over-used orifices and refill all of your fluids!</i>'",
 			"rejuvenation_potion",
-			PresetColour.CLOTHING_PURPLE,
-			PresetColour.CLOTHING_BRONZE,
+			PresetColour.CLOTHING_BLUE_LIGHT,
+			PresetColour.CLOTHING_GOLD,
 			PresetColour.CLOTHING_BLUE_GREY,
 			Rarity.COMMON,
 			Util.newArrayListOfValues(new ItemEffect(ItemEffectType.REJUVENATION_POTION)),
 			Util.newArrayListOfValues(
 					ItemTag.DOMINION_ALLEYWAY_SPAWN,
 					ItemTag.SUBMISSION_TUNNEL_SPAWN,
-					ItemTag.SOLD_BY_RALPH)) {
+					ItemTag.SOLD_BY_RALPH,
+					ItemTag.DRINK)) {
 		@Override
 		public String getUseName() {
 			return "drink";
@@ -1205,6 +1212,57 @@ public class ItemType {
 					ItemTag.SOLD_BY_KATE)) {
 		@Override
 		public boolean isAbleToBeUsedInSex() {
+			return true;
+		}
+		@Override
+		public boolean isAbleToBeUsedInCombatAllies() {
+			return false;
+		}
+		@Override
+		public boolean isConsumedOnUse() {
+			return false;
+		}
+		@Override
+		public String getUseName() {
+			return "use";
+		}
+		@Override
+		public String getUseDescription(GameCharacter user, GameCharacter target) {
+			return "";
+		}
+		@Override
+		public boolean isAbleToBeUsed(GameCharacter user, GameCharacter target) {
+			return super.isAbleToBeUsed(user, target) && target.isAbleToWearMakeup();
+		}
+		@Override
+		public String getUnableToBeUsedDescription(GameCharacter user, GameCharacter target) {
+			if(!target.isAbleToWearMakeup()) {
+				return UtilText.parse(target, "<i>As [npc.namePos] body is made of "+BodyChanging.getTarget().getBodyMaterial().getName()+", [npc.sheIsFull] [style.colourBad(unable to wear any makeup)]!</i>");
+			}
+			return "This item cannot be used in this way!";
+		}
+	};
+
+	public static AbstractItemType DOLL_CONSOLE = new AbstractItemType(120000,
+			"a",
+			false,
+			"D.E.C.K.",
+			"D.E.C.K.s",
+			"The <i>'Doll's Expedient Customisation Kit'</i> is the only way to transform an autonomous sex doll."
+				+ " By plugging the cable into a doll's rear neck port, the user can modify a wide range of the connected doll's physical attributes.",
+			"dollConsole",
+			PresetColour.CLOTHING_BLUE_LIGHT,
+			PresetColour.CLOTHING_PINK_LIGHT,
+			PresetColour.CLOTHING_PURPLE,
+			Rarity.QUEST,
+			Util.newArrayListOfValues(new ItemEffect(ItemEffectType.DOLL_CONSOLE)),
+			Util.newArrayListOfValues()) {
+		@Override
+		public boolean isAbleToBeSold() {
+			return true;
+		}
+		@Override
+		public boolean isAbleToBeUsedInSex() {
 			return false;
 		}
 		@Override
@@ -1224,13 +1282,13 @@ public class ItemType {
 			return "";
 		}
 		@Override
-		public boolean isAbleToBeUsed(GameCharacter target) {
-			return super.isAbleToBeUsed(target) && target.isAbleToWearMakeup();
+		public boolean isAbleToBeUsed(GameCharacter user, GameCharacter target) {
+			return super.isAbleToBeUsed(user, target) && target.isDoll();
 		}
 		@Override
-		public String getUnableToBeUsedDescription(GameCharacter target) {
-			if(!target.isAbleToWearMakeup()) {
-				return UtilText.parse(target, "<i>As [npc.namePos] body is made of "+BodyChanging.getTarget().getBodyMaterial().getName()+", [npc.sheIsFull] [style.colourBad(unable to wear any makeup)]!</i>");
+		public String getUnableToBeUsedDescription(GameCharacter user, GameCharacter target) {
+			if(!target.isDoll()) {
+				return UtilText.parse(target, "<i>As [npc.nameIsFull] not a doll, the D.E.C.K. is of no use!</i>");
 			}
 			return "This item cannot be used in this way!";
 		}
@@ -1252,12 +1310,12 @@ public class ItemType {
 
 		
 		@Override
-		public boolean isAbleToBeUsed(GameCharacter target) {
+		public boolean isAbleToBeUsed(GameCharacter user, GameCharacter target) {
 			return !(target.isInventoryFull() && Main.game.getPlayerCell().getInventory().isInventoryFull());
 		}
 
 		@Override
-		public String getUnableToBeUsedDescription(GameCharacter target) {
+		public String getUnableToBeUsedDescription(GameCharacter user, GameCharacter target) {
 			return "There's no space in your inventory or on the ground for whatever item is contained within!";
 		}
 		
@@ -1337,7 +1395,9 @@ public class ItemType {
 			PresetColour.BASE_YELLOW,
 			Rarity.UNCOMMON,
 			Util.newArrayListOfValues(new ItemEffect(ItemEffectType.GIFT_CHOCOLATES)),
-			Util.newArrayListOfValues(ItemTag.GIFT)) {
+			Util.newArrayListOfValues(
+					ItemTag.GIFT,
+					ItemTag.FOOD_QUALITY)) {
 
 
 		@Override
@@ -1467,9 +1527,7 @@ public class ItemType {
 			null,
 			Rarity.LEGENDARY,
 			Util.newArrayListOfValues(new ItemEffect(ItemEffectType.EGGPLANT)),
-			null) {
-
-		
+			Util.newArrayListOfValues(ItemTag.FOOD)) {
 
 		@Override
 		public AbstractItemEffectType getEnchantmentEffect() {
@@ -1509,7 +1567,7 @@ public class ItemType {
 			null,
 			Rarity.LEGENDARY,
 			null,
-			null) {
+			Util.newArrayListOfValues(ItemTag.DRINK)) {
 		@Override
 		public boolean isTransformative() {
 			return true;
@@ -1714,7 +1772,7 @@ public class ItemType {
 			return false;
 		}
 		@Override
-		public boolean isAbleToBeUsed(GameCharacter target) {
+		public boolean isAbleToBeUsed(GameCharacter user, GameCharacter target) {
 			return target.isPlayer()
 					&& Main.game.getCharactersTreatingCellAsHome(Main.game.getPlayerCell()).size()==0
 					&& ((Util.newArrayListOfValues(
@@ -1728,7 +1786,7 @@ public class ItemType {
 						|| Main.game.getPlayer().getLocationPlaceType()==PlaceType.getPlaceTypeFromId("innoxia_fields_elis_town_alley"));
 		}
 		@Override
-		public String getUnableToBeUsedDescription(GameCharacter target) {
+		public String getUnableToBeUsedDescription(GameCharacter user, GameCharacter target) {
 			return "In order to be able to use the map, you need to be in a vacant tile of one of the following types: Dominion alleyways; Dominion canals; Harpy Nest walkways; Submission tunnels; Bat Caverns; Elis alleyways.";
 		}
 		@Override
@@ -2406,7 +2464,6 @@ public class ItemType {
 
 	public static AbstractItemType getItemTypeFromId(String id) {
 		
-		
 		if(id.equalsIgnoreCase("PROMISCUITY_PILL")) {
 			id = "innoxia_pills_sterility";
 			
@@ -2617,7 +2674,7 @@ public class ItemType {
 			AbstractItemEffectType effectType = new AbstractItemEffectType(effectsString, s.getSpellSchool().getColour()) {
 				
 				@Override
-				public String applyEffect(TFModifier primaryModifier, TFModifier secondaryModifier, TFPotency potency, int limit, GameCharacter user, GameCharacter target, ItemEffectTimer timer) {
+				public String itemEffectOverride(TFModifier primaryModifier, TFModifier secondaryModifier, TFPotency potency, int limit, GameCharacter user, GameCharacter target, ItemEffectTimer timer) {
 					boolean hasSpell = target.hasSpell(s);
 					target.addSpell(s);
 					
@@ -2782,12 +2839,12 @@ public class ItemType {
 							+ "</div>";
 				}
 				@Override
-				public boolean isAbleToBeUsed(GameCharacter target) {
+				public boolean isAbleToBeUsed(GameCharacter user, GameCharacter target) {
 					return (target.isPlayer() || target.getAttributeValue(Attribute.MAJOR_ARCANE)>=IntelligenceLevel.ONE_AVERAGE.getMinimumValue())
 							&& !(target.isElemental());
 				}
 				@Override
-				public String getUnableToBeUsedDescription(GameCharacter target) {
+				public String getUnableToBeUsedDescription(GameCharacter user, GameCharacter target) {
 					if(target.isPlayer()) {
 						return "You already know how to cast this spell!";
 						
@@ -2835,7 +2892,7 @@ public class ItemType {
 							school.getColour()) {
 						
 						@Override
-						public String applyEffect(TFModifier primaryModifier, TFModifier secondaryModifier, TFPotency potency, int limit, GameCharacter user, GameCharacter target, ItemEffectTimer timer) {
+						public String itemEffectOverride(TFModifier primaryModifier, TFModifier secondaryModifier, TFPotency potency, int limit, GameCharacter user, GameCharacter target, ItemEffectTimer timer) {
 							target.incrementSpellUpgradePoints(school, 1);
 							return "<p style='text-align:center;'>"
 										+ (target.isPlayer()?"You gain":UtilText.parse(target, "[npc.Name] gains"))+" an upgrade point for the spell school <b style='color:"+school.getColour().toWebHexString()+";'>"+school.getName()+"</b>!<br/>"
@@ -2860,12 +2917,12 @@ public class ItemType {
 					Util.newArrayListOfValues(new ItemEffect(effectType)),
 					Util.newArrayListOfValues(ItemTag.SPELL_SCROLL)) {
 				@Override
-				public boolean isAbleToBeUsed(GameCharacter target) {
+				public boolean isAbleToBeUsed(GameCharacter user, GameCharacter target) {
 					return (target.isPlayer() || target.getAttributeValue(Attribute.MAJOR_ARCANE)>=IntelligenceLevel.ONE_AVERAGE.getMinimumValue())
 							&& !target.isElemental();
 				}
 				@Override
-				public String getUnableToBeUsedDescription(GameCharacter target) {
+				public String getUnableToBeUsedDescription(GameCharacter user, GameCharacter target) {
 					if(target.isElemental()) {
 						return "Elementals cannot make use of scrolls, and instead must improve their spells via their perks!";
 					}
@@ -2928,7 +2985,7 @@ public class ItemType {
 							mainSubspecies.getColour(null),
 							PresetColour.CLOTHING_GOLD,
 							mainSubspecies.getColour(null),
-							Rarity.LEGENDARY,
+							Rarity.RARE,
 							null,
 							Util.newArrayListOfValues(ItemTag.BOOK)) {
 				@Override
@@ -2991,13 +3048,14 @@ public class ItemType {
 			}
 			
 			allItems.add(loreBook);
-
+			
+			
 			// Essences
 			if(mainSubspecies!=Subspecies.CENTAUR) { // a CENTAUR essence is identical to a HORSE_MORPH essence
 
 				int override = mainSubspecies.getSubspeciesOverridePriority();
-				String raceName = (override>0?mainSubspecies.getName(null):mainSubspecies.getRace().getName(false));
-				String raceNamePlural = (override>0?mainSubspecies.getNamePlural(null):mainSubspecies.getRace().getNamePlural(false));
+				String raceName = (override>0?mainSubspecies.getFeralName(null):mainSubspecies.getRace().getName(true));
+				String raceNamePlural = (override>0?mainSubspecies.getFeralNamePlural(null):mainSubspecies.getRace().getNamePlural(true));
 
 				AbstractStatusEffect statusEffect = new AbstractStatusEffect(80,
 						(mainSubspecies.getRace()==Race.ANGEL
@@ -3050,23 +3108,32 @@ public class ItemType {
 						"[style.boldGood(+1)] [style.boldArcane(Arcane essence)]"),
 						mainSubspecies.getColour(null)) {
 					@Override
-					public List<String> getEffectsDescription(TFModifier primaryModifier, TFModifier secondaryModifier, TFPotency potency, int limit, GameCharacter user, GameCharacter target) {
-						List<String> list = super.getEffectsDescription(primaryModifier, secondaryModifier, potency, limit, user, target);
-						list.add("Applies <i style='color:"+statusEffect.getColour().toWebHexString()+";'>'"+Util.capitaliseSentence(statusEffect.getName(target))+"'</i>:");
-						for(Entry<AbstractAttribute, Float> entry : statusEffect.getAttributeModifiers(target).entrySet()) {
-							list.add("<i>"+entry.getKey().getFormattedValue(entry.getValue())+"</i>");
-						}
-						return list;
+					public Map<AbstractStatusEffect, Integer> getAppliedStatusEffects() {
+						return Util.newHashMapOfValues(new Value<>(statusEffect, 60*4*60));
 					}
+//					@Override
+//					public List<String> getEffectsDescription(TFModifier primaryModifier, TFModifier secondaryModifier, TFPotency potency, int limit, GameCharacter user, GameCharacter target) {
+//						List<String> list = super.getEffectsDescription(primaryModifier, secondaryModifier, potency, limit, user, target);
+//						list.add("Applies <i style='color:"+statusEffect.getColour().toWebHexString()+";'>'"+Util.capitaliseSentence(statusEffect.getName(target))+"'</i>:");
+//						for(Entry<AbstractAttribute, Float> entry : statusEffect.getAttributeModifiers(target).entrySet()) {
+//							list.add("<i>"+entry.getKey().getFormattedValue(entry.getValue())+"</i>");
+//						}
+//						return list;
+//					}
 					@Override
-					public String applyEffect(TFModifier primaryModifier, TFModifier secondaryModifier, TFPotency potency, int limit, GameCharacter user, GameCharacter target, ItemEffectTimer timer) {
-						target.incrementEssenceCount(1, false);
-						target.addStatusEffect(statusEffect, 60*4*60);
-						return UtilText.parse(target,
-								"<p style='text-align:center;'>"
-									+ "[npc.NameHasFull] absorbed [style.boldGood(+1)] [style.boldArcane(arcane essence)], and [npc.is] also temporarily far more effective at fighting "
-									+ "<b style='color:"+mainSubspecies.getColour(null).toWebHexString()+";'>" + raceNamePlural +"</b>!"
-								+ "</p>");
+					public String itemEffectOverride(TFModifier primaryModifier, TFModifier secondaryModifier, TFPotency potency, int limit, GameCharacter user, GameCharacter target, ItemEffectTimer timer) {
+						if(target.isDoll()) {
+							return UtilText.parse(target,
+										"<p style='text-align:center;'>"
+											+ "[style.colourDisabled(As [npc.sheIsFull] a sex doll, [npc.nameIsFull] unable to absorb essences...)]"
+										+ "</p>");
+						}
+						return target.incrementEssenceCount(1, false)
+								+ UtilText.parse(target,
+										"<p style='text-align:center;'>"
+											+"[npc.She] [npc.is] also temporarily far more effective at fighting "
+											+ "<b style='color:"+mainSubspecies.getColour(null).toWebHexString()+";'>" + raceNamePlural +"</b>!"
+										+ "</p>");
 					}
 				};
 
@@ -3137,11 +3204,14 @@ public class ItemType {
 	
 	private static AbstractItemEffectType generateBookEffect(AbstractSubspecies mainSubspecies, List<AbstractSubspecies> additionalUnlockSubspecies) {
 		return new AbstractItemEffectType(Util.newArrayListOfValues(
-				"Adds "+mainSubspecies.getName(null)+" encyclopedia entry.",
-				"[style.boldExcellent(+10)] <b style='color:"+mainSubspecies.getColour(null).toWebHexString()+";'>"+mainSubspecies.getDamageMultiplier().getName()+"</b>"),
+				"Adds "+mainSubspecies.getName(null)+" encyclopedia entry and reveals racial status effect attributes",
+				"[style.colourExcellent(Grants Unique Perk:)]",
+				Perk.getSubspeciesRelatedPerk(mainSubspecies).getName(null)
+				//"[style.boldExcellent(+10)] <b style='color:"+mainSubspecies.getColour(null).toWebHexString()+";'>"+mainSubspecies.getDamageMultiplier().getName()+"</b>"
+				),
 				mainSubspecies.getColour(null)) {
 			@Override
-			public String applyEffect(TFModifier primaryModifier, TFModifier secondaryModifier, TFPotency potency, int limit, GameCharacter user, GameCharacter target, ItemEffectTimer timer) {
+			public String itemEffectOverride(TFModifier primaryModifier, TFModifier secondaryModifier, TFPotency potency, int limit, GameCharacter user, GameCharacter target, ItemEffectTimer timer) {
 				return getBookEffect(target, mainSubspecies, additionalUnlockSubspecies, true);
 			}
 		};

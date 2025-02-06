@@ -19,6 +19,7 @@ import com.lilithsthrone.game.character.fetishes.FetishDesire;
 import com.lilithsthrone.game.character.gender.Gender;
 import com.lilithsthrone.game.character.npc.NPC;
 import com.lilithsthrone.game.character.persona.Name;
+import com.lilithsthrone.game.character.persona.Occupation;
 import com.lilithsthrone.game.character.persona.PersonalityTrait;
 import com.lilithsthrone.game.character.persona.SexualOrientation;
 import com.lilithsthrone.game.character.race.RaceStage;
@@ -78,6 +79,7 @@ public class DominionSuccubusAttacker extends NPC {
 			Main.game.getCharacterUtils().randomiseBody(this, true);
 
 			Main.game.getCharacterUtils().setHistoryAndPersonality(this, false);
+			this.setHistory(Occupation.NPC_MUGGER); // All demon alleyway attackers are muggers
 			
 			addFetish(Fetish.FETISH_DEFLOWERING);
 			addFetish(Fetish.FETISH_DOMINANT);
@@ -87,7 +89,7 @@ public class DominionSuccubusAttacker extends NPC {
 
 			setSexualOrientation(SexualOrientation.AMBIPHILIC);
 			
-			this.setAgeAppearanceDifferenceToAppearAsAge(18+Util.random.nextInt(10));
+			this.setAgeAppearanceAbsolute(18+Util.random.nextInt(10));
 			
 			this.setVaginaVirgin(false);
 			this.setAssVirgin(false);
@@ -95,7 +97,7 @@ public class DominionSuccubusAttacker extends NPC {
 			this.setNippleVirgin(false);
 			this.setPenisVirgin(false);
 			
-			setLevel(Util.random.nextInt(5) + 4);
+			setLevel(Util.random.nextInt(5) + 8);
 			
 			setName(Name.getRandomTriplet(Subspecies.DEMON));
 			this.setPlayerKnowsName(false);
@@ -138,7 +140,7 @@ public class DominionSuccubusAttacker extends NPC {
 			this.setFetishDesire(Fetish.FETISH_NON_CON_DOM, FetishDesire.TWO_NEUTRAL);
 		}
 		if(Main.isVersionOlderThan(Game.loadingVersion, "0.2.11")) {
-			this.setAgeAppearanceDifferenceToAppearAsAge(18+Util.random.nextInt(10));
+			this.setAgeAppearanceAbsolute(18+Util.random.nextInt(10));
 		}
 	}
 
@@ -163,6 +165,9 @@ public class DominionSuccubusAttacker extends NPC {
 	
 	@Override
 	public String getDescription() {
+		if(this.isSlave() && this.isDoll()) {
+			return super.getDescription();
+		}
 		if(isSlave()) {
 			return UtilText.parse(this,
 					"Having lost [npc.herself] to [npc.her] powerful libido, [npc.name] ended up stalking the alleyways of Dominion in search of innocent citizens to force [npc.herself] on."
@@ -237,7 +242,7 @@ public class DominionSuccubusAttacker extends NPC {
 	
 	@Override
 	public String getCondomEquipEffects(AbstractClothingType condomClothingType, GameCharacter equipper, GameCharacter target, boolean rough) {
-		if(Main.game.isInSex()) {
+		if(!target.equals(equipper) && Main.game.isInSex()) {
 			if((Main.sex.isDom(Main.game.getPlayer()) || Main.sex.isSubHasEqualControl()) && !target.isPlayer()) {
 				if(condomClothingType.equals(ClothingType.getClothingTypeFromId("innoxia_penis_condom_webbing"))) {
 					return null;
@@ -417,6 +422,7 @@ public class DominionSuccubusAttacker extends NPC {
 			return super.getDirtyTalkNoPenetration(target, isPlayerDom);
 		}
 		
-		return speech.get(Util.random.nextInt(speech.size()));
+		String returnedLine = speech.get(Util.random.nextInt(speech.size()));
+		return UtilText.parse(this, target, "[npc.speech("+returnedLine+")]");
 	}
 }

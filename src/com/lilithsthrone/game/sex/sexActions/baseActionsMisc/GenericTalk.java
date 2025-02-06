@@ -64,7 +64,7 @@ public class GenericTalk {
 				sb.append("Not liking [npc2.namePos] behaviour, [npc.name] [npc.verb(tell)] [npc2.herHim] in no uncertain terms to stop pretending to resist.");
 			}
 
-			sb.append(" Although [npc2.she] [npc2.verb(let)] out a disappointed [npc2.moan], [npc2.name] [npc2.verb(decide)] to agree to [npc.namePos] request and [npc2.verb(stop)] pretending to resist.");
+			sb.append(" Although [npc2.she] [npc2.verb(let)] out a disappointed [npc2.moan], [npc2.name] [npc2.verb(decide)] to agree to [npc.namePos] request and [npc2.verb(put)] a stop to the rape-play.");
 			
 			return sb.toString();
 		}
@@ -91,7 +91,8 @@ public class GenericTalk {
 					&& Main.game.isNonConEnabled()
 					&& Main.sex.getSexPace(Main.sex.getCharacterTargetedForSexAction(this))!=SexPace.SUB_RESISTING
 					&& !Main.sex.isSexPaceForced(Main.sex.getCharacterTargetedForSexAction(this))
-					&& Main.sex.isCharacterBannedFromRapePlay(Main.sex.getCharacterTargetedForSexAction(this));
+					&& Main.sex.isCharacterBannedFromRapePlay(Main.sex.getCharacterTargetedForSexAction(this))
+					&& Main.sex.getCharacterTargetedForSexAction(this).hasFetish(Fetish.FETISH_NON_CON_SUB);
 		}
 		@Override
 		public String getActionTitle() {

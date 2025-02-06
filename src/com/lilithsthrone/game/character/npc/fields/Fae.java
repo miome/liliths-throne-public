@@ -4,13 +4,13 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lilithsthrone.rendering.Pattern;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.lilithsthrone.game.character.CharacterImportSetting;
 import com.lilithsthrone.game.character.EquipClothingSetting;
 import com.lilithsthrone.game.character.GameCharacter;
+import com.lilithsthrone.game.character.body.Body;
 import com.lilithsthrone.game.character.body.coverings.BodyCoveringType;
 import com.lilithsthrone.game.character.body.coverings.Covering;
 import com.lilithsthrone.game.character.body.types.LegType;
@@ -49,6 +49,7 @@ import com.lilithsthrone.game.character.persona.NameTriplet;
 import com.lilithsthrone.game.character.persona.Occupation;
 import com.lilithsthrone.game.character.persona.PersonalityTrait;
 import com.lilithsthrone.game.character.persona.SexualOrientation;
+import com.lilithsthrone.game.character.pregnancy.FertilisationType;
 import com.lilithsthrone.game.character.race.RaceStage;
 import com.lilithsthrone.game.character.race.Subspecies;
 import com.lilithsthrone.game.dialogue.DialogueFlagValue;
@@ -65,6 +66,7 @@ import com.lilithsthrone.game.inventory.clothing.ClothingType;
 import com.lilithsthrone.game.inventory.clothing.DisplacementType;
 import com.lilithsthrone.game.sex.PregnancyDescriptor;
 import com.lilithsthrone.main.Main;
+import com.lilithsthrone.rendering.Pattern;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
 import com.lilithsthrone.utils.colours.PresetColour;
@@ -144,7 +146,7 @@ public class Fae extends NPC {
 		this.setTailGirth(PenetrationGirth.FIVE_THICK);
 		
 		// Core:
-		this.setHeight(175);
+		this.setHeight(195);
 		this.setFemininity(95);
 		this.setMuscle(Muscle.THREE_MUSCULAR.getMedianValue());
 		this.setBodySize(BodySize.TWO_AVERAGE.getMedianValue());
@@ -235,7 +237,7 @@ public class Fae extends NPC {
 		this.equipClothingFromNowhere(scrunchie, true, this);
 
 		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_neck_gemstone_necklace", PresetColour.CLOTHING_GOLD, PresetColour.CLOTHING_WHITE, null, false), true, this);
-		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing(ClothingType.WRIST_BANGLE, PresetColour.CLOTHING_GOLD, false), true, this);
+		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_wrist_bangle", PresetColour.CLOTHING_GOLD, false), true, this);
 		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_finger_ring", PresetColour.CLOTHING_GOLD, false), true, this);
 		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_ankle_anklet", PresetColour.CLOTHING_GOLD, PresetColour.CLOTHING_GOLD, null, false), true, this);
 
@@ -259,6 +261,21 @@ public class Fae extends NPC {
 	@Override
 	public boolean isUnique() {
 		return true;
+	}
+	
+	@Override
+	public String getArtworkFolderName() {
+		if(this.getBreastRows()>1) {
+			if(this.isVisiblyPregnant()) {
+				return "FaeMultiBoobPregnant";
+			}
+			return "FaeMultiBoob";
+		} else {
+			if(this.isVisiblyPregnant()) {
+				return "FaePregnant";
+			}
+			return "Fae";
+		}
 	}
 	
 	@Override
@@ -363,10 +380,10 @@ public class Fae extends NPC {
 	}
 
 	@Override
-	public String rollForPregnancy(GameCharacter partner, float cumQuantity, boolean directSexInsemination) {
-		if(!partner.isPlayer()) { // Only the player can impregnate Fae & Silvia
+	public String rollForPregnancy(GameCharacter partner, Body partnerBody, float cumQuantity, boolean isPartnerVirile, float partnerVirility, boolean directSexInsemination, FertilisationType fertilisationType) {
+		if(partner!=null && !partner.isPlayer()) { // Only the player can impregnate Fae & Silvia
 			return PregnancyDescriptor.NO_CHANCE.getDescriptor(this, partner, directSexInsemination);
 		}
-		return super.rollForPregnancy(partner, cumQuantity, directSexInsemination);
+		return super.rollForPregnancy(partner, partnerBody, cumQuantity, isPartnerVirile, partnerVirility, directSexInsemination, fertilisationType);
 	}
 }

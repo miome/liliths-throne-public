@@ -1,25 +1,22 @@
 package com.lilithsthrone.game.character.npc.dominion;
 
 import java.time.Month;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.lilithsthrone.game.character.fetishes.Fetish;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.lilithsthrone.game.character.CharacterImportSetting;
 import com.lilithsthrone.game.character.EquipClothingSetting;
-import com.lilithsthrone.game.character.body.coverings.BodyCoveringType;
 import com.lilithsthrone.game.character.body.valueEnums.LegConfiguration;
 import com.lilithsthrone.game.character.effects.Perk;
+import com.lilithsthrone.game.character.fetishes.Fetish;
 import com.lilithsthrone.game.character.gender.Gender;
 import com.lilithsthrone.game.character.npc.NPC;
 import com.lilithsthrone.game.character.npc.NPCGenerationFlag;
-import com.lilithsthrone.game.character.npc.misc.GenericSexualPartner;
 import com.lilithsthrone.game.character.persona.Name;
 import com.lilithsthrone.game.character.persona.Occupation;
 import com.lilithsthrone.game.character.race.AbstractSubspecies;
@@ -38,7 +35,6 @@ import com.lilithsthrone.game.inventory.CharacterInventory;
 import com.lilithsthrone.game.inventory.outfit.OutfitType;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Util;
-import com.lilithsthrone.utils.colours.PresetColour;
 import com.lilithsthrone.world.Season;
 import com.lilithsthrone.world.Weather;
 import com.lilithsthrone.world.WorldType;
@@ -121,7 +117,10 @@ public class DominionAlleywayAttacker extends NPC {
 			if(Math.random()<Main.getProperties().taurSpawnRate/100f
 					&& this.getLegConfiguration()!=LegConfiguration.QUADRUPEDAL) { // Do not reset this character's taur body if they spawned as a taur (as otherwise subspecies-specific settings get overridden by global taur settings)
 				// Check for race's leg type as taur, otherwise NPCs which spawn with human legs won't be affected by taur conversion rate:
-				if(this.getRace().getRacialBody().getLegType().isLegConfigurationAvailable(LegConfiguration.QUADRUPEDAL)) {
+				if(this.getSubspecies()==Subspecies.HALF_DEMON && this.getLegType().isLegConfigurationAvailable(LegConfiguration.QUADRUPEDAL)) {
+					Main.game.getCharacterUtils().applyTaurConversion(this);
+					
+				} else if(this.getRace().getRacialBody().getLegType().isLegConfigurationAvailable(LegConfiguration.QUADRUPEDAL)) {
 					this.setLegType(this.getRace().getRacialBody().getLegType());
 					Main.game.getCharacterUtils().applyTaurConversion(this);
 				}
@@ -209,47 +208,10 @@ public class DominionAlleywayAttacker extends NPC {
 	}
 	
 	@Override
-	public void hourlyUpdate() {
-		if(this.getHistory()==Occupation.NPC_PROSTITUTE
-				&& Main.game.isLipstickMarkingEnabled()
-				&& !this.isSlave()
-				&& !Main.game.getPlayer().getFriendlyOccupants().contains(this.getId())
-				&& this.getLipstick().getPrimaryColour()!=PresetColour.COVERING_NONE) {
-			this.addHeavyMakeup(BodyCoveringType.MAKEUP_LIPSTICK);
-		}
-		if(this.getHistory()==Occupation.NPC_PROSTITUTE && this.getLocationPlace().getPlaceType().equals(PlaceType.ANGELS_KISS_BEDROOM)) { //TODO need to move this to Angel's Kiss
-			// Remove client:
-			List<NPC> charactersPresent = new ArrayList<>(Main.game.getCharactersPresent(this.getWorldLocation(), this.getLocation()));
-			charactersPresent.removeAll(Main.game.getPlayer().getCompanions());
-			if(charactersPresent.size()>1) {
-				for(NPC npc : charactersPresent) {
-					if(npc instanceof GenericSexualPartner) {
-//						System.out.println("partner removed for "+this.getName());
-//						System.out.println(npc.getId());
-						Main.game.banishNPC(npc);
-					}
-				}
-				
-			} else if(Math.random()<0.33f) { // Add client:
-				GenericSexualPartner partner;
-//				System.out.println("partner generated for "+this.getNameIgnoresPlayerKnowledge()+" "+this.getLocation().toString()+", "+this.getLocationPlace().getPlaceType().getName());
-				
-				if(Math.random()<0.25f) {
-					partner = new GenericSexualPartner(Gender.F_P_V_B_FUTANARI, this.getWorldLocation(), this.getLocation(), false);
-				} else {
-					partner = new GenericSexualPartner(Gender.M_P_MALE, this.getWorldLocation(), this.getLocation(), false);
-				}
-				try {
-					Main.game.addNPC(partner, false, true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-	
-	@Override
 	public String getDescription() {
+		if(this.isSlave() && this.isDoll()) {
+			return super.getDescription();
+		}
 		if(this.getHistory()==Occupation.NPC_PROSTITUTE) {
 			if(this.isSlave()) {
 				return (UtilText.parse(this,

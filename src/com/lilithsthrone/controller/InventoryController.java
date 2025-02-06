@@ -33,6 +33,7 @@ import com.lilithsthrone.utils.colours.Colour;
  * @author Maxis010, Innoxia
  */
 public class InventoryController {
+	
 	public static void initInventoryListeners() {
 		for (int i = 0; i<RenderingEngine.INVENTORY_PAGES; i++) {
 			MainController.setInventoryPageLeft(i);
@@ -40,6 +41,7 @@ public class InventoryController {
 		}
 		// Quest inventory:
 		MainController.setInventoryPageLeft(5);
+		MainController.setInventoryPageRight(5);
 		
 		// Player:
 		String id;
@@ -306,8 +308,8 @@ public class InventoryController {
 				if (MainController.document.getElementById(id) != null) {
 					int finalI = i;
 					((EventTarget) MainController.document.getElementById(id)).addEventListener("click", e->{
-						InventoryDialogue.dyePreviewPatterns.remove(finalI);
-						InventoryDialogue.dyePreviewPatterns.add(finalI, c);
+						InventoryDialogue.dyePreviewPatternColours.remove(finalI);
+						InventoryDialogue.dyePreviewPatternColours.add(finalI, c);
 						Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
 					}, false);
 					MainController.addTooltipListeners(id, new TooltipInventoryEventListener().setDyeClothingPattern(InventoryDialogue.getClothing(), i, c));

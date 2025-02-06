@@ -746,7 +746,7 @@
 	]]>
 	</htmlContent>
 	
-	<htmlContent tag="MARKET_STALL_CAFE_ORAL_CUNNILINGUS"><![CDATA[
+	<htmlContent tag="MARKET_STALL_CAFE_ORAL_CUNNILINGUS_RECEIVE"><![CDATA[
 	<p>
 		Wanting to put [npc.namePos] tongue to the test, you call over the waitress and tell her that you want to have a demonstration of her cunnilingus skills.
 	</p>
@@ -887,7 +887,7 @@
 	]]>
 	</htmlContent>
 	
-	<htmlContent tag="MARKET_STALL_CAFE_ORAL_CUNNILINGUS"><![CDATA[
+	<htmlContent tag="MARKET_STALL_CAFE_ORAL_CUNNILINGUS_GIVE"><![CDATA[
 	<p>
 		Wanting to get a taste of [npc.namePos] pussy, you call over the waitress and tell her that you want a demonstration of how much she loves to be eaten out.
 	</p>
@@ -895,7 +895,7 @@
 		[npc.speech(~Mmm!~ You want to get your tongue into my hot little cunt, huh?)] she moans, before winking and beckoning you to follow her. Strutting off to the far side of the café with you in tow, she bites her lip as she looks back over her shoulder and playfully teases, [npc.speech(You know, I'm something of a squirter, so apologies in advance if I end up making a mess all over your face...)]
 	</p>
 	<p>
-		Leading you into a small, carpeted office at the rear of the café, [npc.name] closes the door behind you, before wasting no time in pulling up her virgin-killer sweater and sitting down on a nearby chair. Spreading her legs, she exposes her [npc.pussy+] to you, before reaching down and using her [npc.fingers+] to spread her pussy lips. Wanting to get started as soon as possible, you [pc.step] forwards and drop down between the [npc.racePos] legs, before planting a big, wet kiss on her [npc.labia+]. Stroking the top of your head, she loudly moans, [npc.speech(Oh yes! ~Mmm!~ Go on, get your tongue in there and have a good taste! Oh, and please remember that the demo ends once you cum...)]
+		Leading you into a small, carpeted office at the rear of the café, [npc.name] closes the door behind you, before wasting no time in pulling up her virgin-killer sweater and sitting down on a nearby chair. Spreading her legs, she exposes her [npc.pussy+] to you, before reaching down and using her [npc.fingers+] to spread her pussy lips. Wanting to get started as soon as possible, you [pc.step] forwards and drop down between the [npc.race]'s legs, before planting a big, wet kiss on her [npc.labia+]. Stroking the top of your head, she loudly moans, [npc.speech(Oh yes! ~Mmm!~ Go on, get your tongue in there and have a good taste! Oh, and please remember that the demo ends once you cum...)]
 	</p>
 	<p>
 		Eager to get started, you bury your face between [npc.namePos] [npc.legs] and give her [npc.clit+] a passionate kiss. With the [npc.race] continuing to let out a stream of horny moans, you dart out your [pc.tongue+] and thrust it into her cunt, before starting to enthusiastically eat her out...
@@ -1078,7 +1078,7 @@
 		The collection of twenty-or-so public stocks, positioned right in the middle of a wide courtyard, is the first thing anyone sees when entering Slaver Alley. Used as a means of punishment for disobedient slaves, each one of the devices consists of a wooden frame, with holes for securing the occupant's arms and head. A small sign positioned next to each one informs members of the public as to what kinds of use have been permitted by the slave's owner.
 	</p>
 	<p>
-		Although quite a few of the stocks are currently occupied, all of the slaves have been marked as unavailable for public use. Knowing that this is thanks to your earlier actions, you can't help but smile to yourself as you pass by...
+		Although quite a few of the stocks are currently occupied, all of the slaves have been marked as unavailable for public use. Knowing that this is thanks to your earlier actions, you can't help but smile to yourself as you pass by.
 	</p>
 	]]>
 	</htmlContent>
@@ -1093,6 +1093,14 @@
 	</p>
 	]]>
 	</htmlContent>
+	
+	<htmlContent tag="PUBLIC_STOCKS_FREED_ENDING"><![CDATA[
+	<p style='text-align:center;'>
+		[style.italicsMinorBad(Although you've set some slaves free, it won't be long before another group are locked into the stocks...)]
+	</p>
+	]]>
+	</htmlContent>
+	
 	
 	<htmlContent tag="PUBLIC_STOCKS_SEX_SOLO"><![CDATA[
 	<p>
@@ -2540,7 +2548,7 @@
 		Handing over [sean.namePos] keys, you step aside as he strides forwards into the square and takes charge of the situation. From what you can make out of the snippets of conversation you overhear between the [sean.race] and the private security guards, the public stocks are to be closed for the remainder of the day, and it's to be assumed that some kind of saboteur snuck in and picked the locks on all the stocks, before disappearing without a trace.
 	</p>
 	<p>
-		A few minutes later, and the guards once again allow traffic to pass through the square once more. As you amble forwards amongst the crowds, you're pleased to see that the stocks which contain the slaves who refused to escape have all been marked as unavailable for public use. With your work here being done, you wonder what to do next...
+		A few minutes later, and the guards once again allow traffic to pass through the square. As you amble forwards amongst the crowds, you're pleased to see that the stocks which contain the slaves who refused to escape have all been marked as unavailable for public use. With your work here being done, you wonder what to do next...
 	</p>
 	]]>
 	</htmlContent>

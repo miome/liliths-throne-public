@@ -19,6 +19,9 @@ import com.lilithsthrone.controller.xmlParsing.Element;
 import com.lilithsthrone.controller.xmlParsing.XMLLoadException;
 import com.lilithsthrone.controller.xmlParsing.XMLMissingTagException;
 import com.lilithsthrone.game.character.GameCharacter;
+import com.lilithsthrone.game.character.attributes.AbstractAttribute;
+import com.lilithsthrone.game.character.effects.AbstractStatusEffect;
+import com.lilithsthrone.game.character.effects.StatusEffect;
 import com.lilithsthrone.game.character.race.AbstractRace;
 import com.lilithsthrone.game.character.race.Race;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
@@ -30,6 +33,7 @@ import com.lilithsthrone.game.inventory.enchanting.ItemEffect;
 import com.lilithsthrone.game.inventory.enchanting.ItemEffectType;
 import com.lilithsthrone.utils.SvgUtil;
 import com.lilithsthrone.utils.Util;
+import com.lilithsthrone.utils.Util.Value;
 import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.utils.colours.PresetColour;
 
@@ -72,6 +76,9 @@ public abstract class AbstractItemType extends AbstractCoreType {
 	
 	protected List<ItemEffect> effects;
 	
+	/** Maps Status effect -> conditional and time applied*/
+	protected Map<AbstractStatusEffect, Value<String, Integer>> appliedStatusEffects;
+	
 	// For use in enchanting into a different item:
 	protected String potionDescriptor;
 	protected AbstractRace associatedRace;
@@ -91,6 +98,34 @@ public abstract class AbstractItemType extends AbstractCoreType {
 			Colour colourPrimary,
 			Colour colourSecondary,
 			Colour colourTertiary,
+			Rarity rarity,
+			List<ItemEffect> effects,
+			List<ItemTag> itemTags) {
+		this(value,
+				determiner,
+				plural,
+				name,
+				namePlural,
+				description,
+				pathName,
+				initNewColourShades(
+					colourPrimary,
+					colourSecondary,
+					colourTertiary),
+				rarity,
+				effects,
+				itemTags);
+	}
+	
+	public AbstractItemType(
+			int value,
+			String determiner,
+			boolean plural,
+			String name,
+			String namePlural,
+			String description,
+			String pathName,
+			List<Colour> colourShades,
 			Rarity rarity,
 			List<ItemEffect> effects,
 			List<ItemTag> itemTags) {
@@ -136,25 +171,31 @@ public abstract class AbstractItemType extends AbstractCoreType {
 		enchantmentEffectId = null;
 		enchantmentItemTypeId = null;
 		
-		this.colourShades = new ArrayList<>();
-		
-		if (colourPrimary == null) {
-			this.colourShades.add(PresetColour.CLOTHING_BLACK);
-		} else {
-			this.colourShades.add(colourPrimary);
-		}
-		if (colourSecondary == null) {
-			this.colourShades.add(PresetColour.CLOTHING_BLACK);
-		} else {
-			this.colourShades.add(colourSecondary);
-		}
-		if (colourTertiary == null) {
-			this.colourShades.add(PresetColour.CLOTHING_BLACK);
-		} else {
-			this.colourShades.add(colourTertiary);
-		}
+		this.colourShades = colourShades;
 		
 		SVGString = null;
+	}
+	
+	private static List<Colour> initNewColourShades(Colour colourPrimary, Colour colourSecondary, Colour colourTertiary) {
+		List<Colour> newColourShades = new ArrayList<>();
+		
+		if (colourPrimary == null) {
+			newColourShades.add(PresetColour.CLOTHING_BLACK);
+		} else {
+			newColourShades.add(colourPrimary);
+		}
+		if (colourSecondary == null) {
+			newColourShades.add(PresetColour.CLOTHING_BLACK);
+		} else {
+			newColourShades.add(colourSecondary);
+		}
+		if (colourTertiary == null) {
+			newColourShades.add(PresetColour.CLOTHING_BLACK);
+		} else {
+			newColourShades.add(colourTertiary);
+		}
+		
+		return newColourShades;
 	}
 
 	public AbstractItemType(File itemXMLFile, String author, boolean mod) throws XMLLoadException { // Be sure to catch this exception correctly - if it's thrown mod is invalid and should not be continued to load
@@ -257,6 +298,38 @@ public abstract class AbstractItemType extends AbstractCoreType {
 			}
 
 			this.effects = new ArrayList<>();
+
+			// Item tags before checking for FOOD and DRINK
+			this.itemTags = new HashSet<>(Util.toEnumList(coreAttributes.getMandatoryFirstOf("itemTags").getAllOf("tag"), ItemTag.class));
+			
+			this.appliedStatusEffects = new HashMap<>();
+			// Add FOOD & DRINK first:
+			if(this.getItemTags().contains(ItemTag.FOOD)) {
+				appliedStatusEffects.put(StatusEffect.RECENTLY_EATEN, new Value<>("true", 6*60*60));
+			}
+			if(this.getItemTags().contains(ItemTag.FOOD_POOR)) {
+				appliedStatusEffects.put(StatusEffect.RECENTLY_EATEN_POOR, new Value<>("true", 6*60*60));
+			}
+			if(this.getItemTags().contains(ItemTag.FOOD_QUALITY)) {
+				appliedStatusEffects.put(StatusEffect.RECENTLY_EATEN_QUALITY, new Value<>("true", 6*60*60));
+			}
+			if(this.getItemTags().contains(ItemTag.DRINK)) {
+				appliedStatusEffects.put(StatusEffect.THIRST_QUENCHED, new Value<>("true", 6*60*60));
+			}
+			if(this.getItemTags().contains(ItemTag.DRINK_POOR)) {
+				appliedStatusEffects.put(StatusEffect.THIRST_QUENCHED_POOR, new Value<>("true", 6*60*60));
+			}
+			if(this.getItemTags().contains(ItemTag.DRINK_QUALITY)) {
+				appliedStatusEffects.put(StatusEffect.THIRST_QUENCHED_QUALITY, new Value<>("true", 6*60*60));
+			}
+			if(coreAttributes.getOptionalFirstOf("statusEffects").isPresent()) {
+				for(Element e : coreAttributes.getMandatoryFirstOf("statusEffects").getAllOf("effect")) {
+					int seconds = Integer.valueOf(e.getAttribute("seconds"));
+					AbstractStatusEffect se = StatusEffect.getStatusEffectFromId(e.getTextContent());
+					String conditional = e.getAttribute("conditional");
+					appliedStatusEffects.put(se, new Value<>(conditional.isEmpty()?"true":conditional, seconds));
+				}
+			}
 			
 			this.specialEffect = coreAttributes.getMandatoryFirstOf("applyEffects").getTextContent();
 			
@@ -290,8 +363,6 @@ public abstract class AbstractItemType extends AbstractCoreType {
 					effectTooltipLines.add(e.getTextContent());
 				}
 			}
-			
-			this.itemTags = new HashSet<>(Util.toEnumList(coreAttributes.getMandatoryFirstOf("itemTags").getAllOf("tag"), ItemTag.class));
 			
 			if(debug) {
 				System.out.println("3");
@@ -478,6 +549,55 @@ public abstract class AbstractItemType extends AbstractCoreType {
 		for(String s : effectTooltipLines) {
 			parsed.add(UtilText.parse(s));
 		}
+		// Any status effects being applied:
+		if(this.appliedStatusEffects!=null) { // If not null, then from external file
+			for(Entry<AbstractStatusEffect, Value<String, Integer>> entry : this.appliedStatusEffects.entrySet()) {
+				AbstractStatusEffect se = entry.getKey();
+//				parsed.add("Applies <i style='color:"+se.getColour().toWebHexString()+";'>'"+Util.capitaliseSentence(se.getName(null))+"'</i>:");
+//				for(Entry<AbstractAttribute, Float> attEntry : se.getAttributeModifiers(null).entrySet()) {
+//					parsed.add("<i>"+attEntry.getKey().getFormattedValue(attEntry.getValue())+"</i>");
+//				}
+				int seconds = entry.getValue().getValue();
+				int timeDisplay = seconds/60; // minutes
+				String timeDesc = "minutes";
+				if(timeDisplay>120) {
+					timeDisplay = timeDisplay/60; // hours
+					timeDesc = "hours";
+				}
+				if(timeDisplay>48) {
+					timeDisplay = timeDisplay/24; // days
+					timeDesc = "days";
+				}
+				for(Entry<AbstractAttribute, Float> attEntry : se.getAttributeModifiers(null).entrySet()) {
+					parsed.add("<i>"+attEntry.getKey().getFormattedValue(attEntry.getValue())+"</i> for [style.italicsOrange("+timeDisplay+" "+timeDesc+")]");
+				}
+			}
+			
+		} else {
+			for(ItemEffect ie : this.getEffects()) {
+				for(Entry<AbstractStatusEffect, Integer> entry : ie.getItemEffectType().getAppliedStatusEffects().entrySet()) {
+					AbstractStatusEffect se = entry.getKey();
+//					parsed.add("Applies <i style='color:"+se.getColour().toWebHexString()+";'>'"+Util.capitaliseSentence(se.getName(null))+"'</i>:");
+//					for(Entry<AbstractAttribute, Float> attEntry : se.getAttributeModifiers(null).entrySet()) {
+//						parsed.add("<i>"+attEntry.getKey().getFormattedValue(attEntry.getValue())+"</i>");
+//					}
+					int seconds = entry.getValue();
+					int timeDisplay = seconds/60; // minutes
+					String timeDesc = "minutes";
+					if(timeDisplay>120) {
+						timeDisplay = timeDisplay/60; // hours
+						timeDesc = "hours";
+					}
+					if(timeDisplay>48) {
+						timeDisplay = timeDisplay/24; // days
+						timeDesc = "days";
+					}
+					for(Entry<AbstractAttribute, Float> attEntry : se.getAttributeModifiers(null).entrySet()) {
+						parsed.add("<i>"+attEntry.getKey().getFormattedValue(attEntry.getValue())+"</i> for [style.italicsOrange("+timeDisplay+" "+timeDesc+")]");
+					}
+				}
+			}
+		}
 		return parsed;
 	}
 
@@ -536,7 +656,7 @@ public abstract class AbstractItemType extends AbstractCoreType {
 						}
 
 						SVGString = svgBuilder.toString();
-						SVGString = SvgUtil.colourReplacement(this.getId(), colourShades, null, SVGString);
+						SVGString = SvgUtil.colourReplacement(this.getId(), getColourShades(), null, SVGString);
 						
 //						List<String> lines = Files.readAllLines(Paths.get(pathName));
 //						StringBuilder sb = new StringBuilder();
@@ -564,7 +684,7 @@ public abstract class AbstractItemType extends AbstractCoreType {
 							System.err.println("Error! AbstractItemType icon file does not exist (Trying to read from '"+svgPathInformation.get(0).getPathName()+"')!");
 						}
 						String s = Util.inputStreamToString(is);
-						SVGString = SvgUtil.colourReplacement(this.getId(), colourShades, null, s);
+						SVGString = SvgUtil.colourReplacement(this.getId(), getColourShades(), null, s);
 						is.close();
 					}
 				} catch (IOException e) {
@@ -613,12 +733,21 @@ public abstract class AbstractItemType extends AbstractCoreType {
 	public String getUnableToBeUsedFromInventoryDescription() {
 		return "This item cannot be used in this way!";
 	}
-	
-	public boolean isAbleToBeUsed(GameCharacter target) {
+
+	public boolean isAbleToBeUsedWhileTrading() {
 		return true;
 	}
 	
-	public String getUnableToBeUsedDescription(GameCharacter target) {
+	public String getUnableToBeUsedWhileTradingDescription() {
+		return "You cannot use this item while trading!";
+	}
+	
+	
+	public boolean isAbleToBeUsed(GameCharacter user, GameCharacter target) {
+		return true;
+	}
+	
+	public String getUnableToBeUsedDescription(GameCharacter user, GameCharacter target) {
 		return "This item cannot be used in this way!";
 	}
 	
@@ -652,6 +781,13 @@ public abstract class AbstractItemType extends AbstractCoreType {
 
 	public Set<ItemTag> getItemTags() {
 		return itemTags;
+	}
+
+	/**
+	 * @return null if this ItemType is hard-coded, but will return a (potentially empty) Map if it's been generated from an xml file.
+	 */
+	public Map<AbstractStatusEffect, Value<String, Integer>> getAppliedStatusEffects() {
+		return appliedStatusEffects;
 	}
 
 }

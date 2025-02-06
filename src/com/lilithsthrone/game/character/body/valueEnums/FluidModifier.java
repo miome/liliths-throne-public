@@ -3,6 +3,7 @@ package com.lilithsthrone.game.character.body.valueEnums;
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.body.FluidInterface;
 import com.lilithsthrone.game.character.effects.Addiction;
+import com.lilithsthrone.game.character.effects.Perk;
 import com.lilithsthrone.game.character.effects.StatusEffect;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.main.Main;
@@ -15,12 +16,6 @@ import com.lilithsthrone.utils.colours.PresetColour;
  * @author Innoxia
  */
 public enum FluidModifier {
-	
-	MUSKY(PresetColour.BASE_TAN,
-			false,
-			"musky",
-			"It has a strong, musky smell.",
-			"Makes this fluid give off a heady, musky scent."),
 	
 	VISCOUS(PresetColour.BASE_PURPLE_DARK,
 			false,
@@ -47,6 +42,13 @@ public enum FluidModifier {
 			"Makes this fluid bubble like a carbonated drink."),
 	
 	// SPECIAL EFFECTS:
+
+	MUSKY(PresetColour.BASE_TAN,
+			true,
+			"musky",
+			"It has a strong, musky smell.",
+			"Musky cum and girlcum will apply 'marked by musk' to anyone who is covered in it during sex."),
+	
 	
 	MINERAL_OIL(PresetColour.BASE_BLACK,
 			true,
@@ -85,6 +87,9 @@ public enum FluidModifier {
 		public String applyEffects(GameCharacter target, GameCharacter fluidProvider, float millilitres, FluidInterface fluid) {
 			if(target==null || fluidProvider==null) {
 				return ""; // catch for if one of the characters is null, which was the case in GameCharacter.calculateGenericSexEffects
+			}
+			if(target.isDoll()) {
+				return "";
 			}
 			boolean curedWithdrawal = target.getAddiction(fluid.getType())!=null && Main.game.getMinutesPassed()-target.getAddiction(fluid.getType()).getLastTimeSatisfied()>=24*60;
 			boolean appendAddiction = !Main.game.isInSex() || curedWithdrawal;
@@ -125,6 +130,9 @@ public enum FluidModifier {
 			"Psychoactive fluids will cause anyone who ingests them to experience a hallucinogenic trip, causing their view of sexual organs to be distorted as well as opening them up to the possibility of being hypnotically manipulated.") {
 		@Override
 		public String applyEffects(GameCharacter target, GameCharacter fluidProvider, float millilitres, FluidInterface fluid) {
+			if(target.hasPerkAnywhereInTree(Perk.DOLL_PHYSICAL_3)) {
+				return "";
+			}
 			target.addPsychoactiveFluidIngested(fluid.getType());
 			boolean appendPsychoactive = !target.hasStatusEffect(StatusEffect.PSYCHOACTIVE);
 			target.addStatusEffect(StatusEffect.PSYCHOACTIVE, 6*60*60);

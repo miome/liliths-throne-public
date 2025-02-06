@@ -14,6 +14,10 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerFactory;
 
 import com.lilithsthrone.controller.MainController;
 import com.lilithsthrone.controller.TooltipUpdateThread;
@@ -58,14 +62,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerFactory;
-
 /**
  * @since 0.1.0
- * @version 0.4.5.5
+ * @version 0.4.8.2
  * @author Innoxia
  */
 public class Main extends Application {
@@ -86,10 +85,19 @@ public class Main extends Application {
 	
 	public static final String AUTHOR = "Innoxia";
 	public static final String GAME_NAME = "Lilith's Throne";
-	public static final String VERSION_NUMBER = "0.4.6.6";
+	public static final String VERSION_NUMBER = "0.4.10.7"; // Remember to do the stuff below!
+	/*
+	 * BEFORE BUILDING:
+	 * update pom.xml!
+	 * 
+	 * launch4j include JVM options:
+	 * -Dbuild.type=exe64 or -Dbuild.type=exe32 as appropriate
+	 */
 	public static final String VERSION_DESCRIPTION = "Alpha";
 
 	public static boolean quickSaved = false;
+	
+	private static boolean displayingTurnTimer = false;
 	
 	/**
 	 * To turn it on, just add -Ddebug=true to java's VM options. (You should be able to do this in Eclipse through Run::Run Configurations...::Arguments tab::VM Arguments).
@@ -98,7 +106,7 @@ public class Main extends Application {
 	 */
 	public final static boolean DEBUG = Boolean.valueOf(System.getProperty("debug", "false"));
 
-	public static final Image WINDOW_IMAGE = new Image("/com/lilithsthrone/res/images/windowIcon32.png");
+	public static Image WINDOW_IMAGE;
 	
 	private static Properties properties;
 	
@@ -180,6 +188,13 @@ public class Main extends Application {
 		credits.add(new CreditsSlot("LemonMuffin", "", 0, 0, 0, 0, Subspecies.DEMON));
 		credits.add(new CreditsSlot("AuRah", "", 0, 0, 0, 0, Subspecies.DEMON));
 		credits.add(new CreditsSlot("shotgunlo", "", 0, 0, 0, 0, Subspecies.DEMON));
+		credits.add(new CreditsSlot("Polyfield", "", 0, 0, 0, 0, Subspecies.DEMON));
+		credits.add(new CreditsSlot("Homero L", "", 0, 0, 0, 0, Subspecies.DEMON));
+		credits.add(new CreditsSlot("UtmostPlatypus", "", 0, 0, 0, 0, Subspecies.DEMON));
+		credits.add(new CreditsSlot("Raven Claudius", "", 0, 0, 0, 0, Subspecies.DEMON));
+		credits.add(new CreditsSlot("Drakar Bragi", "", 0, 0, 0, 0, Subspecies.DEMON));
+		credits.add(new CreditsSlot("The Colonel", "", 0, 0, 0, 0, Subspecies.DEMON));
+		credits.add(new CreditsSlot("Melone", "", 0, 0, 0, 0, Subspecies.DEMON));
 		
 		
 		credits.add(new CreditsSlot("Adhana Konker", "", 0, 0, 3, 0));
@@ -461,9 +476,11 @@ public class Main extends Application {
 			}
 		});
 
+		WINDOW_IMAGE = new Image("/com/lilithsthrone/res/images/windowIcon32.png");
+
 		Main.primaryStage.getIcons().add(WINDOW_IMAGE);
 
-		Main.primaryStage.setTitle(GAME_NAME+" " + VERSION_NUMBER + " " + VERSION_DESCRIPTION+(DEBUG?" (Debug Mode)":""));
+		refreshTitle();
 
 		loadFonts();
 		
@@ -650,15 +667,15 @@ public class Main extends Application {
 		dir.mkdir();
 		dir = new File("data/characters");
 		dir.mkdir();
-
+		
+		
 		// Open error log
 		if(!DEBUG) {
 			System.out.println("Printing to error.log");
 			try {
-				@SuppressWarnings("resource")
 				PrintStream stream = new PrintStream("data/error.log");
 				System.setErr(stream);
-				System.err.println("Game Version: "+VERSION_NUMBER);
+				System.err.println("Game Version: "+VERSION_NUMBER+" ("+System.getProperty("build.type", "jar")+")");
 				System.err.println("Java: "+System.getProperty("java.version")+" ("+System.getProperty("java.vendor")+")");
 				System.err.println("OS: "+System.getProperty("os.name")+" ("+System.getProperty("os.arch")+")");
 				if (new File("res/mods").exists()) {
@@ -707,11 +724,12 @@ public class Main extends Application {
 		Main.game = new Game();
 		
 		// Generate world:
-		if (!(gen == null))
+		if (!(gen == null)) {
 			if (gen.isRunning()) {
 				gen.cancel();
 			}
-
+		}
+		
 		gen = new Generation();
 
 		gen.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
@@ -783,6 +801,26 @@ public class Main extends Application {
 		return false;
 	}
 	
+	public static void refreshTitle() {
+		Main.primaryStage.setTitle(getTitle());
+	}
+	
+	public static String getTitle() {
+		displayingTurnTimer = Main.game!=null && Main.game.isDebugMode() && Main.game.isStarted();
+		
+		return GAME_NAME
+				+ " " + VERSION_NUMBER
+				+ " " + VERSION_DESCRIPTION
+				+ (DEBUG?" (Debug Mode)":"")
+				+ (displayingTurnTimer
+					?" "+Math.round((Main.game.endTurnTimeTaken/1000000000d)*1000)/1000f+"s"
+					:"");
+	}
+	
+	public static boolean isDisplayingTurnTimer() {
+		return displayingTurnTimer;
+	}
+	
 	public static int getFontSize() {
 		return properties.fontSize;
 	}
@@ -821,10 +859,13 @@ public class Main extends Application {
 	}
 	
 	public static String getQuickSaveName() {
+		String name;
 		if(!Main.game.isStarted()) {
-			return "QuickSave_intro";
+			name = "QuickSave_intro";
+		} else {
+			name = "QuickSave_"+Main.game.getPlayer().getName(false);
 		}
-		return "QuickSave_"+Main.game.getPlayer().getName(false);
+		return Main.checkFileName(name);
 	}
 	
 	public static void quickSaveGame() {
@@ -838,11 +879,17 @@ public class Main extends Application {
 	}
 
 	public static void quickLoadGame() {
+		String name = "";
 		if(quickSaved) {
-			loadGame(Main.properties.lastQuickSaveName);
+			name = Main.checkFileName(Main.properties.lastQuickSaveName);
 		} else {
-			loadGame(getQuickSaveName());
+			name = Main.checkFileName(getQuickSaveName());
 		}
+
+		if(name.isEmpty()) {
+			return;
+		}
+		loadGame(name);
 	}
 
 	public static boolean isSaveGameAvailable() {
@@ -902,8 +949,8 @@ public class Main extends Application {
 	public static void loadGame(String name) {
 		if (isLoadGameAvailable(name)) {
 			Game.importGame(name);
+			MainController.updateUIButtons();
 		}
-		MainController.updateUIButtons();
 	}
 
 	public static void loadGame(File f) {
@@ -1044,7 +1091,8 @@ public class Main extends Application {
 						CharacterImportSetting.CLEAR_KEY_ITEMS,
 						CharacterImportSetting.CLEAR_COMBAT_HISTORY,
 						CharacterImportSetting.CLEAR_SEX_HISTORY,
-						CharacterImportSetting.REMOVE_RACE_CONCEALED));
+						CharacterImportSetting.REMOVE_RACE_CONCEALED,
+						CharacterImportSetting.CLEAR_FAMILY_ID));
 				
 				Main.game.getPlayer().getSlavesOwned().clear();
 				Main.game.getPlayer().endPregnancy(false);

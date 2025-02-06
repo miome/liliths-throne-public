@@ -12,14 +12,12 @@ import com.lilithsthrone.game.character.npc.NPC;
 import com.lilithsthrone.game.dialogue.DialogueNode;
 import com.lilithsthrone.game.dialogue.companions.CompanionManagement;
 import com.lilithsthrone.game.dialogue.companions.OccupantManagementDialogue;
-import com.lilithsthrone.game.dialogue.companions.SlaveDialogue;
 import com.lilithsthrone.game.dialogue.responses.Response;
 import com.lilithsthrone.game.dialogue.responses.ResponseEffectsOnly;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.game.occupantManagement.MilkingRoom;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Units;
-import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.utils.colours.PresetColour;
 import com.lilithsthrone.world.places.AbstractPlaceUpgrade;
 import com.lilithsthrone.world.places.PlaceUpgrade;
@@ -97,7 +95,7 @@ public class LilayaMilkingRoomDialogue {
 						}
 					};
 				} else {
-					return new Response("Manage room", "You'll either need a slaver license, or permission from Lilaya to house your friends, before you can access this menu!",  null);
+					return new Response("Manage room", "You need a slaver license or permission from Lilaya to house your friends or dolls in order to access this menu!",  null);
 				}
 				
 			}  else if (index == 2) {
@@ -109,7 +107,7 @@ public class LilayaMilkingRoomDialogue {
 						}
 					};
 				} else {
-					return new Response("Manage people", "You'll either need a slaver license, or permission from Lilaya to house your friends, before you can access this menu!",  null);
+					return new Response("Manage people", "You need a slaver license or permission from Lilaya to house your friends or dolls in order to access this menu!",  null);
 				}
 				
 			} else if(index>=3 && index<6) {
@@ -216,6 +214,12 @@ public class LilayaMilkingRoomDialogue {
 							UtilText.parse(getMilkingTarget(), "[npc.NameIsFull] unable to get access to [npc.her] cock, so [npc.she] can't be milked at the moment..."),
 							null);
 					
+				} else if(!getMilkingTarget().isAbleToOrgasm()) {
+					return new Response(
+							"Milk "+(getMilkingTarget().isPlayer()?"self":UtilText.parse(getMilkingTarget(), "[npc.NamePos]"))+" cum",
+							UtilText.parse(getMilkingTarget(), "[npc.NameIsFull] unable to orgasm, so can't be milked of [npc.her] cum!"),
+							null);
+					
 				} else if(charactersPresent.size()==8) {
 					return new Response(
 							"Milk "+(getMilkingTarget().isPlayer()?"self":UtilText.parse(getMilkingTarget(), "[npc.NamePos]"))+" cum",
@@ -299,6 +303,12 @@ public class LilayaMilkingRoomDialogue {
 					return new Response(
 							"Milk "+(getMilkingTarget().isPlayer()?"self":UtilText.parse(getMilkingTarget(), "[npc.NamePos]"))+" girlcum",
 							UtilText.parse(getMilkingTarget(), "[npc.NameIsFull] unable access to [npc.her] pussy, so can't be milked of [npc.her] girlcum at the moment..."),
+							null);
+					
+				} else if(!getMilkingTarget().isAbleToOrgasm()) {
+					return new Response(
+							"Milk "+(getMilkingTarget().isPlayer()?"self":UtilText.parse(getMilkingTarget(), "[npc.NamePos]"))+" girlcum",
+							UtilText.parse(getMilkingTarget(), "[npc.NameIsFull] unable to orgasm, so can't be milked of [npc.her] girlcum!"),
 							null);
 					
 				} else if(charactersPresent.size()==8) {
@@ -502,16 +512,7 @@ public class LilayaMilkingRoomDialogue {
 				
 			} else if(index-11<charactersPresent.size()) {
 				GameCharacter slave = charactersPresent.get(index-11);
-				return new Response(UtilText.parse(slave, "[npc.Name]"), UtilText.parse(slave, "Interact with [npc.name]."), SlaveDialogue.SLAVE_START) {
-					@Override
-					public Colour getHighlightColour() {
-						return slave.getFemininity().getColour();
-					}
-					@Override
-					public void effects() {
-						SlaveDialogue.initDialogue((NPC) slave, false);
-					}
-				};
+				return LilayaHomeGeneric.interactWithNPC(slave);
 			}
 				
 			return null;
@@ -519,27 +520,22 @@ public class LilayaMilkingRoomDialogue {
 	};
 	
 	public static final DialogueNode MILKED = new DialogueNode("Room", ".", true) {
-
 		@Override
 		public int getSecondsPassed() {
 			return 60*60;
 		}
-		
 		@Override
 		public boolean isRegenerationDisabled() {
 			return true;
 		}
-		
 		@Override
 		public String getLabel() {
 			return Main.game.getPlayer().getLocationPlace().getName();
 		}
-		
 		@Override
 		public String getContent() {
 			return "";
 		}
-
 		@Override
 		public Response getResponse(int responseTab, int index) {
 			if(index==1) {
@@ -552,6 +548,40 @@ public class LilayaMilkingRoomDialogue {
 			} else {
 				return null;
 			}
+		}
+	};
+	
+	/**
+	 * Used in OccupantController when a character consumes fluids.
+	 */
+	public static final DialogueNode INGEST = new DialogueNode("Room", ".", true) {
+		@Override
+		public int getSecondsPassed() {
+			return 5*60;
+		}
+		@Override
+		public boolean isRegenerationDisabled() {
+			return true;
+		}
+		@Override
+		public String getLabel() {
+			return Main.game.getPlayer().getLocationPlace().getName();
+		}
+		@Override
+		public String getContent() {
+			return "";
+		}
+		@Override
+		public Response getResponse(int responseTab, int index) {
+			if(index==1) {
+				return new Response("Continue", "You wonder what do do next...", INGEST) {
+					@Override
+					public DialogueNode getNextDialogue() {
+						return Main.game.getDefaultDialogue(false);
+					}
+				};
+			}
+			return null;
 		}
 	};
 }

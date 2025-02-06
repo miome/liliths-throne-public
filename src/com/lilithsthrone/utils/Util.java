@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -54,8 +55,6 @@ public class Util {
 	
 	public static Random random = new Random();
 
-	private static StringBuilder utilitiesStringBuilder = new StringBuilder();
-	
 	private static Map<KeyCode, String> KEY_NAMES = new LinkedHashMap<KeyCode, String>() {
 		private static final long serialVersionUID = 1L;
 	{
@@ -709,6 +708,39 @@ public class Util {
 		
 		return intToString;
 	}
+
+	/**
+	 * Converts an integer (positive or negative) to a series of numbers expressed as a String, with each number linked by a dash.
+	 * @param integer
+	 * @return e.g. 17904 will output "one-seven-nine-zero-four", -8201 will output "negative eight-two-zero-one"
+	 */
+	public static String intToIndividualNumbersString(int integer) {
+		LinkedList<String> stringStack = new LinkedList<>();
+		boolean negative = false;
+		
+		if(integer<0) {
+			negative = true;
+			integer = Math.abs(integer);
+		}
+		
+		while(integer > 0) {
+			stringStack.push(numbersLessThanTwenty[integer%10]);
+			integer /= 10;
+		}
+
+		StringBuilder sb = new StringBuilder();
+		if(negative) {
+			sb.append("negative ");
+		}
+		while(!stringStack.isEmpty()) {
+			sb.append(stringStack.pop());
+			if(!stringStack.isEmpty()) {
+				sb.append("-");
+			}
+		}
+		
+		return sb.toString();
+	}
 	
 	private static String[] primarySequence = {
 			"primary",
@@ -853,6 +885,19 @@ public class Util {
 			numeralSB.append("... (Total: "+integer+")");
 		}
 		
+		return numeralSB.toString();
+	}
+
+	private static String[] zhengPhase = {"丨","丄","上","止"};
+
+	public static String intToZheng(int integer, int max) {
+		StringBuilder numeralSB = new StringBuilder();
+		int limit = Math.min(integer, max);
+		for(int i=0; i<limit/5; i++) numeralSB.append("正");
+
+		if(limit%5 != 0) numeralSB.append(zhengPhase[limit%5-1]);
+
+		if(limit<integer) numeralSB.append("... (Total: "+integer+")");
 		return numeralSB.toString();
 	}
 	
@@ -1108,12 +1153,12 @@ public class Util {
 		for(int i=0; i<finalSplitSentence.size(); i++) {
 			String s = finalSplitSentence.get(i);
 			if(s.matches(".*[a-zA-Z,]+.*")
-					&& !s.contains("#") && !s.contains("[") && !s.contains("(")
+					&& !s.contains("#") && !s.contains("[") && !s.contains("(") && !s.contains("~") 
 					&& !isEndOfSentence(s.charAt(s.length()-1))
 					&& (i==finalSplitSentence.size()-1 || !isEndOfSentence(finalSplitSentence.get(i+1).charAt(0)))) {
 				if(s.contains(",")) {
 					availableCommaIndexes.add(i);
-				} else {
+				} else if(!s.endsWith(". ")) {// Prevents insertions at the very start of new sentences
 					availableIndexes.add(i);
 				}
 				if(debug) {
@@ -1277,7 +1322,7 @@ public class Util {
 	 */
 	public static String addBimbo(String sentence, int frequency) {
 		sentence = insertIntoSentences(sentence, frequency, bimboWords);
-		utilitiesStringBuilder.setLength(0);
+		StringBuilder utilitiesStringBuilder = new StringBuilder();
 		utilitiesStringBuilder.append(sentence);
 		
 		// 1/3 chance of having a bimbo sentence ending: TODO improve so it can be added anywhere
@@ -1315,7 +1360,7 @@ public class Util {
 	private static String[] broWords = new String[] { ", like,", ", like, dude,", ", like, bro,", ", like,", ", um,", ", uh,", ", ah," };
 	public static String addBro(String sentence, int frequency) {
 		sentence = insertIntoSentences(sentence, frequency, broWords);
-		utilitiesStringBuilder.setLength(0);
+		StringBuilder utilitiesStringBuilder = new StringBuilder();
 		utilitiesStringBuilder.append(sentence);
 		
 		// 1/3 chance of having a bimbo sentence ending: TODO improve so it can be added anywhere
@@ -1708,7 +1753,7 @@ public class Util {
 	 */
 	private static <T> String toStringList(Collection<T> items, Function<T, String> stringExtractor, String combiningWord) {
 		Iterator<T> itemIterator = items.iterator();
-		utilitiesStringBuilder.setLength(0);
+		StringBuilder utilitiesStringBuilder = new StringBuilder();
 		try {
 			T currentItem = itemIterator.next();
 	
@@ -1736,6 +1781,13 @@ public class Util {
 							?Util.capitaliseSentence(o.getNamePlural(null))
 							:o.getNamePlural(null))
 					+"</span>",
+				"and");
+	}
+	
+	public static String charactersToStringListOfNames(Collection<GameCharacter> characters) {
+		return Util.toStringList(characters,
+				(GameCharacter c) -> 
+					UtilText.parse(c, "[npc.name]"),
 				"and");
 	}
 
@@ -1835,9 +1887,9 @@ public class Util {
 		}
 		if(stringMatchDistance>0) { // Only show error message if difference is more than just capitalisation differences
 			System.err.println("Warning: getClosestStringMatch() did not find an exact match for '"+input+"'; returning '"+closestString+"' instead. (Distance: "+stringMatchDistance+")");
-		}
-		if(Main.DEBUG) {
-			new IllegalArgumentException().printStackTrace(System.err);
+			if(Main.DEBUG) {
+				new IllegalArgumentException().printStackTrace(System.err);
+			}
 		}
 		return closestString;
 	}

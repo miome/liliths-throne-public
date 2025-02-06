@@ -19,11 +19,10 @@ import org.w3c.dom.NodeList;
 
 import com.lilithsthrone.controller.xmlParsing.XMLUtil;
 import com.lilithsthrone.game.Game;
+import com.lilithsthrone.game.PropertyValue;
 import com.lilithsthrone.game.character.CharacterImportSetting;
 import com.lilithsthrone.game.character.EquipClothingSetting;
 import com.lilithsthrone.game.character.GameCharacter;
-import com.lilithsthrone.game.character.Litter;
-import com.lilithsthrone.game.character.PregnancyPossibility;
 import com.lilithsthrone.game.character.attributes.AffectionLevel;
 import com.lilithsthrone.game.character.attributes.Attribute;
 import com.lilithsthrone.game.character.attributes.CorruptionLevel;
@@ -68,6 +67,8 @@ import com.lilithsthrone.game.character.npc.misc.PrologueFemale;
 import com.lilithsthrone.game.character.npc.misc.PrologueMale;
 import com.lilithsthrone.game.character.persona.NameTriplet;
 import com.lilithsthrone.game.character.persona.Occupation;
+import com.lilithsthrone.game.character.pregnancy.Litter;
+import com.lilithsthrone.game.character.pregnancy.PregnancyPossibility;
 import com.lilithsthrone.game.character.race.AbstractRacialBody;
 import com.lilithsthrone.game.character.race.AbstractSubspecies;
 import com.lilithsthrone.game.character.race.FurryPreference;
@@ -107,6 +108,7 @@ import com.lilithsthrone.game.sex.SexPace;
 import com.lilithsthrone.game.sex.SexType;
 import com.lilithsthrone.game.sex.positions.AbstractSexPosition;
 import com.lilithsthrone.game.sex.positions.slots.SexSlot;
+import com.lilithsthrone.game.sex.positions.slots.SexSlotGeneric;
 import com.lilithsthrone.game.sex.sexActions.SexAction;
 import com.lilithsthrone.game.sex.sexActions.SexActionInterface;
 import com.lilithsthrone.main.Main;
@@ -400,6 +402,9 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 			} catch(Exception ex) {
 			}
 		}
+		// It seems, that upon loading an NPC, the fleshSubspecies unintentionally gets set to Subspecies.HUMAN, even if it's clearly not a human. 
+		// This clears the cached value, so it's being recalculated just-in-time. ~Stadler76
+		npc.getBody().setFleshSubspecies(null);
 	}
 	
 	public void resetSlaveFlags() {
@@ -419,11 +424,20 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 	 */
 	public void dailyUpdate() {
 	}
+
+
+	/**
+	 * Calls hourlyUpdate(int hour) using the current hourOfDay as the hour argument.
+	 */
+	public void hourlyUpdate() {
+		hourlyUpdate(Main.game.getHourOfDay());
+	}
 	
 	/**
 	 * Applies an hourly update to this NPC.
+	 * @param hour The hour (0-23) which is the currently active hour during the game's update loop.
 	 */
-	public void hourlyUpdate() {
+	public void hourlyUpdate(int hour) {
 	}
 	
 	/**
@@ -1135,7 +1149,8 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 	 */
 	@Override
 	public boolean isAbleToBeEgged() {
-		return !this.isUnique() || (this.isSlave() && this.getOwner().isPlayer());
+		return (!this.isUnique() || (this.isSlave() && this.getOwner().isPlayer()))
+				&& !this.hasPerkAnywhereInTree(Perk.DOLL_PHYSICAL_2);
 	}
 
 	public boolean isReadyToBeDeleted() {
@@ -1218,6 +1233,24 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 			return removeFlag(flag);
 		}
 	}
+	
+	// Utility methods for determining sex behaviour in encounter post-defeat scenes:
+
+	public boolean isPostCombatNoSex() {
+		return (!this.isAttractedTo(Main.game.getPlayer()) || this.hasFlag(NPCFlagValue.genericNPCBetrayedByPlayer)) && !Main.game.isNonConEnabled();
+	}
+
+	public boolean isPostCombatWantsSex() {
+		return (this.isAttractedTo(Main.game.getPlayer()) && !this.hasFlag(NPCFlagValue.genericNPCBetrayedByPlayer)) || !Main.game.isNonConEnabled();
+	}
+
+	public boolean isPostCombatRapePlay() {
+		return (this.isAttractedTo(Main.game.getPlayer()) && !this.hasFlag(NPCFlagValue.genericNPCBetrayedByPlayer))
+				&& this.hasFetish(Fetish.FETISH_NON_CON_SUB)
+				&& Main.game.isNonConEnabled()
+				&& Main.getProperties().hasValue(PropertyValue.rapePlayAtSexStart);
+	}
+	
 	
 	public boolean isKnowsPlayerGender() {
 		return NPCFlagValues.contains(NPCFlagValue.knowsPlayerGender);
@@ -1576,7 +1609,7 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 				} else {
 					possibleEffects.add(new PossibleItemEffect(
 						new ItemEffect(getItemEnchantmentEffect(genitalsItemType, body.getVagina()), TFModifier.TF_VAGINA, TFModifier.NONE, TFPotency.MINOR_BOOST, 1),
-						"Let's give you a nice "+(humanGenitals?"human":body.getVagina().getType().getTransformName())+" "+body.getVagina().getName(target, false)+"!"));
+						"Let's give you a nice "+(humanGenitals?"human":body.getVagina().getType().getTransformName())+" pussy!"));
 					if(possibleEffects.size()>=numberOfTransformations) { return new TransformativePotion(itemType, possibleEffects, body); }
 				}
 			}
@@ -1591,7 +1624,7 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 				} else {
 					possibleEffects.add(new PossibleItemEffect(
 						new ItemEffect(getItemEnchantmentEffect(genitalsItemType, body.getPenis()), TFModifier.TF_PENIS, TFModifier.NONE, TFPotency.MINOR_BOOST, 1),
-						"Let's give you a nice "+(humanGenitals?"human":body.getPenis().getType().getTransformName())+" "+body.getPenis().getName(target, false)+"!"));
+						"Let's give you a nice "+(humanGenitals?"human":body.getPenis().getType().getTransformName())+" cock!"));
 					if(possibleEffects.size()>=numberOfTransformations) { return new TransformativePotion(itemType, possibleEffects, body); }
 				}
 			}
@@ -1743,7 +1776,7 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 			}
 			
 			body.getAss().setAssSize(null, AssSize.FIVE_HUGE.getValue());
-			body.getAss().setAssSize(null, HipSize.FIVE_VERY_WIDE.getValue());
+			body.getAss().setHipSize(null, HipSize.FIVE_VERY_WIDE.getValue());
 		}
 		
 		//Breasts:
@@ -2130,7 +2163,7 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 		return sb.toString();
 	}
 	
-	private void generatePartnerPreferences() {
+	public void generatePartnerPreferences() {
 		
 		// Preferred gender:
 		
@@ -2379,45 +2412,14 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 				break;
 		}
 		
-		// map of top -> bottom paired fetishes; NPCs with a paired fetish will greatly favor 
-		// giving the player it's pair, and remove that fetish if there is a match
-		Map<AbstractFetish, AbstractFetish> pairedFetishMap = new HashMap<>();
-
-		pairedFetishMap.put(Fetish.FETISH_PENIS_GIVING, Fetish.FETISH_PENIS_RECEIVING);
-		pairedFetishMap.put(Fetish.FETISH_ANAL_GIVING, Fetish.FETISH_ANAL_RECEIVING);
-		pairedFetishMap.put(Fetish.FETISH_VAGINAL_GIVING, Fetish.FETISH_VAGINAL_RECEIVING);
-		pairedFetishMap.put(Fetish.FETISH_BREASTS_OTHERS, Fetish.FETISH_BREASTS_SELF);
-		pairedFetishMap.put(Fetish.FETISH_ORAL_RECEIVING, Fetish.FETISH_ORAL_GIVING);
-		pairedFetishMap.put(Fetish.FETISH_LEG_LOVER, Fetish.FETISH_STRUTTER);
-		pairedFetishMap.put(Fetish.FETISH_ARMPIT_GIVING, Fetish.FETISH_ARMPIT_RECEIVING);
-		if(Main.game.isFootContentEnabled()) {
-			pairedFetishMap.put(Fetish.FETISH_FOOT_GIVING, Fetish.FETISH_FOOT_RECEIVING);
-		}
-
-		pairedFetishMap.put(Fetish.FETISH_BONDAGE_APPLIER, Fetish.FETISH_BONDAGE_VICTIM);
-		pairedFetishMap.put(Fetish.FETISH_DOMINANT, Fetish.FETISH_SUBMISSIVE);
-		pairedFetishMap.put(Fetish.FETISH_CUM_STUD, Fetish.FETISH_CUM_ADDICT);
-//		pairedFetishMap.put(Fetish.FETISH_DEFLOWERING, Fetish.FETISH_PURE_VIRGIN); // Do not give deflowering if pure virgin fetish...
-		pairedFetishMap.put(Fetish.FETISH_IMPREGNATION, Fetish.FETISH_PREGNANCY);
-		pairedFetishMap.put(Fetish.FETISH_SADIST, Fetish.FETISH_MASOCHIST);
-		if(Main.game.isNonConEnabled()) {
-			pairedFetishMap.put(Fetish.FETISH_NON_CON_DOM, Fetish.FETISH_NON_CON_SUB);
-		}
-		pairedFetishMap.put(Fetish.FETISH_DENIAL, Fetish.FETISH_DENIAL_SELF);
-		pairedFetishMap.put(Fetish.FETISH_VOYEURIST, Fetish.FETISH_EXHIBITIONIST);
-		if(Main.game.isLactationContentEnabled()) {
-			pairedFetishMap.put(Fetish.FETISH_LACTATION_SELF, Fetish.FETISH_LACTATION_OTHERS);
-		}
-		
-		// Do not include these, as NPCs will otherwise always end up forcing them on the player:
-//		if(!pairedFetishesOnly) {
-//			pairedFetishMap.put(Fetish.FETISH_TRANSFORMATION_GIVING, Fetish.FETISH_TRANSFORMATION_RECEIVING);
-//			pairedFetishMap.put(Fetish.FETISH_KINK_GIVING, Fetish.FETISH_KINK_RECEIVING);
-//		}
-		
-		for(Entry<AbstractFetish, AbstractFetish> entry : pairedFetishMap.entrySet()) {
-			currentTopFetish = entry.getKey();
-			currentBottomFetish = entry.getValue();
+		for(AbstractFetish fetish : Fetish.getAllFetishes()) {
+			// Skip bottom & solo fetishes, as well as the TF & Kink giving fetishes
+			// NPCs will otherwise always end up forcing them on the player
+			if (!fetish.isTopFetish() || fetish.equals(Fetish.FETISH_TRANSFORMATION_GIVING) || fetish.equals(Fetish.FETISH_KINK_GIVING)) {
+				continue;
+			}
+			currentTopFetish = fetish;
+			currentBottomFetish = fetish.getOpposite();
 			
 			currentTopModifier = TFModifier.valueOf( "TF_MOD_" + Fetish.getIdFromFetish(currentTopFetish));
 			currentBottomModifier = TFModifier.valueOf( "TF_MOD_" + Fetish.getIdFromFetish(currentBottomFetish));
@@ -2976,7 +2978,7 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 	}
 	
 	public boolean isWantingToEquipCondom(GameCharacter partner) {
-		boolean wantingToEquip = !this.getFetishDesire(Fetish.FETISH_CUM_STUD).isPositive() || (partner.hasVagina() && !partner.isVisiblyPregnant() && !this.getFetishDesire(Fetish.FETISH_IMPREGNATION).isPositive());
+		boolean wantingToEquip = this.getFetishDesire(Fetish.FETISH_CUM_STUD).isNegative() || (partner.hasVagina() && !partner.isVisiblyPregnant() && this.getFetishDesire(Fetish.FETISH_IMPREGNATION).isNegative());
 //		System.out.println("isWantingToEquipCondom("+partner.getName()+"): "+wantingToEquip);
 		return wantingToEquip;
 	}
@@ -2985,7 +2987,7 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 		if(!partner.hasPenisIgnoreDildo()) {
 			return false;
 		}
-		return !this.getFetishDesire(Fetish.FETISH_CUM_ADDICT).isPositive() || (this.hasVagina() && !this.isVisiblyPregnant() && !this.getFetishDesire(Fetish.FETISH_PREGNANCY).isPositive());
+		return this.getFetishDesire(Fetish.FETISH_CUM_ADDICT).isNegative() || (this.hasVagina() && !this.isVisiblyPregnant() && this.getFetishDesire(Fetish.FETISH_PREGNANCY).isNegative());
 	}
 
 	/**
@@ -3019,6 +3021,9 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 	 */
 	public Value<AbstractClothing, String> getSexClothingToEquip(GameCharacter partner, boolean inQuickSex) {
 		if(Main.game.isInSex() && (inQuickSex || !Main.sex.getInitialSexManager().isPartnerWantingToStopSex(this))) {
+			if(Main.sex.getSexPositionSlot(partner)==SexSlotGeneric.MISC_WATCHING) {
+				return null; // Do not equip anything on spectators
+			}
 			// Condoms:
 			if(partner.hasPenisIgnoreDildo()
 					&& partner.getClothingInSlot(InventorySlot.PENIS)==null
@@ -3081,18 +3086,23 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 						}
 						
 						// BDSM:
-						if(this.getFetishDesire(Fetish.FETISH_BONDAGE_APPLIER).isPositive()
-								&& (clothing.getClothingType().getClothingSet()==SetBonus.getSetBonusFromId("innoxia_bdsm") || clothing.getClothingType().getClothingSet()==SetBonus.getSetBonusFromId("sage_ltxset"))) {
-							wantsToEquip = true;
+						if((clothing.getClothingType().getClothingSet()==SetBonus.getSetBonusFromId("innoxia_bdsm") || clothing.getClothingType().getClothingSet()==SetBonus.getSetBonusFromId("sage_ltxset"))) {
+							wantsToEquip = this.getFetishDesire(Fetish.FETISH_BONDAGE_APPLIER).isPositive();
+						}
+						// Chastity cages are only equipped if NPC has like or love attitude towards denier fetish:
+						if(clothing.getItemTags().contains(ItemTag.CHASTITY)) {
+							wantsToEquip = this.getFetishDesire(Fetish.FETISH_DENIAL).isPositive();
 						}
 					}
 					// Always auto manage clothing, as NPCs use clothing removal methods in SexManagerDefault, so clothing additions should take place after removals.
 					// If auto management was disabled, then the NPC would equip clothing onto their partner as soon as that slot became free, which makes sex feel quite disjointed
 						// e.g. An NPC deciding to equip latex stockings on their parter only when their partner has removed their shoes.
+					InventorySlot defaultSlot = clothing.getClothingType().getEquipSlots().get(0);
 					if(wantsToEquip
-							&& clothing.isAbleToBeEquippedDuringSex(clothing.getClothingType().getEquipSlots().get(0)).getKey()
-							&& partner.getClothingInSlot(clothing.getClothingType().getEquipSlots().get(0))==null
-							&& partner.isAbleToEquip(clothing, true, this)) {
+							&& Main.sex.isClothingEquipAvailable(partner, defaultSlot, clothing)
+							&& clothing.isAbleToBeEquippedDuringSex(defaultSlot).getKey()
+							&& partner.getClothingInSlot(defaultSlot)==null
+							&& partner.isAbleToEquip(clothing, inQuickSex, this)) {
 						return new Value<>(clothing, UtilText.parse(this, "[npc.Name] grabs "+clothing.getName(true, true)+" from out of [npc.her] inventory..."));
 					}
 				}
@@ -3102,14 +3112,14 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 	}
 	
 	public Value<AbstractItem, String> getSexItemToUse(GameCharacter partner) {
-		if(Main.game.isInSex()) {
+		if(Main.game.isInSex() && !Main.sex.isCharacterInanimateFromImmobilisation(this)) {
 			List<GameCharacter> charactersPenetratingThisNpc = new ArrayList<>(Main.sex.getOngoingCharactersUsingAreas(this, SexAreaOrifice.VAGINA, SexAreaPenetration.PENIS));
 			List<GameCharacter> charactersThisNpcIsPenetrating = new ArrayList<>(Main.sex.getOngoingCharactersUsingAreas(this, SexAreaPenetration.PENIS, SexAreaOrifice.VAGINA));
 			
 			if(this.equals(partner)) { // Self-using items:
 				if(!charactersPenetratingThisNpc.isEmpty() && charactersPenetratingThisNpc.stream().anyMatch((c) -> c.hasPenisIgnoreDildo())) { // Pills for when this NPC is being penetrated:
 					if(this.isAbleToAccessCoverableArea(CoverableArea.MOUTH, false)) {
-						if((this.getFetishDesire(Fetish.FETISH_PREGNANCY).isNegative() || this.getHistory()==Occupation.NPC_PROSTITUTE)
+						if((this.getFetishDesire(Fetish.FETISH_PREGNANCY).isNegative() || (this.getHistory()==Occupation.NPC_PROSTITUTE && !this.isSlave()))
 								&& !this.isPregnant()
 								&& !this.hasIncubationLitter(SexAreaOrifice.VAGINA)
 								&& !this.hasStatusEffect(StatusEffect.PROMISCUITY_PILL)
@@ -3122,7 +3132,7 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 														?" Knowing that [npc.sheIs] now far less fertile and extremely unlikely to get knocked up, [npc.name] lets out a relieved [npc.moan]..."
 														:" Knowing that [npc.sheIs] now far less fertile and extremely unlikely to get knocked up, [npc.name] [npc.moansVerb], [npc.speech(I really don't want to get pregnant...)]")));
 						}
-						if((this.getFetishDesire(Fetish.FETISH_PREGNANCY).isPositive() && this.getHistory()!=Occupation.NPC_PROSTITUTE)
+						if((this.getFetishDesire(Fetish.FETISH_PREGNANCY).isPositive() && (this.getHistory()!=Occupation.NPC_PROSTITUTE || this.isSlave()))
 								&& this.hasVagina()
 								&& partner.hasPenisIgnoreDildo()
 								&& !this.isPregnant()
@@ -3178,7 +3188,7 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 				if(charactersPenetratingThisNpc.contains(partner) && charactersPenetratingThisNpc.stream().anyMatch((c) -> c.hasPenisIgnoreDildo())) { // Pills for when this NPC is being penetrated:
 					if(partner.isAbleToAccessCoverableArea(CoverableArea.MOUTH, false)) {
 						if(!Main.sex.getItemUseDenials(this, partner).contains(ItemType.getItemTypeFromId("innoxia_pills_sterility"))) {
-							if((this.getFetishDesire(Fetish.FETISH_PREGNANCY).isNegative() || this.getHistory()==Occupation.NPC_PROSTITUTE)
+							if((this.getFetishDesire(Fetish.FETISH_PREGNANCY).isNegative() || (this.getHistory()==Occupation.NPC_PROSTITUTE && !this.isSlave()))
 									&& !partner.isPregnant()
 									&& !partner.hasIncubationLitter(SexAreaOrifice.VAGINA)
 									&& (Main.sex.getSexPace(this)!=SexPace.SUB_RESISTING || this.hasFetish(Fetish.FETISH_NON_CON_SUB))
@@ -3207,7 +3217,7 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 								}
 							}
 						}
-						if((this.getFetishDesire(Fetish.FETISH_PREGNANCY).isPositive() && this.getHistory()!=Occupation.NPC_PROSTITUTE)
+						if((this.getFetishDesire(Fetish.FETISH_PREGNANCY).isPositive() && (this.getHistory()!=Occupation.NPC_PROSTITUTE || this.isSlave()))
 								&& !partner.isPregnant()
 								&& !partner.hasIncubationLitter(SexAreaOrifice.VAGINA)
 								&& (Main.sex.getSexPace(this)!=SexPace.SUB_RESISTING || this.hasFetish(Fetish.FETISH_NON_CON_SUB))
@@ -3453,13 +3463,6 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 		
 		return actions;
 	}
-	
-	/**
-	 * Override this to set a preferred target for this character in sex. If there is an orgasm happening, and the returned character is not an orgasming character, this preference will be ignored.
-	 */
-	public GameCharacter getPreferredSexTarget() {
-		return null;
-	}
 
 	/**
 	 * This method determines how this NPC reacts to items being used on them.
@@ -3683,7 +3686,7 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 				
 				return sb.toString();
 					
-			} else if(item.getItemType().equals(ItemType.FETISH_UNREFINED) || item.getItemType().equals(ItemType.FETISH_REFINED)) {
+			} else if(item.getItemType().equals(ItemType.FETISH_REFINED)) {
 				sb.append(UtilText.parse(user, target,
 						"<p>"
 							+ "Taking [npc.her] "+item.getName()+" from out of [npc.her] inventory, [npc.name] [npc.verb(hold)] it out to [npc2.name]."));
@@ -3751,7 +3754,7 @@ public abstract class NPC extends GameCharacter implements XMLSaving {
 				
 				return sb.toString();
 				
-			} else if(item.getItemType().equals(ItemType.POTION) || item.getItemType().equals(ItemType.EGGPLANT_POTION) || item.getItemType().equals(ItemType.MOTHERS_MILK)) {
+			} else if(item.getItemType().equals(ItemType.POTION) || item.getItemType().equals(ItemType.EGGPLANT_POTION) || item.getItemType().equals(ItemType.MOTHERS_MILK) || item.getItemType().equals(ItemType.FETISH_UNREFINED)) {
 				if(isObedientSlave) {
 					sb.append(UtilText.parse(user, target,
 							"<p>"

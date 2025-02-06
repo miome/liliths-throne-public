@@ -2,6 +2,7 @@ package com.lilithsthrone.game.character.npc.submission;
 
 import java.time.Month;
 import java.util.List;
+import java.util.Set;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -9,6 +10,7 @@ import org.w3c.dom.Element;
 import com.lilithsthrone.game.Game;
 import com.lilithsthrone.game.character.CharacterImportSetting;
 import com.lilithsthrone.game.character.EquipClothingSetting;
+import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.body.coverings.BodyCoveringType;
 import com.lilithsthrone.game.character.body.coverings.Covering;
 import com.lilithsthrone.game.character.body.types.HornType;
@@ -45,6 +47,7 @@ import com.lilithsthrone.game.character.npc.NPC;
 import com.lilithsthrone.game.character.persona.NameTriplet;
 import com.lilithsthrone.game.character.persona.Occupation;
 import com.lilithsthrone.game.character.persona.PersonalityTrait;
+import com.lilithsthrone.game.character.persona.Relationship;
 import com.lilithsthrone.game.character.persona.SexualOrientation;
 import com.lilithsthrone.game.character.race.RaceStage;
 import com.lilithsthrone.game.character.race.Subspecies;
@@ -52,13 +55,13 @@ import com.lilithsthrone.game.combat.CombatBehaviour;
 import com.lilithsthrone.game.combat.DamageType;
 import com.lilithsthrone.game.dialogue.DialogueNode;
 import com.lilithsthrone.game.inventory.CharacterInventory;
-import com.lilithsthrone.game.inventory.clothing.ClothingType;
 import com.lilithsthrone.game.inventory.weapon.WeaponType;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
 import com.lilithsthrone.utils.colours.PresetColour;
 import com.lilithsthrone.world.WorldType;
+import com.lilithsthrone.world.places.AbstractPlaceType;
 import com.lilithsthrone.world.places.PlaceType;
 
 /**
@@ -221,7 +224,7 @@ public class Elizabeth extends NPC {
 		this.unequipAllClothingIntoVoid(true, true);
 		
 		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_groin_panties", PresetColour.CLOTHING_WHITE, false), true, this);
-		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing(ClothingType.CHEST_FULLCUP_BRA, PresetColour.CLOTHING_WHITE, false), true, this);
+		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_chest_fullcup_bra", PresetColour.CLOTHING_WHITE, false), true, this);
 		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_sock_pantyhose", PresetColour.CLOTHING_BLACK, false), true, this);
 
 		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_torso_feminine_short_sleeve_shirt", PresetColour.CLOTHING_DESATURATED_BROWN, false), true, this);
@@ -260,6 +263,37 @@ public class Elizabeth extends NPC {
 	@Override
 	public boolean isAbleToBeImpregnated() {
 		return true;
+	}
+
+	@Override
+	public Set<Relationship> getRelationshipsTo(GameCharacter character, Relationship... excludedRelationships) {
+		if(character.isPlayer() && Main.game.getDialogueFlags().hasFlag("innoxia_child_of_lyssieth")) {
+			return Util.newHashSetOfValues(Relationship.HalfSibling);
+		}
+		return super.getRelationshipsTo(character, excludedRelationships);
+	}
+	
+	@Override
+	public void turnUpdate() {
+		if(!Main.game.getCharactersPresent().contains(this)) {
+			if(Main.game.getDialogueFlags().hasFlag("innoxia_elizabeth_routine_started") && Main.game.isHourBetween(20, 8)) {
+				if(Main.game.isHourBetween(20, 23) && !Main.game.getDialogueFlags().hasFlag("acexp_elizabeth_daily_meeting")) {
+					if(this.getLocationPlaceType()!=PlaceType.LYSSIETH_PALACE_ROOM) {
+						this.setRandomLocation(WorldType.LYSSIETH_PALACE, PlaceType.LYSSIETH_PALACE_ROOM);
+					}
+				} else {
+					this.setLocation(WorldType.EMPTY, PlaceType.GENERIC_HOLDING_CELL);
+				}
+				
+			} else {
+				AbstractPlaceType place = Main.game.getPlayer().getLocationPlaceType();
+				if(place.equals(PlaceType.SUBMISSION_LILIN_PALACE_GATE) || place.equals(PlaceType.SUBMISSION_LILIN_PALACE)) {
+					this.setLocation(WorldType.SUBMISSION, place);
+				} else {
+					this.setLocation(WorldType.SUBMISSION, PlaceType.SUBMISSION_LILIN_PALACE_GATE);
+				}
+			}
+		}
 	}
 	
 	// Combat:

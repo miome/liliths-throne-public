@@ -9,6 +9,7 @@ import org.w3c.dom.Element;
 import com.lilithsthrone.game.character.CharacterImportSetting;
 import com.lilithsthrone.game.character.EquipClothingSetting;
 import com.lilithsthrone.game.character.GameCharacter;
+import com.lilithsthrone.game.character.body.Body;
 import com.lilithsthrone.game.character.body.coverings.BodyCoveringType;
 import com.lilithsthrone.game.character.body.coverings.Covering;
 import com.lilithsthrone.game.character.body.types.LegType;
@@ -47,13 +48,13 @@ import com.lilithsthrone.game.character.persona.NameTriplet;
 import com.lilithsthrone.game.character.persona.Occupation;
 import com.lilithsthrone.game.character.persona.PersonalityTrait;
 import com.lilithsthrone.game.character.persona.SexualOrientation;
+import com.lilithsthrone.game.character.pregnancy.FertilisationType;
 import com.lilithsthrone.game.character.race.RaceStage;
 import com.lilithsthrone.game.character.race.Subspecies;
 import com.lilithsthrone.game.dialogue.DialogueNode;
 import com.lilithsthrone.game.inventory.CharacterInventory;
 import com.lilithsthrone.game.inventory.InventorySlot;
 import com.lilithsthrone.game.inventory.clothing.AbstractClothing;
-import com.lilithsthrone.game.inventory.clothing.ClothingType;
 import com.lilithsthrone.game.inventory.clothing.DisplacementType;
 import com.lilithsthrone.game.sex.PregnancyDescriptor;
 import com.lilithsthrone.main.Main;
@@ -77,7 +78,7 @@ public class Silvia extends NPC {
 	public Silvia(boolean isImported) {
 		super(isImported, new NameTriplet("Silvia"), "Woodward",
 				"Silvia is the older sister of Fae, with whom she runs the clothing stall 'Rainbow's End' in the Farmer's Market at Elis."
-						+ " Being relatively shy and nervous around strangers, Silvia leaves her sister to handles most of the interactions with their stall's customers.",
+						+ " Being relatively shy and nervous around strangers, Silvia leaves her sister to handle most of the interactions with their stall's customers.",
 				31, Month.MAY, 1,
 				15,
 				Gender.F_P_V_B_FUTANARI, Subspecies.FOX_MORPH, RaceStage.GREATER,
@@ -138,7 +139,7 @@ public class Silvia extends NPC {
 		this.setTailGirth(PenetrationGirth.FIVE_THICK);
 		
 		// Core:
-		this.setHeight(175);
+		this.setHeight(195);
 		this.setFemininity(95);
 		this.setMuscle(Muscle.THREE_MUSCULAR.getMedianValue());
 		this.setBodySize(BodySize.TWO_AVERAGE.getMedianValue());
@@ -224,11 +225,11 @@ public class Silvia extends NPC {
 
 		//this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_head_headband", PresetColour.CLOTHING_WHITE, false), true, this);
 		
-		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing(ClothingType.WRIST_BANGLE, PresetColour.CLOTHING_SILVER, false), true, this);
+		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_wrist_bangle", PresetColour.CLOTHING_SILVER, false), true, this);
 		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_finger_gemstone_ring", PresetColour.CLOTHING_SILVER, PresetColour.CLOTHING_PINK, null, false), true, this);
 		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_ankle_anklet", PresetColour.CLOTHING_SILVER, PresetColour.CLOTHING_SILVER, null, false), true, this);
 
-		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing(ClothingType.CHEST_TUBE_TOP, PresetColour.CLOTHING_WHITE, false), true, this);
+		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_chest_tube_top", PresetColour.CLOTHING_WHITE, false), true, this);
 		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_torsoOver_womens_leather_jacket", PresetColour.CLOTHING_DESATURATED_BROWN, false), true, this);
 		AbstractClothing jacket = this.getClothingInSlot(InventorySlot.TORSO_OVER);
 		this.isAbleToBeDisplaced(jacket, DisplacementType.UNZIPS, true, true, this);
@@ -248,6 +249,21 @@ public class Silvia extends NPC {
 	@Override
 	public boolean isUnique() {
 		return true;
+	}
+	
+	@Override
+	public String getArtworkFolderName() {
+		if(this.getBreastRows()>1) {
+			if(this.isVisiblyPregnant()) {
+				return "SilviaMultiBoobPregnant";
+			}
+			return "SilviaMultiBoob";
+		} else {
+			if(this.isVisiblyPregnant()) {
+				return "SilviaPregnant";
+			}
+			return "Silvia";
+		}
 	}
 	
 	@Override
@@ -295,12 +311,13 @@ public class Silvia extends NPC {
 	public boolean isAbleToBeImpregnated() {
 		return true;
 	}
-	
+
+
 	@Override
-	public String rollForPregnancy(GameCharacter partner, float cumQuantity, boolean directSexInsemination) {
-		if(!partner.isPlayer()) { // Only the player can impregnate Fae & Silvia
+	public String rollForPregnancy(GameCharacter partner, Body partnerBody, float cumQuantity, boolean isPartnerVirile, float partnerVirility, boolean directSexInsemination, FertilisationType fertilisationType) {
+		if(partner!=null && !partner.isPlayer()) { // Only the player can impregnate Fae & Silvia
 			return PregnancyDescriptor.NO_CHANCE.getDescriptor(this, partner, directSexInsemination);
 		}
-		return super.rollForPregnancy(partner, cumQuantity, directSexInsemination);
+		return super.rollForPregnancy(partner, partnerBody, cumQuantity, isPartnerVirile, partnerVirility, directSexInsemination, fertilisationType);
 	}
 }

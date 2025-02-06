@@ -875,7 +875,7 @@
 		[npc.Name] is quite clearly attracted to you, and, as you're harbouring similar feelings towards [npc.herHim], you step forwards and take hold of [npc.her] [npc.hips]. [pc.speech(I know what you really want, [npc.name]. There's no use denying it, I've noticed the lust in your [npc.eyes]...)]
 	</p>
 	<p>
-		Before [npc.she] can respond, you press your [pc.lips] against [npc.hers], before slipping your [pc.hands] around to grab [npc.her] [npc.ass+] and pull [npc.her] in against you. Just as you already knew, [npc.name] is desperate to have sex with you, and happily throws [npc.her] [npc.arms] around you, passionately returning your kiss as [npc.she] fully submits to you...
+		Before [npc.she] can respond, you press your [pc.lips] against [npc.hers], before slipping your [pc.hands] around to grab [npc.her] [npc.ass+] and pull [npc.herHim] in against you. Just as you already knew, [npc.name] is desperate to have sex with you, and happily throws [npc.her] [npc.arms] around you, passionately returning your kiss as [npc.she] fully submits to you...
 	</p>
 	]]>
 	</htmlContent>
@@ -1156,7 +1156,7 @@
 		[pc.speech(Yes, this is your room now. Is everything ok?)]
 	</p>
 	<p>
-		[npc.speech(It's more than ok... I don't know what to say... This is the best thing that's ever happened to me!)] [npc.name] replies, trying to hold back tears of joy. before you can reply, [npc.she] suddenly rushes forwards and throws [npc.her] [npc.arms] around you. [npc.speech(Thank you so, so much! You've changed my life!)]
+		[npc.speech(It's more than ok... I don't know what to say... This is the best thing that's ever happened to me!)] [npc.name] replies, trying to hold back tears of joy. Before you can reply, [npc.she] suddenly rushes forwards and throws [npc.her] [npc.arms] around you. [npc.speech(Thank you so, so much! You've changed my life!)]
 	</p>
 	<p>
 		You happily return [npc.namePos] hug for a moment, before [npc.she] pulls back and wipes the tears from [npc.her] [npc.eyes]. [npc.speech(I'll keep on looking for a job, and once I've got one, I'll start paying rent. I'll repay you for all of this, I promise!)]
@@ -1318,7 +1318,19 @@
 		[npc.Name] collapses to the floor, completely defeated. As [npc.she] gazes up at you, desperately whimpering and biting [npc.her] [npc.lip], you see that [npc.she] still has a hungry, lustful look in [npc.her] [npc.eyes]. In defeat, [npc.namePos] arcane aura is completely overwhelmed by the power of your own, and, unable to control [npc.her] burning desire, [npc.she] reaches down to [npc.her] crotch and starts stroking [npc.herself], making pitiful little whining noises as [npc.she] squirms on the floor.
 	</p>
 	<p>
-		[npc.speech(~Aah!~ What are you waiting for?! Please! Come fuck me!)] [npc.she] pleads, bucking [npc.her] [npc.hips+] against [npc.her] [npc.hand] as [npc.she] continues touching [npc.herself].
+		#IF(npc.isMute())
+			#IF(npc.isPostCombatRapePlay())
+				Unable to speak, [npc.she] gives you a seductive look before putting on a show of trying to shuffle away from you, making it clear that [npc.she] wants you to engage in some rape-play with [npc.herHim].
+			#ELSE
+				Unable to speak, [npc.she] gives you a pleading look as [npc.she] continues to touch [npc.herself] to show that [npc.she] wants you to fuck [npc.herHim].
+			#ENDIF
+		#ELSE
+			#IF(npc.isPostCombatRapePlay())
+				[npc.speech(~Aah!~ What are you waiting for?! You're going to rape me, aren't you?!)] [npc.she] desperately [npc.moans], making it clear that [npc.she] wants you to engage in some rape-play with [npc.herHim].
+			#ELSE
+				[npc.speech(~Aah!~ What are you waiting for?! Please! Come fuck me!)] [npc.she] pleads, bucking [npc.her] [npc.hips+] against [npc.her] [npc.hand] as [npc.she] continues touching [npc.herself].
+			#ENDIF
+		#ENDIF
 	</p>
 	<p>
 		You wonder if you should indulge [npc.her] request. After all, [npc.she] <i>was</i> planning on doing the same to you, and [npc.she] quite clearly wants it. Then again, maybe it's best to just turn around and take your leave...
@@ -3177,7 +3189,7 @@
 		#IF(npc.isMute())
 			Gesturing back towards the window of the bistro, [npc.she] implies through [npc.hand(true)] signals that [npc.she] was watching you the whole time. Flashing you another smirk, [npc.she] dismisses you with a wave of [npc.her] [npc.hand(true)] and [npc.walks] off down the alleyway, leaving you with little else to do but continue on your way...
 		#ELSE
-				[npc.speech(Couldn't resist [stranger.her] cock, huh, [pc.name]?)] [npc.she] asks, [npc.speech(Me and the other people inside were watching you get fucked through the windows. You're a dirty, horny whore, aren't you?)]
+				[npc.speech(Couldn't resist getting fucked by that [stranger.race], huh, [pc.name]?)] [npc.she] asks, [npc.speech(Me and the other people inside were watching the two of you through the windows. You're a dirty, horny whore, aren't you?)]
 			</p>
 			<p>
 				Not giving you any time in which to respond, [npc.name] dismisses you with a wave of [npc.her] [npc.hand(true)], before [npc.walking] off down the alleyway, leaving you with little else to do but continue on your way...

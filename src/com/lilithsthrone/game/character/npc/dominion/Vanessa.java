@@ -50,12 +50,12 @@ import com.lilithsthrone.game.dialogue.DialogueNode;
 import com.lilithsthrone.game.dialogue.places.dominion.cityHall.CityHallDemographics;
 import com.lilithsthrone.game.inventory.CharacterInventory;
 import com.lilithsthrone.game.inventory.clothing.ClothingType;
+import com.lilithsthrone.game.inventory.item.AbstractItem;
 import com.lilithsthrone.game.sex.SexAreaOrifice;
 import com.lilithsthrone.game.sex.SexAreaPenetration;
 import com.lilithsthrone.game.sex.SexPace;
 import com.lilithsthrone.game.sex.SexParticipantType;
 import com.lilithsthrone.game.sex.SexType;
-import com.lilithsthrone.game.sex.managers.dominion.vanessa.SMVanessaOral;
 import com.lilithsthrone.game.sex.positions.SexPosition;
 import com.lilithsthrone.game.sex.positions.slots.SexSlotSitting;
 import com.lilithsthrone.main.Main;
@@ -237,7 +237,7 @@ public class Vanessa extends NPC {
 		
 		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_leg_pencil_skirt", PresetColour.CLOTHING_BLACK, false), true, this);
 		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_torso_feminine_short_sleeve_shirt", PresetColour.CLOTHING_PINK_LIGHT, false), true, this);
-		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing(ClothingType.TORSO_OVER_OPEN_CARDIGAN, PresetColour.CLOTHING_GREY, false), true, this);
+		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_torsoOver_open_front_cardigan", PresetColour.CLOTHING_GREY, false), true, this);
 		
 		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_sock_pantyhose", PresetColour.CLOTHING_BLACK, false), true, this);
 		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_foot_flats", PresetColour.CLOTHING_BLACK, false), true, this);
@@ -250,7 +250,12 @@ public class Vanessa extends NPC {
 		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_piercing_ear_pearl_studs", PresetColour.CLOTHING_WHITE, PresetColour.CLOTHING_GOLD, null, false), true, this);
 
 	}
-
+	
+	@Override
+	public String getArtworkFolderName() {
+		return "Vanessa";
+	}
+	
 	@Override
 	public String getSpeechColour() {
 		return "#E7CAE6";
@@ -306,15 +311,11 @@ public class Vanessa extends NPC {
 	
 	@Override
 	public void endSex() {
-		if(!(Main.sex.getSexManager() instanceof SMVanessaOral) || !Main.sex.isDom(Main.game.getNpc(Vanessa.class))) {
-			Main.game.getNpc(Vanessa.class).cleanAllDirtySlots(true);
-			Main.game.getNpc(Vanessa.class).equipClothing(Util.newArrayListOfValues(EquipClothingSetting.REPLACE_CLOTHING, EquipClothingSetting.ADD_ACCESSORIES));
-		}
 	}
 	
 	@Override
 	public boolean isAbleToBeImpregnated() {
-		return false;
+		return true;
 	}
 	
 	@Override
@@ -326,5 +327,23 @@ public class Vanessa extends NPC {
 		return CityHallDemographics.CITY_HALL_DEMOGRAPHICS_ENTRANCE;
 	}
 
-	
+	@Override
+	public Value<Boolean, String> getItemUseEffects(AbstractItem item,  GameCharacter itemOwner, GameCharacter user, GameCharacter target) {
+		if(user.isPlayer() && !target.isPlayer()) {
+			if(item.isTypeOneOf("innoxia_pills_fertility", "innoxia_pills_broodmother")) {
+				String useDesc = itemOwner.useItem(item, target, false, true);
+				return new Value<>(true,
+						"<p>"
+							+ "Producing a "+item.getName(false, false)+" from your inventory, you pop it out of its plastic wrapper before offering it to [vanessa.name]."
+							+ " Flashing you a knowing look, the mature fox-girl takes the little "+item.getColour(0).getName()+" pill, before teasing, [vanessa.speechNoEffects(~Mmm!~ You really want to knock me up that badly, huh?)]"
+						+ "</p>"
+						+ "<p>"
+							+ "Before you can reply, [vanessa.name] pops the pill into her mouth and swallows it down."
+							+ " Playfully biting her lip, she breathlessly moans, [vanessa.speechNoEffects(Come on then... Make me a mommy...)]"
+						+ "</p>"
+						+ useDesc);
+			}
+		}
+		return super.getItemUseEffects(item, itemOwner, user, target);
+	}
 }

@@ -37,6 +37,8 @@ public enum PropertyValue {
 	autoSexStrip(false),
 	autoSexClothingManagement(true),
 
+	rapePlayAtSexStart(false),
+	
 	companionContent(false),
 
 	badEndContent(true),
@@ -53,6 +55,7 @@ public enum PropertyValue {
 	feminineBeardsContent(false),
 	furryHairContent(true),
 	scalyHairContent(false),
+	lipLispContent(false),
 	
 	nonConContent(true, true),
 	incestContent(true, true),
@@ -64,7 +67,8 @@ public enum PropertyValue {
 	armpitContent(true, true),
 	nipplePenContent(true, true),
 	gapeContent(true, true),
-	feralContent(true, true),
+	feralContent(true, true), // No associated fetish yet
+	muskContent(true, true), // No associated fetish yet
 	
 	cumRegenerationContent(true),
 	penetrationLimitations(true),
@@ -81,6 +85,7 @@ public enum PropertyValue {
 
 	spittingEnabled(true),
 	opportunisticAttackers(true),
+	offspringEncounters(true),
 	
 	// Game properties:
 	levelUpHightlight(false),
@@ -88,7 +93,8 @@ public enum PropertyValue {
 	newWeaponDiscovered(false),
 	newClothingDiscovered(false),
 	newItemDiscovered(false),
-	newRaceDiscovered(false);
+	newRaceDiscovered(false),
+	mapZoomedIn(true);
 
 	private boolean defaultValue;
 	private boolean fetishRelated;

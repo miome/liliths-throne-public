@@ -13,6 +13,7 @@ import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.body.Ass;
 import com.lilithsthrone.game.character.body.Body;
 import com.lilithsthrone.game.character.body.BreastCrotch;
+import com.lilithsthrone.game.character.body.LegConfigurationAffinity;
 import com.lilithsthrone.game.character.body.Penis;
 import com.lilithsthrone.game.character.body.Tail;
 import com.lilithsthrone.game.character.body.Tentacle;
@@ -368,14 +369,63 @@ public abstract class AbstractLegType implements BodyPartTypeInterface {
 	
 	
 	public String getFootNameSingular(GameCharacter gc) {
+		switch(gc.getLegConfiguration()) {
+			case ARACHNID:
+			case AVIAN:
+			case BIPEDAL:
+			case QUADRUPEDAL:
+			case WINGED_BIPED:
+				break;
+			case CEPHALOPOD:
+				return FootType.TENTACLE.getFootName();
+			case TAIL:
+				return "fin";
+			case TAIL_LONG:
+				return "tail";
+		}
 		return this.getFootType().getFootName();
 	}
 	
 	public String getFootNamePlural(GameCharacter gc) {
+		switch(gc.getLegConfiguration()) {
+			case ARACHNID:
+			case AVIAN:
+			case BIPEDAL:
+			case QUADRUPEDAL:
+			case WINGED_BIPED:
+				break;
+			case CEPHALOPOD:
+				return FootType.TENTACLE.getFootNamePlural();
+			case TAIL:
+				return "fins";
+			case TAIL_LONG:
+				return "tail";
+		}
 		return this.getFootType().getFootNamePlural();
 	}
 
 	public String getFootDescriptor(GameCharacter gc) {
+		switch(gc.getLegConfiguration()) {
+			case ARACHNID:
+			case AVIAN:
+			case BIPEDAL:
+			case QUADRUPEDAL:
+			case WINGED_BIPED:
+				break;
+			case CEPHALOPOD:
+				if (gc.isFeminine()) {
+					return Util.randomItemFrom(Util.mergeLists(FootType.TENTACLE.getFootDescriptorsFeminine(), footDescriptorsFeminine));
+				} else {
+					return Util.randomItemFrom(Util.mergeLists(FootType.TENTACLE.getFootDescriptorsMasculine(), footDescriptorsMasculine));
+				}
+			case TAIL:
+			case TAIL_LONG:
+				if (gc.isFeminine()) {
+					return Util.randomItemFrom(Util.newArrayListOfValues("masculine","strong"));
+				} else {
+					return Util.randomItemFrom(Util.newArrayListOfValues("feminine", "strong", "slender"));
+				}
+		}
 		if (gc.isFeminine()) {
 			return Util.randomItemFrom(Util.mergeLists(this.getFootType().getFootDescriptorsFeminine(), footDescriptorsFeminine));
 		} else {
@@ -385,14 +435,63 @@ public abstract class AbstractLegType implements BodyPartTypeInterface {
 	
 
 	public String getToeNameSingular(GameCharacter gc) {
+		switch(gc.getLegConfiguration()) {
+			case ARACHNID:
+			case AVIAN:
+			case BIPEDAL:
+			case QUADRUPEDAL:
+			case WINGED_BIPED:
+				break;
+			case CEPHALOPOD:
+				return FootType.TENTACLE.getToeSingularName();
+			case TAIL:
+				return "tip";
+			case TAIL_LONG:
+				return "tip";
+		}
 		return this.getFootType().getToeSingularName();
 	}
 	
 	public String getToeNamePlural(GameCharacter gc) {
+		switch(gc.getLegConfiguration()) {
+			case ARACHNID:
+			case AVIAN:
+			case BIPEDAL:
+			case QUADRUPEDAL:
+			case WINGED_BIPED:
+				break;
+			case CEPHALOPOD:
+				return FootType.TENTACLE.getToePluralName();
+			case TAIL:
+				return "tip";
+			case TAIL_LONG:
+				return "tip";
+		}
 		return this.getFootType().getToePluralName();
 	}
 
 	public String getToeDescriptor(GameCharacter gc) {
+		switch(gc.getLegConfiguration()) {
+			case ARACHNID:
+			case AVIAN:
+			case BIPEDAL:
+			case QUADRUPEDAL:
+			case WINGED_BIPED:
+				break;
+			case CEPHALOPOD:
+				if (gc.isFeminine()) {
+					return Util.randomItemFrom(Util.mergeLists(FootType.TENTACLE.getToeDescriptorsFeminine(), footDescriptorsFeminine));
+				} else {
+					return Util.randomItemFrom(Util.mergeLists(FootType.TENTACLE.getToeDescriptorsFeminine(), footDescriptorsMasculine));
+				}
+			case TAIL:
+			case TAIL_LONG:
+				if (gc.isFeminine()) {
+					return Util.randomItemFrom(Util.newArrayListOfValues("masculine","strong"));
+				} else {
+					return Util.randomItemFrom(Util.newArrayListOfValues("feminine", "strong", "slender"));
+				}
+		}
 		if (gc.isFeminine()) {
 			return Util.randomItemFrom(Util.mergeLists(this.getFootType().getToeDescriptorsFeminine(), toeDescriptorsFeminine));
 		} else {
@@ -489,12 +588,17 @@ public abstract class AbstractLegType implements BodyPartTypeInterface {
 	
 	/**
 	 * For use in modifying bodies without an attached character. Outside of the Subspecies class, you should probably always be calling the version of this method that takes in a GameCharacter.
+	 * <br/>
+	 * <b>Note:</b> If the body's LegConfiguration is already set to legConfiguration, then nothing will happen!
 	 * 
 	 * @param body The body to be modified.
 	 * @param legConfiguration The LegConfiguration to be applied.
 	 * @param applyFullEffects Pass in true if you want the additional transformations to include attribute changes (such as penis resizing, vagina capacity resetting, etc.).
 	 */
 	public void applyLegConfigurationTransformation(Body body, LegConfiguration legConfiguration, boolean applyFullEffects) {
+		if(body.getLegConfiguration()==legConfiguration) {
+			return;
+		}
 		handleLegConfigurationChanges(body, legConfiguration, true, applyFullEffects);
 		body.getLeg().setLegConfigurationForced(this, legConfiguration);
 	}
@@ -504,7 +608,7 @@ public abstract class AbstractLegType implements BodyPartTypeInterface {
 	 */
 	private String handleLegConfigurationChanges(Body body, LegConfiguration legConfiguration, boolean applyEffects, boolean applyFullEffects) {
 		
-		String feralRaceName = this.getRace().getFeralName(legConfiguration, false);
+		String feralRaceName = this.getRace().getFeralName(new LegConfigurationAffinity(legConfiguration, body.getSubspecies().getAffinity()), false);
 		String feralRaceNameDeterminer = UtilText.generateSingularDeterminer(feralRaceName);
 		StringBuilder feralStringBuilder = new StringBuilder();
 		String feralRaceNameWithDeterminer = feralRaceNameDeterminer+" "+feralRaceName;
@@ -686,6 +790,10 @@ public abstract class AbstractLegType implements BodyPartTypeInterface {
 				if(!body.isShortStature()) {
 					newHeight = Math.max(Height.getShortStatureCutOff(), newHeight);
 				}
+				if(!body.isFairySized()) {
+					newHeight = Math.max(Height.getFairySizeCutOff(), newHeight);
+				}
+				newHeight = Math.max(newHeight, Height.NEGATIVE_TWO_MINIMUM.getMinimumValue()); // Do not reduce into tiny size
 				body.setHeight(newHeight);
 				String colouredHeightValue = "<span style='color:"+body.getHeight().getColour().toWebHexString()+";'>[npc.heightValue]</span>";
 				feralStringBuilder.append("<p>The reduced size of [npc.namePos] new lower body has resulted in [npc.herHim] getting shorter, so now when standing at full height [npc.she] [npc.verb(measure)] "+colouredHeightValue+".</p>");
@@ -936,7 +1044,7 @@ public abstract class AbstractLegType implements BodyPartTypeInterface {
 		}
 		if(legConfiguration.getFeralParts().contains(Vagina.class)) { // Vagina (includes Clitoris):
 			if(!applyFullEffects) {
-				if(body.getVagina().getType()!=VaginaType.NONE) {
+				if(body.getVagina().getType()!=VaginaType.NONE && body.getVagina().getType()!=VaginaType.ONAHOLE) {
 					body.getVagina().setType(null,
 								(demon
 									?VaginaType.DEMON_COMMON
@@ -945,8 +1053,9 @@ public abstract class AbstractLegType implements BodyPartTypeInterface {
 				
 			} else {
 				boolean virgin = body.getVagina().getType()!=VaginaType.NONE?body.getVagina().getOrificeVagina().isVirgin():true;
+				boolean hymen = body.getVagina().getType()!=VaginaType.NONE?body.getVagina().getOrificeVagina().hasHymen():true;
 				body.setVagina(
-						body.getVagina().getType()!=VaginaType.NONE
+						body.getVagina().getType()!=VaginaType.NONE && body.getVagina().getType()!=VaginaType.ONAHOLE
 							? new Vagina(
 									(demon
 										?VaginaType.DEMON_COMMON
@@ -963,6 +1072,7 @@ public abstract class AbstractLegType implements BodyPartTypeInterface {
 							: new Vagina(VaginaType.NONE, 0, 0, 0, 0, 0, 2, 3, 3, true));
 //				body.getVagina().getGirlcum().addFluidModifier(null, FluidModifier.MUSKY);
 				body.getVagina().getOrificeVagina().setVirgin(virgin);
+				body.getVagina().getOrificeVagina().setHymen(null, hymen);
 			}
 		}
  	}

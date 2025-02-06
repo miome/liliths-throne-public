@@ -23,7 +23,6 @@ import com.lilithsthrone.game.character.body.valueEnums.BodyHair;
 import com.lilithsthrone.game.character.body.valueEnums.BodySize;
 import com.lilithsthrone.game.character.body.valueEnums.BreastShape;
 import com.lilithsthrone.game.character.body.valueEnums.Capacity;
-import com.lilithsthrone.game.character.body.valueEnums.CoveringPattern;
 import com.lilithsthrone.game.character.body.valueEnums.CupSize;
 import com.lilithsthrone.game.character.body.valueEnums.FluidModifier;
 import com.lilithsthrone.game.character.body.valueEnums.HairLength;
@@ -100,7 +99,7 @@ public class Natalya extends NPC {
 		super(isImported, new NameTriplet("Natalya"), "Lunettemartu",
 				"Holding the prestigious title of 'Stable Mistress' at the delivery company, 'Dominion Express', Natalya is responsible for the training and care of over fifty centaur slaves."
 					+ " While she tries her best to remain calm and professional at all times, her lustful demonic urges sometimes get the better of her...",
-				42, Month.OCTOBER, 12,
+				84, Month.OCTOBER, 12,
 				15,
 				null, null, null,
 				new CharacterInventory(10),
@@ -108,7 +107,8 @@ public class Natalya extends NPC {
 				true);
 		
 		if(!isImported) {
-			this.setGenericName("strict succubus");
+			this.setPlayerKnowsName(false);
+			this.setGenericName("strict succutaur");
 		}
 	}
 
@@ -118,14 +118,19 @@ public class Natalya extends NPC {
 		if(Main.isVersionOlderThan(Game.loadingVersion, "0.3.7.5")) {
 			this.setLocation(WorldType.DOMINION_EXPRESS, PlaceType.DOMINION_EXPRESS_OFFICE_STABLE, true);
 		}
-		if(Main.isVersionOlderThan(Game.loadingVersion, "0.3.8")) {
-			this.equipMainWeaponFromNowhere(Main.game.getItemGen().generateWeapon("innoxia_bdsm_riding_crop", DamageType.PHYSICAL));
-		}
 		if(Main.isVersionOlderThan(Game.loadingVersion, "0.3.20")) {
 			this.setStartingBody(false);
 		}
-		if(this.getClothingInSlot(InventorySlot.LEG)==null) {
-			this.equipClothing(EquipClothingSetting.getAllClothingSettings());
+		if(Main.isVersionOlderThan(Game.loadingVersion, "0.4.9.6")) {
+			if(this.getClothingInSlot(InventorySlot.LEG)==null) {
+				this.equipClothing(EquipClothingSetting.getAllClothingSettings());
+			}
+			this.equipMainWeaponFromNowhere(Main.game.getItemGen().generateWeapon("innoxia_bdsm_riding_crop", DamageType.PHYSICAL));
+			this.setHeight(186);
+			this.setSkinCovering(new Covering(BodyCoveringType.PENIS, PresetColour.SKIN_EBONY), false);
+		}
+		if(Main.isVersionOlderThan(Game.loadingVersion, "0.4.9.8")) {
+			this.setAge(84);
 		}
 	}
 
@@ -163,7 +168,7 @@ public class Natalya extends NPC {
 		
 		
 		// Body:
-		this.setAgeAppearanceDifferenceToAppearAsAge(35);
+		this.setAgeAppearanceAbsolute(35);
 		this.setBody(Gender.F_P_B_SHEMALE, Subspecies.DEMON, RaceStage.GREATER, false);
 		this.setWingType(WingType.NONE);
 		this.setHornType(HornType.STRAIGHT);
@@ -173,7 +178,7 @@ public class Natalya extends NPC {
 		this.setBreastCrotchType(BreastType.NONE);
 		
 		// Core:
-		this.setHeight(172);
+		this.setHeight(186);
 		this.setFemininity(80);
 		this.setMuscle(Muscle.TWO_TONED.getMedianValue());
 		this.setBodySize(BodySize.ONE_SLENDER.getMedianValue());
@@ -185,7 +190,7 @@ public class Natalya extends NPC {
 
 		this.setSkinCovering(new Covering(BodyCoveringType.NIPPLES, PresetColour.SKIN_LILAC), false);
 		this.setSkinCovering(new Covering(BodyCoveringType.ANUS, PresetColour.SKIN_EBONY), false);
-		this.setSkinCovering(new Covering(BodyCoveringType.PENIS, CoveringPattern.MOTTLED, PresetColour.SKIN_EBONY, false, PresetColour.SKIN_LILAC_LIGHT, false), false);
+		this.setSkinCovering(new Covering(BodyCoveringType.PENIS, PresetColour.SKIN_EBONY), false);
 		this.setSkinCovering(new Covering(BodyCoveringType.MOUTH, PresetColour.SKIN_LILAC), false);
 		this.setSkinCovering(new Covering(BodyCoveringType.HORN, PresetColour.COVERING_BLACK), false);
 		
@@ -280,6 +285,18 @@ public class Natalya extends NPC {
 		
 		this.setPiercedEar(true);
 		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_piercing_ear_ball_studs", PresetColour.CLOTHING_SILVER, false), true, this);
+
+		if(settings.contains(EquipClothingSetting.ADD_WEAPONS)) {
+			this.equipMainWeaponFromNowhere(Main.game.getItemGen().generateWeapon("innoxia_bdsm_riding_crop", DamageType.PHYSICAL));
+		}
+	}
+
+	@Override
+	public String getDescription() {
+		if(this.isPlayerKnowsName()) {
+			return super.getDescription();
+		}
+		return UtilText.parse(this, "This smartly dressed succutaur has an air of superiorty about her...");
 	}
 	
 	@Override
@@ -313,7 +330,8 @@ public class Natalya extends NPC {
 	
 	@Override
 	public void endSex() {
-		if(this.getLocationPlace().getPlaceType()==PlaceType.SLAVER_ALLEY_SCARLETTS_SHOP) {
+		if(this.getLocationPlace().getPlaceType()==PlaceType.SLAVER_ALLEY_SCARLETTS_SHOP
+				|| this.getLocationPlace().getPlaceType()==PlaceType.DOMINION_PARK) {
 			if(this.getClothingInSlot(InventorySlot.ANUS)!=null) {
 				this.unequipClothingIntoVoid(this.getClothingInSlot(InventorySlot.ANUS), true, Main.game.getPlayer());
 			}
@@ -368,6 +386,37 @@ public class Natalya extends NPC {
 				
 			} else {
 				sb.append(UtilText.parseFromXMLFile("characters/dominion/natalya", "HELENA_ALLEYWAY_ORGASM_NO_FACIAL"));
+			}
+			
+			return new SexActionOrgasmOverride(true) {
+				@Override
+				public String getDescription() {
+					return sb.toString();
+				}
+				@Override
+				public void applyEffects() {
+					if(applyExtraEffects) {
+						if(Main.game.getDialogueFlags().hasFlag(DialogueFlagValue.playerReceivedNatalyaFacial)) {
+							Main.game.getTextEndStringBuilder().append(Main.game.getNpc(Natalya.class).incrementAffection(Main.game.getPlayer(), 10));
+							
+						} else {
+							Main.game.getTextEndStringBuilder().append(Main.game.getNpc(Natalya.class).incrementAffection(Main.game.getPlayer(), -10));
+						}
+					}
+				}
+			};
+			
+		} else if(this.getLocationPlace().getPlaceType()==PlaceType.DOMINION_PARK && !Main.game.getPlayer().isQuestCompleted(QuestLine.ROMANCE_NATALYA)) {
+			StringBuilder sb = new StringBuilder();
+//			sb.append(GenericOrgasms.getGenericOrgasmDescription(sexAction, this, target));
+			sb.append(UtilText.parseFromXMLFile("characters/dominion/natalya", "PARK_ORGASM"));
+			
+			// Natalya facial reactions:
+			if(Main.game.getDialogueFlags().hasFlag(DialogueFlagValue.playerReceivedNatalyaFacial)) {
+				sb.append(UtilText.parseFromXMLFile("characters/dominion/natalya", "PARK_ORGASM_FACIAL"));
+				
+			} else {
+				sb.append(UtilText.parseFromXMLFile("characters/dominion/natalya", "PARK_ORGASM_NO_FACIAL"));
 			}
 			
 			return new SexActionOrgasmOverride(true) {

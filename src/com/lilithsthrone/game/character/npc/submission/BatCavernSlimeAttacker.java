@@ -124,7 +124,7 @@ public class BatCavernSlimeAttacker extends NPC {
 	}
 	
 	@Override
-	public void hourlyUpdate() {
+	public void hourlyUpdate(int hour) {
 		if(!this.isSlave() && !Main.game.getPlayer().getFriendlyOccupants().contains(this.getId())) {
 			this.useItem(Main.game.getItemGen().generateItem(ItemType.MUSHROOM), this, false);
 		}
@@ -137,6 +137,9 @@ public class BatCavernSlimeAttacker extends NPC {
 	
 	@Override
 	public String getDescription() {
+		if(this.isSlave() && this.isDoll()) {
+			return super.getDescription();
+		}
 		if(this.isSlave()) {
 			return (UtilText.parse(this,
 					"[npc.NamePos] days of getting high on mushrooms and attacking innocent travellers in the Bat Caverns are now over."

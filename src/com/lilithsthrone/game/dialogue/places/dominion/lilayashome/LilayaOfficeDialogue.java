@@ -6,13 +6,10 @@ import java.util.List;
 import com.lilithsthrone.game.character.npc.NPC;
 import com.lilithsthrone.game.dialogue.DialogueNode;
 import com.lilithsthrone.game.dialogue.companions.CompanionManagement;
-import com.lilithsthrone.game.dialogue.companions.OccupantDialogue;
 import com.lilithsthrone.game.dialogue.companions.OccupantManagementDialogue;
-import com.lilithsthrone.game.dialogue.companions.SlaveDialogue;
 import com.lilithsthrone.game.dialogue.responses.Response;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.main.Main;
-import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.world.places.AbstractPlaceUpgrade;
 import com.lilithsthrone.world.places.PlaceUpgrade;
 
@@ -80,7 +77,7 @@ public class LilayaOfficeDialogue {
 						}
 					};
 				} else {
-					return new Response("Manage room", "You'll either need a slaver license, or permission from Lilaya to house your friends, before you can access this menu!",  null);
+					return new Response("Manage room", "You need a slaver license or permission from Lilaya to house your friends or dolls in order to access this menu!",  null);
 				}
 				
 			}  else if (index == 2) {
@@ -92,7 +89,7 @@ public class LilayaOfficeDialogue {
 						}
 					};
 				} else {
-					return new Response("Manage people", "You'll either need a slaver license, or permission from Lilaya to house your friends, before you can access this menu!",  null);
+					return new Response("Manage people", "You need a slaver license or permission from Lilaya to house your friends or dolls in order to access this menu!",  null);
 				}
 				
 			} else if(index==3) {
@@ -108,28 +105,13 @@ public class LilayaOfficeDialogue {
 			if(index-indexPresentStart<slavesAssignedToRoom.size()) {
 				NPC character = slavesAssignedToRoom.get(index-indexPresentStart);
 				if(charactersPresent.contains(character) || (character.getHomeCell().equals(Main.game.getPlayerCell()) && Main.game.getPlayer().getCompanions().contains(character))) {
-					return new Response(
-							UtilText.parse(character, "[npc.Name]"),
-							UtilText.parse(character, "Interact with [npc.name]."),
-							character.isSlave()
-								?SlaveDialogue.SLAVE_START
-								:OccupantDialogue.OCCUPANT_START) {
-						@Override
-						public Colour getHighlightColour() {
-							return character.getFemininity().getColour();
-						}
-						@Override
-						public void effects() {
-							if(character.isSlave()) {
-								SlaveDialogue.initDialogue(character, false);
-							} else {
-								OccupantDialogue.initDialogue(character, false, false);
-							}
-						}
-					};
-					
+					return LilayaHomeGeneric.interactWithNPC(character);
 				} else {
-					return new Response(UtilText.parse(character, "[npc.Name]"), UtilText.parse(character, "Although this is [npc.namePos] room, [npc.sheIs] out at work at the moment."), null);
+					return new Response(UtilText.parse(character, "[npc.Name]"), 
+							UtilText.parse(character, "Although this is [npc.namePos] room, [npc.sheIs] "
+									+(character.getLocationPlace().getPlaceUpgrades().contains(PlaceUpgrade.LILAYA_SLAVE_LOUNGE)
+											?"relaxing in a slave lounge at the moment."
+											:"out at work at the moment.")), null);
 				}
 			}
 			
