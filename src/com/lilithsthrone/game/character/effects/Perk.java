@@ -2538,7 +2538,7 @@ public class Perk {
 					"In all [style.boldSex(sex scenes)]:",
 					"Can choose to [style.boldTerrible(drain 1 level)]",
 					"from orgasming partners",
-					"You gain [style.boldExcellent(50%)] [style.boldExperience(experience)]",
+					"You gain [style.boldExcellent(25%)] [style.boldExperience(experience)]",
 					"value of levels drained"),
 			null, null, null) {
 

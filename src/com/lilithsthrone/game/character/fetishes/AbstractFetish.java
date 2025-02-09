@@ -269,11 +269,11 @@ public abstract class AbstractFetish {
 	}
 	
 	public static int getExperienceGainFromTakingVaginalVirginity(GameCharacter owner) {
-		return owner.getLevel()*2;
+		return owner.getLevel()*8;
 	}
 	
 	public static int getExperienceGainFromTakingOtherVirginity(GameCharacter owner) {
-		return owner.getLevel();
+		return owner.getLevel()*2;
 	}
 	
 	public FetishPreference getFetishPreferenceDefault() {

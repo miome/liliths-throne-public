@@ -10823,7 +10823,7 @@ public abstract class GameCharacter implements XMLSaving {
 						+ "<br/>[style.italicsBad(As [npc.she] [npc.verb(orgasm)], [npc.name] [npc.verb(feel)] [npc.herself] getting weaker...)]"
 					+ "</p>"
 					+ target.levelDown(1)
-					+ this.incrementExperience(exp, false));
+					+ this.incrementExperience(exp/4, false));
 			
 		} else {
 			return UtilText.parse(target, this,
