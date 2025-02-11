@@ -5515,8 +5515,16 @@ public class Game implements XMLSaving {
 
 	private void removeNPC(NPC npc) {
 		if(npc.isPregnant()) {
+			// Edited here! -- Ysette
 			// End with birth if father is player
-			npc.endPregnancy(npc.getPregnantLitter().getFather()!=null && npc.getPregnantLitter().getFather().isPlayer());
+			for(Litter pregnantLitter : npc.getPregnantLitters()) {
+				if(pregnantLitter.getFather()!=null && pregnantLitter.getFather().isPlayer()) {
+					npc.endPregnancy(pregnantLitter, true, true);
+				}
+				else {
+					npc.endPregnancy(pregnantLitter, true, true);
+				}
+			}
 			
 		} else if(npc.hasStatusEffect(StatusEffect.PREGNANT_0)) {
 			npc.removeStatusEffect(StatusEffect.PREGNANT_0);

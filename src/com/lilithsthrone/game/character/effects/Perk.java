@@ -11,6 +11,7 @@ import com.lilithsthrone.game.character.attributes.AbstractAttribute;
 import com.lilithsthrone.game.character.attributes.Attribute;
 import com.lilithsthrone.game.character.attributes.CorruptionLevel;
 import com.lilithsthrone.game.character.body.valueEnums.Femininity;
+import com.lilithsthrone.game.character.fetishes.Fetish; // Edited here! -- Ysette
 import com.lilithsthrone.game.character.race.AbstractSubspecies;
 import com.lilithsthrone.game.character.race.Race;
 import com.lilithsthrone.game.character.race.Subspecies;
@@ -2115,10 +2116,18 @@ public class Perk {
 		public String applyPerkLost(GameCharacter character) {
 			return UtilText.parsePlayerThought("");
 		}
-
+		// Edited here! -- Ysette
 		@Override
 		public String getDescription(GameCharacter owner) {
 			if (owner!=null && owner.isPlayer()) {
+				if (owner.hasTraitActivated(Perk.FETISH_BROODMOTHER) 
+					|| owner.hasTraitActivated(Perk.FETISH_SEEDER) 
+					|| owner.hasFetish(Fetish.FETISH_PREGNANCY)
+					|| owner.hasFetish(Fetish.FETISH_IMPREGNATION))
+					return "You are very perceptive, and are capable of noticing the slightest of changes in your surroundings."
+							+ " You are always able to determine a person's gender, even if you have no knowledge of what their groin looks like."
+							+ "<br/><br/>With your sensitivity to pregnancy, you can also sense if someone's pregnant, along with their babies' gender and race.";
+				else
 				return "You are very perceptive, and are capable of noticing the slightest of changes in your surroundings."
 						+ " You are always able to determine a person's gender, even if you have no knowledge of what their groin looks like.";
 			} else {

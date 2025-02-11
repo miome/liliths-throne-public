@@ -415,6 +415,7 @@ public abstract class GameCharacter implements XMLSaving {
 	protected List<PregnancyPossibility> potentialPartnersAsMother;
 	protected List<PregnancyPossibility> potentialPartnersAsFather;
 	protected Litter pregnantLitter;
+	protected List<Litter> pregnantLitters; // Edited here! -- Ysette
 	protected Map<SexAreaOrifice, Litter> incubatingLitters;
 	protected List<Litter> littersBirthed;
 	protected List<Litter> littersFathered;
@@ -693,6 +694,7 @@ public abstract class GameCharacter implements XMLSaving {
 		timeProgressedToFinalPregnancyStage = 1;
 		timeProgressedToFinalIncubationStage = new HashMap<>();
 		pregnantLitter = null;
+		pregnantLitters = new ArrayList<>();
 		incubatingLitters = new HashMap<>();
 		implantedLitters = new ArrayList<>();
 		incubatedLitters = new ArrayList<>();
@@ -1247,6 +1249,16 @@ public abstract class GameCharacter implements XMLSaving {
 			}
 		}
 
+		// Edited here!-- Ysette
+		if(!this.getPregnantLitters().isEmpty()) {
+			Element characterPregnancyCurrentLitters = doc.createElement("pregnantLitters");
+			characterPregnancy.appendChild(characterPregnancyCurrentLitters);
+			// this.getPregnantLitter().saveAsXML(characterPregnancyCurrentLitter, doc);
+			for(Litter litter : this.getPregnantLitters()) {
+				litter.saveAsXML(characterPregnancyCurrentLitters, doc);
+			}
+		}
+		
 		if(this.getPregnantLitter() != null) {
 			Element characterPregnancyCurrentLitter = doc.createElement("pregnantLitter");
 			characterPregnancy.appendChild(characterPregnancyCurrentLitter);
@@ -2690,6 +2702,21 @@ public abstract class GameCharacter implements XMLSaving {
 					}
 				}
 				
+				// Edited here! -- Ysette
+				nodes = pregnancyElement.getElementsByTagName("pregnantLitters");
+				if(nodes.getLength()>0) {
+					element = (Element) nodes.item(0);
+					if(element!=null) {
+						NodeList litterElements = element.getElementsByTagName("litter");
+						for(int i=0; i<litterElements.getLength(); i++){
+							Element e = ((Element)litterElements.item(i));
+							
+							character.getPregnantLitters().add(Litter.loadFromXML(e, doc));
+							Main.game.getCharacterUtils().appendToImportLog(log, "<br/>Added pregnant litters.");
+						}
+					}
+				}
+				
 				nodes = pregnancyElement.getElementsByTagName("pregnantLitter");
 				if(nodes.getLength()>0) {
 					element = (Element) ((Element) nodes.item(0)).getElementsByTagName("litter").item(0);
@@ -3783,6 +3810,47 @@ public abstract class GameCharacter implements XMLSaving {
 			}
 		}
 
+		// Edited here! -- Ysette
+		PlayerCharacter player = Main.game.getPlayer();
+		if(this.isPregnant() && player.hasTraitActivated(Perk.OBSERVANT) && 
+			(player.hasTraitActivated(Perk.FETISH_BROODMOTHER) 
+			|| player.hasTraitActivated(Perk.FETISH_SEEDER) 
+			|| player.hasFetish(Fetish.FETISH_PREGNANCY)
+			|| player.hasFetish(Fetish.FETISH_IMPREGNATION))) {
+				Map<String, List<Integer>> litterMap = new HashMap<>();
+				for(Litter litter : this.getPregnantLitters()) {
+					List<OffspringSeed> osArray = new ArrayList<>(litter.getOffspringSeed());
+					for(int num = 0; num < osArray.size(); num++) {
+						Body osBody = osArray.get(num).getBody();
+						String race = Util.capitaliseSentence(osBody.getRace().getName(osBody.isFeral()));
+						if(!litterMap.containsKey(race)) {
+							List<Integer> osList = new ArrayList<Integer>();
+							osList.add(0);
+							osList.add(0);
+							litterMap.put(race, osList);
+						}
+						if(osBody.isFeminine()) {
+							litterMap.get(race).set(0, litterMap.get(race).get(0)+1); // Daughters
+						}
+						else {
+							litterMap.get(race).set(1, litterMap.get(race).get(1)+1); // Sons
+						}
+					}
+				}
+				List<String> raceList = new ArrayList<String>(litterMap.keySet());
+				StringBuilder litterList = new StringBuilder();
+				if(this.isPlayer()) {
+					infoScreenSB.append("</p><p style='text-align:center;'><i>With a bit of concentration, you can sense that you are pregnant with: ");
+				}
+				else {
+					infoScreenSB.append("</p><p style='text-align:center;'><i>With a bit of concentration, you can sense that [npc.sheIs] pregnant with: ");
+				}
+				for (String race : raceList) {
+					litterList.append("<br/>" + race + ": [style.colourFeminine(Daughters)]: " + litterMap.get(race).get(0).toString() + " [style.colourMasculine(Sons)]: "+ litterMap.get(race).get(1).toString());
+				}
+				infoScreenSB.append(litterList.toString()+"</i>");
+			}
+		
 		infoScreenSB.append("</p>");
 		
 		infoScreenSB.append("<h6>Relationships</h6>"
@@ -21121,11 +21189,10 @@ public abstract class GameCharacter implements XMLSaving {
 		String pregnancyDescription = PregnancyDescriptor.getPregnancyDescriptorBasedOnProbability(pregnancyChance).getDescriptor(this, partner, directSexInsemination);
 		
 		// Now roll for pregnancy:
-		if (!this.isPregnant()) {
-			if (!this.hasStatusEffect(StatusEffect.PREGNANT_0) && !this.isDoll()) {
+		if (pregnancyChance>0 && Math.random() <= pregnancyChance && !this.isVisiblyPregnant()) {
+			if (!this.hasStatusEffect(StatusEffect.PREGNANT_0)) {
 				this.addStatusEffect(StatusEffect.PREGNANT_0, (60 * 60) * (4 + Util.random.nextInt(5)));
 			}
-			if (pregnancyChance>0 && Math.random() <= pregnancyChance) {
 				AbstractRace litterSizeBasedOn = null;
 				
 				if (this.getBodyMaterial() == BodyMaterial.SLIME) {
@@ -21142,6 +21209,15 @@ public abstract class GameCharacter implements XMLSaving {
 				int minimumNumberOfChildren = litterSizeBasedOn.getNumberOfOffspringLow();
 				int maximumNumberOfChildren = litterSizeBasedOn.getNumberOfOffspringHigh();
 				
+			// Wanna add some relevant buffs~ <3 -- Ysette
+			if(this.hasFetish(Fetish.FETISH_PREGNANCY)) {
+				minimumNumberOfChildren += 1;
+				maximumNumberOfChildren += 1;
+			}
+			if(partner!=null && partner.hasFetish(Fetish.FETISH_IMPREGNATION)) {
+				minimumNumberOfChildren += 1;
+				maximumNumberOfChildren += 1;
+			}
 
 				if(this.hasTraitActivated(Perk.FETISH_BROODMOTHER)) {
 					maximumNumberOfChildren *= 2;
@@ -21152,6 +21228,7 @@ public abstract class GameCharacter implements XMLSaving {
 				
 				int numberOfChildren = minimumNumberOfChildren + Util.random.nextInt((maximumNumberOfChildren-minimumNumberOfChildren)+1);
 				
+			
 				if(this.hasStatusEffect(StatusEffect.BROODMOTHER_PILL)) {
 					numberOfChildren *= 2;
 				}
@@ -21159,6 +21236,38 @@ public abstract class GameCharacter implements XMLSaving {
 					numberOfChildren *= 2;
 				}
 				
+			// Pregnancy stacking modification here -- Ysette
+			if(Main.game.isInSex() && (this.hasTraitActivated(Perk.FETISH_BROODMOTHER) || (partner != null && partner.hasTraitActivated(Perk.FETISH_SEEDER)))) {
+				if(this.isPregnant()) {
+					boolean checkNewLitter = true;
+					for (Litter litter : this.getPregnantLitters()) {
+						// Find litter father if there's one
+						if (litter.getFather()!=null && partner != null && litter.getFather() == partner) {
+							List<OffspringSeed> offspring = new ArrayList<>(litter.getOffspringSeed()); // Add children here: 
+							for (int i = 0; i < numberOfChildren; i++) { 
+								OffspringSeed os = new OffspringSeed(this, partner, partnerBody);
+								offspring.add(os);
+								try {
+									Main.game.addOffspringSeed(os, false);
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							}
+							// Other initial litter data: 
+							fertilisationType = litter.getFertilisationType();
+							LocalDateTime conceptionDate = litter.getConceptionDate();
+							LocalDateTime birthDate = litter.getBirthDate();
+							
+							Litter newLitter = new Litter(conceptionDate, birthDate, this, partner, fertilisationType, offspring);
+							pregnantLitters.remove(litter);
+							pregnantLitters.add(newLitter);
+							pregnantLitter = pregnantLitters.get(0); // In case it's the first litter
+							checkNewLitter = false;
+							break;
+						}
+					}
+					
+					if(partner!=null && checkNewLitter) {
 				List<OffspringSeed> offspring = new ArrayList<>(numberOfChildren);
 				for (int i = 0; i < numberOfChildren; i++) { // Add children here:
 					OffspringSeed os = new OffspringSeed(this, partner, partnerBody);
@@ -21169,28 +21278,107 @@ public abstract class GameCharacter implements XMLSaving {
 						e.printStackTrace();
 					}
 				}
+						Litter newLitter = new Litter(Main.game.getDateNow(), Main.game.getDateNow(), this, partner, fertilisationType, offspring);
+						pregnantLitters.add(newLitter);
+					}
 				
-				pregnantLitter = new Litter(Main.game.getDateNow(), Main.game.getDateNow(), this, partner, fertilisationType, offspring);
+					// COMBO SECTION -- Ysette (TODO, seems there's an issue with this)
+					/* 
+					if(partner != null) {
+						int litterCount = 0;
+						for (Litter litter : this.getPregnantLitters()) {
+							// Find litter father if there's one
+							if (litter.getFather()!=null && litter.getFather() == partner) {
+								litterCount++;
+							}
+						}
+						System.err.println(litterCount);
+						if(litterCount > 0) {
+							System.err.println("true1");
+							if(this.hasTraitActivated(Perk.OBSERVANT) && this.hasTraitActivated(Perk.FETISH_BROODMOTHER)) {
+								System.err.println("true2");
+								pregnancyDescription.append(
+									UtilText.parse(this, partner, "[npc.She] instinctively [npc.verb(know)] that [npc2.nameHasFull] knocked [npc.herHim] up again! (x" 
+									+ litterCount
+									+ "!)</p>"));
+								} 
+							if(partner.hasTraitActivated(Perk.OBSERVANT) && partner.hasTraitActivated(Perk.FETISH_SEEDER)) {
+								System.err.println("true3");
+								pregnancyDescription.append(
+									UtilText.parse(partner, this, "[npc.She] instinctively [npc.verb(know)] that [npc.sheHasFull] knocked up [npc2.name] again! (x" 
+									+ litterCount
+									+ "!)</p>"));
+								}
+						} else {
+							System.err.println("true4");
+							if(this.hasTraitActivated(Perk.OBSERVANT) && this.hasTraitActivated(Perk.FETISH_BROODMOTHER)) {
+								System.err.println("true5");
+								pregnancyDescription.append(
+									UtilText.parse(this, partner, "<p style='text-align:center;>[npc.She] instinctively [npc.verb(know)] that [npc2.nameHasFull] knocked [npc.herHim] up! (x1)</p>"));
+							} 
+							if(partner.hasTraitActivated(Perk.OBSERVANT) && partner.hasTraitActivated(Perk.FETISH_SEEDER)) {
+								System.err.println("true6");
+								pregnancyDescription.append(
+									UtilText.parse(partner, this, "<p style='text-align:center;>[npc.She] instinctively [npc.verb(know)] that [npc.sheHasFull] knocked up [npc2.name]! (x1)</p>"));
+							}
+						}
+					}
+					*/
+				} else {
+					List<OffspringSeed> offspring = new ArrayList<>(numberOfChildren);
+					for (int i = 0; i < numberOfChildren; i++) { // Add children here:
+						OffspringSeed os = new OffspringSeed(this, partner, partnerBody);
+						offspring.add(os);
+						try {
+							Main.game.addOffspringSeed(os, false);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					Litter newLitter = new Litter(Main.game.getDateNow(), Main.game.getDateNow(), this, partner, fertilisationType, offspring);
 				if(partner==null) {
-					pregnantLitter.setFatherRace(partnerBody.getSubspecies());
+						newLitter.setFatherRace(partnerBody.getSubspecies());
 				}
-				this.resetAllPregnancyReactions();
+					pregnantLitters.add(newLitter);
+					pregnantLitter = pregnantLitters.get(0); 
+				}
+			} else if (!this.isPregnant()) {
+				List<OffspringSeed> offspring = new ArrayList<>(numberOfChildren);
+				for (int i = 0; i < numberOfChildren; i++) { // Add children here:
+					OffspringSeed os = new OffspringSeed(this, partner, partnerBody);
+					offspring.add(os);
+					try {
+						Main.game.addOffspringSeed(os, false);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				Litter newLitter = new Litter(Main.game.getDateNow(), Main.game.getDateNow(), this, partner, fertilisationType, offspring);
+				if(partner==null) {
+					newLitter.setFatherRace(partnerBody.getSubspecies());
+				}
+				pregnantLitters.add(newLitter);
+				pregnantLitter = pregnantLitters.get(0); 
 			}
+			
+			this.resetAllPregnancyReactions();
 		}
 		
 		return pregnancyDescription;
 	}
 	
+	// Edited here! -- Ysette
 	public boolean isPregnant() {
-		return pregnantLitter != null;
+		return !pregnantLitters.isEmpty();
 	}
 	
 	public boolean isHasAnyPregnancyEffects() {
 		return hasStatusEffect(StatusEffect.PREGNANT_0) || hasStatusEffect(StatusEffect.PREGNANT_1) || hasStatusEffect(StatusEffect.PREGNANT_2) || hasStatusEffect(StatusEffect.PREGNANT_3);
 	}
 	
+	// Edited here! -- Ysette
 	public boolean isVisiblyPregnant() {
-		return pregnantLitter!=null && (hasStatusEffect(StatusEffect.PREGNANT_1) || hasStatusEffect(StatusEffect.PREGNANT_2) || hasStatusEffect(StatusEffect.PREGNANT_3));
+		return !pregnantLitters.isEmpty() && (hasStatusEffect(StatusEffect.PREGNANT_1) || hasStatusEffect(StatusEffect.PREGNANT_2) || hasStatusEffect(StatusEffect.PREGNANT_3));
 	}
 	
 	public long getTimeProgressedToFinalPregnancyStage() {
@@ -21206,8 +21394,32 @@ public abstract class GameCharacter implements XMLSaving {
 	 * 
 	 * @param withBirth True if this pregnancy ends by giving birth.
 	 */
+	// Edited here! -- Ysette
+	public void endPregnancy(boolean withBirth, boolean withClothingManagement) {
+		if(!pregnantLitters.isEmpty()) {
+			for(Litter litter : pregnantLitters) {
+				endPregnancy(litter, withBirth, withClothingManagement);
+			}
+			pregnantLitters.clear();
+		}
+		else {
+			endPregnancy(pregnantLitter, withBirth, withClothingManagement);
+		}
+		incrementLittersGenerated(1);
+	}
+	
+	// Edited here! -- Ysette
 	public void endPregnancy(boolean withBirth) {
-		endPregnancy(withBirth, true);
+		if(!pregnantLitters.isEmpty()) {
+			for(Litter litter : pregnantLitters) {
+				endPregnancy(litter, withBirth, true);
+			}
+			pregnantLitters.clear();
+		}
+		else {
+			endPregnancy(pregnantLitter, withBirth, true);
+		}
+		incrementLittersGenerated(1);
 	}
 	
 	/**
@@ -21216,7 +21428,8 @@ public abstract class GameCharacter implements XMLSaving {
 	 * @param withBirth true if this pregnancy ends by giving birth.
 	 * @param withClothingManagement true if vagina-blocking clothing should be unsealed.
 	 */
-	public void endPregnancy(boolean withBirth, boolean withClothingManagement) {
+	// Edited here! -- Ysette
+	public void endPregnancy(Litter litter, boolean withBirth, boolean withClothingManagement) {
 		for(PregnancyPossibility pregPoss : potentialPartnersAsMother) {
 			if(pregPoss.getFather()!=null) {
 				pregPoss.getFather().getPotentialPartnersAsFather().remove(pregPoss);
@@ -21228,16 +21441,16 @@ public abstract class GameCharacter implements XMLSaving {
 			return;
 		}
 
-		pregnantLitter.setBirthDate(Main.game.getDateNow());
-		if(pregnantLitter.getFather()!=null) { // Set birth date for the father's litter copy:
-			for(Litter fatherCopy : pregnantLitter.getFather().getLittersFathered()) {
-				if(!fatherCopy.getId().isEmpty() && fatherCopy.getId().equals(pregnantLitter.getId())) {
+		litter.setBirthDate(Main.game.getDateNow());
+		if(litter.getFather()!=null) { // Set birth date for the father's litter copy:
+			for(Litter fatherCopy : litter.getFather().getLittersFathered()) {
+				if(!fatherCopy.getId().isEmpty() && fatherCopy.getId().equals(litter.getId())) {
 					fatherCopy.setBirthDate(Main.game.getDateNow());
 					break;
 				}
 			}
 		}
-		Litter birthedLitter = pregnantLitter;
+		Litter birthedLitter = litter;
 
 		if(withBirth) {
 			if(withClothingManagement) {
@@ -21305,7 +21518,7 @@ public abstract class GameCharacter implements XMLSaving {
 			}
 			
 		} else {
-			for(String os : pregnantLitter.getOffspring()) {
+			for(String os : litter.getOffspring()) {
 				if(os.contains("NPCOffspring")) {
 					Main.game.banishNPC(os);
 				} else {
@@ -21321,7 +21534,7 @@ public abstract class GameCharacter implements XMLSaving {
 			this.removeStatusEffectDescription(se);
 		}
 
-		pregnantLitter = null;
+		litter = null;
 		
 		this.resetAllPregnancyReactions();
 		
@@ -21439,7 +21652,7 @@ public abstract class GameCharacter implements XMLSaving {
 						os.setBorn(true);
 						os.setBirthday(LocalDateTime.of(Main.game.getDateNow().getYear(), Main.game.getDateNow().getMonth(), Main.game.getDateNow().getDayOfMonth(), Main.game.getDateNow().getHour(), Main.game.getDateNow().getMinute()));
 						os.setIncubator(this);
-//						System.out.println("offspring seed birthed from incubation");
+			// System.out.println("offspring seed birthed from incubation");
 					} catch(Exception e) {
 						Util.logGetNpcByIdError("endIncubationPregnancy()", id);
 					}
@@ -21449,9 +21662,9 @@ public abstract class GameCharacter implements XMLSaving {
 			getLittersIncubated().add(birthedLitter);
 
 			// Done at time of implanting
-//			if(birthedLitter.getFather()!=null) {
-//				birthedLitter.getFather().getLittersFathered().add(birthedLitter);
-//			}
+		//	if(birthedLitter.getFather()!=null) {
+		//		birthedLitter.getFather().getLittersFathered().add(birthedLitter);
+		//	}
 			
 			// Remove offspring if not related to the player:
 			if(!this.isPlayer()
@@ -21513,14 +21726,14 @@ public abstract class GameCharacter implements XMLSaving {
 		
 		this.removeIncubationLitter(orifice);
 		
-//		this.resetAllPregnancyReactions();
+		// this.resetAllPregnancyReactions();
 	}
 	
 	public void implantPregnantLitter(GameCharacter target, SexAreaOrifice orifice) {
 		if(!this.isPregnant()) {
 			return;
 		}
-//		System.out.println("Implanted: "+target.getName());
+		// System.out.println("Implanted: "+target.getName());
 		for(PregnancyPossibility pregPoss : potentialPartnersAsMother) {
 			if(pregPoss.getFather()!=null) {
 				pregPoss.getFather().getPotentialPartnersAsFather().remove(pregPoss);
@@ -21574,8 +21787,18 @@ public abstract class GameCharacter implements XMLSaving {
 		}
 		target.addStatusEffect(incubationEffect, 60 * 60 * (72 + Util.random.nextInt(13)));
 		
+		// Edited here! -- Ysette
+		pregnantLitters.remove(0);
+		if(!pregnantLitters.isEmpty()) {
+			pregnantLitter = pregnantLitters.get(0);
+		}
+		else {
+			pregnantLitter = null;
+		}
 
 		// Clear pregnancy status effects and descriptions:
+		// But only if no litters left! -- Ysette
+		if(pregnantLitters.isEmpty()) {
 		List<AbstractStatusEffect> pregnancyStatusEffects = Util.newArrayListOfValues(StatusEffect.PREGNANT_0, StatusEffect.PREGNANT_1, StatusEffect.PREGNANT_2, StatusEffect.PREGNANT_3);
 		for(AbstractStatusEffect se : pregnancyStatusEffects) {
 			removeStatusEffect(se);
@@ -21595,7 +21818,8 @@ public abstract class GameCharacter implements XMLSaving {
 				}
 			}
 		}
-		pregnantLitter = null;
+		}
+
 		this.resetAllPregnancyReactions();
 	}
 	
@@ -21603,11 +21827,23 @@ public abstract class GameCharacter implements XMLSaving {
 		return littersBirthed;
 	}
 
+	// Edited here! -- Ysette
 	public Litter getLastLitterBirthed() {
 		if(littersBirthed.isEmpty()) {
 			return null;
 		}
-		return littersBirthed.get(littersBirthed.size() - 1);
+		Litter lastLitter = littersBirthed.get(littersBirthed.size() - 1); // Get final litter in littersBirthed
+		String lastLitterNum = lastLitter.getId().replace(this.getId(), ""); // Get litterGenerated
+		List<OffspringSeed> lastLitterOffspring = new ArrayList<>();
+		for(Litter litter : littersBirthed) {
+			if(litter.getId().equals(this.getId() + lastLitterNum)) {
+				for(OffspringSeed os : litter.getOffspringSeed()) {
+					lastLitterOffspring.add(os);
+				}
+			}
+		}
+		Litter lastLitterBirthed = new Litter(lastLitter.getConceptionDate(), lastLitter.getBirthDate(), this, lastLitter.getFather(), lastLitter.getFertilisationType(), lastLitterOffspring);
+		return lastLitterBirthed;
 	}
 	
 	public Litter getLastLitterIncubated() {
@@ -21621,12 +21857,38 @@ public abstract class GameCharacter implements XMLSaving {
 		return littersFathered;
 	}
 	
+	// Edited here! -- Ysette
+	public List<Litter> getPregnantLitters() {
+		return pregnantLitters;
+	}
+	
+	// Edited here! -- Ysette
+	public Litter getPregnantLitter(int num) {
+		return pregnantLitters.get(num);
+	}
+
+	// Edited here! -- Ysette
 	public Litter getPregnantLitter() {
+		if(pregnantLitter == null && !pregnantLitters.isEmpty()) {
+			pregnantLitter = pregnantLitters.get(0);
+		}
 		return pregnantLitter;
 	}
 	
+	// Edited here! -- Ysette
+	public void setPregnantLitter(int num, Litter pregnantLitter) {
+		pregnantLitters.set(num, pregnantLitter);
+	}
+
+	// Edited here! -- Ysette
 	public void setPregnantLitter(Litter pregnantLitter) {
 		this.pregnantLitter = pregnantLitter;
+		if(!pregnantLitters.isEmpty()) {
+			pregnantLitters.set(0, pregnantLitter);
+		}
+		else {
+			pregnantLitters.add(pregnantLitter);
+		}
 	}
 
 	public int getLittersGenerated() {

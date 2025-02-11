@@ -46,6 +46,7 @@ import com.lilithsthrone.game.character.npc.submission.Shadow;
 import com.lilithsthrone.game.character.npc.submission.Silence;
 import com.lilithsthrone.game.character.persona.Occupation;
 import com.lilithsthrone.game.character.persona.SexualOrientation;
+import com.lilithsthrone.game.character.pregnancy.Litter;
 import com.lilithsthrone.game.character.quests.QuestLine;
 import com.lilithsthrone.game.character.race.AbstractRace;
 import com.lilithsthrone.game.character.race.Race;
@@ -4060,6 +4061,7 @@ public class StatusEffect {
 		}
 	};
 	
+	// Edited here! -- Ysette
 	public static AbstractStatusEffect PREGNANT_0 = new AbstractStatusEffect(80,
 			"risk of pregnancy",
 			"pregnancy0",
@@ -4070,6 +4072,23 @@ public class StatusEffect {
 		@Override
 		public String getDescription(GameCharacter target) {
 			if(Main.game.isInNewWorld()) {
+				PlayerCharacter player = Main.game.getPlayer();
+				if(player.hasTraitActivated(Perk.OBSERVANT) && 
+					(player.hasTraitActivated(Perk.FETISH_BROODMOTHER) 
+					|| player.hasTraitActivated(Perk.FETISH_SEEDER) 
+					|| player.hasFetish(Fetish.FETISH_PREGNANCY)
+					|| player.hasFetish(Fetish.FETISH_IMPREGNATION))) {
+						int count = 0;
+						if(target.isPregnant()) {
+							for(Litter litter : target.getPregnantLitters()) {
+								count += litter.getTotalLitterCount();
+							}
+							return UtilText.parse(target,
+								"After recently having unprotected sex, there's a risk that [npc.name] will get pregnant!"
+								+ "<br/>[style.colourArcane(Through the your astute observation and sensitivity to pregnancy however, you can sense that " 
+								+Util.intToString(count)+" of [npc.her] egg" +(count==1?" has":"s have")+ " already been fertilized!)]");
+						}
+					}
 				return UtilText.parse(target,
 						"After recently having unprotected sex, there's a risk that [npc.name] will get pregnant!"
 							+ " Due to the fact that the arcane accelerates people's pregnancies, [npc.she]'ll know if [npc.sheIs] pregnant within a matter of hours...");
@@ -4087,8 +4106,40 @@ public class StatusEffect {
 				target.addStatusEffect(PREGNANT_1, 60 * 60 * ((maxHourLength-12) + Util.random.nextInt(13)));
 				target.loadImages(true); // Reload images for pregnant versions
 				
+				int count = 0;
+				for(Litter litter : target.getPregnantLitters()) {
+					count += litter.getTotalLitterCount();
+				}
+				StringBuilder isPregnant = new StringBuilder();
+
 				if (target.isPlayer() && !((PlayerCharacter) target).isQuestCompleted(QuestLine.SIDE_FIRST_TIME_PREGNANCY)) {
 					if(target.hasFetish(Fetish.FETISH_PREGNANCY)) {
+						if(target.getBodyMaterial()==BodyMaterial.SLIME) {
+							isPregnant.append(
+								"Taking a closer look at your swollen, slimy stomach, you suddenly realise that you can see "
+									+Util.intToString(count)+" little slime core"+(count==1?"":"s")+" growing in "
+									+ (target.hasVagina()?"the place where your womb should be.":"your belly.")
+									+ " You can't help but let out a delighted squeal of happiness as you see your "
+									+(count==1?"child":"children")+" growing inside of you, and spend the next few minutes stroking and rubbing your wonderfully-swollen abdomen in a state of absolute bliss."
+									+ " Eventually, however, you decide that you should probably go and see Lilaya, so that she can help you figure out all the details of giving birth.");
+						}
+						else if(target.hasTraitActivated(Perk.OBSERVANT) && target.hasTraitActivated(Perk.FETISH_BROODMOTHER)) {
+							isPregnant.append("Taking a closer look at your swollen stomach, you suddenly realise that you can sense "+Util.intToString(count));
+							if(target.isVaginaEggLayer()) {
+								isPregnant.append(" egg"+(count==1?"":"s"));
+							}
+							else {
+								isPregnant.append(" little bab"+(count==1?"y":"ies"));
+							}
+							isPregnant.append(" growing in your belly."
+												+ " You can't help but let out a delighted squeal of happiness as you feel your "
+													+(count==1?"child":"children")+" growing inside of you, and spend the next few minutes stroking and rubbing your wonderfully-swollen abdomen in a state of absolute bliss."
+												+ " Eventually, however, you decide that you should probably go and see Lilaya, so that she can help you figure out all the details of giving birth.");
+						}
+						else {
+							isPregnant.append("After a little while of stroking and rubbing your wonderfully-swollen abdomen, you start to calm down a little."
+											+ " You decide that you should probably go and see Lilaya, so that she can help you figure out all the details of giving birth.");
+						}
 						sb.append("<p>"
 								+ "For the last few hours, your belly has been gradually swelling."
 								+ " The progress was so slow that you didn't even realise anything was happening, but as you glance down at your stomach, there's no mistaking it."
@@ -4114,21 +4165,39 @@ public class StatusEffect {
 										+ "Wait! Of course! <b>Lilaya!</b> She'll want to see this too!)]"
 							+ "</p>"
 							+ "<p>"
-								+ (target.getBodyMaterial()==BodyMaterial.SLIME
-									?"Taking a closer look at your swollen, slimy stomach, you suddenly realise that you can see "
-											+Util.intToString(target.getPregnantLitter().getTotalLitterCount())+" little slime core"+(target.getPregnantLitter().getTotalLitterCount()==1?"":"s")+" growing in "
-											+ (target.hasVagina()?"the place where your womb should be.":"your belly.")
-										+ " You can't help but let out a delighted squeal of happiness as you see your "
-											+(target.getPregnantLitter().getTotalLitterCount()==1?"child":"children")+" growing inside of you, and spend the next few minutes stroking and rubbing your wonderfully-swollen abdomen in a state of absolute bliss."
-										+ " Eventually, however, you decide that you should probably go and see Lilaya, so that she can help you figure out all the details of giving birth."
-									:"After a little while of stroking and rubbing your wonderfully-swollen abdomen, you start to calm down a little."
-										+ " You decide that you should probably go and see Lilaya, so that she can help you figure out all the details of giving birth.")
+								+ isPregnant.toString()
 							+ "</p>"
 							+ "<p style='text-align:center;'>"
 								+ "<b style='color:"+ PresetColour.GENERIC_SEX.toWebHexString() + ";'>You're pregnant!</b>"
 							+ "</p>");
 						
 					} else {
+						if(target.getBodyMaterial()==BodyMaterial.SLIME) {
+							isPregnant.append(
+								"As you take one last look at your swollen, slimy stomach, you suddenly realise that you can see "
+								+Util.intToString(count)+" little slime core"+(count==1?"":"s")+" growing in "
+								+ (target.hasVagina()?"the place where your womb should be.":"your belly.")
+								+ " You can't help but let out a shocked cry as you see your "
+								+(count==1?"child":"children")+" growing inside of you, and spend the next few minutes stroking and rubbing your swollen abdomen in a state of panic."
+								+ " Eventually, however, you start to calm down a little, and decide that you should probably go and see Lilaya as soon as possible.");
+						}
+						else if(target.hasTraitActivated(Perk.OBSERVANT) && target.hasTraitActivated(Perk.FETISH_BROODMOTHER)) {
+							isPregnant.append("As you take one last look at your swollen stomach, you suddenly realise that you can sense "+Util.intToString(count));
+							if(target.isVaginaEggLayer()) {
+								isPregnant.append(" egg"+(count==1?"":"s"));
+							}
+							else {
+								isPregnant.append(" little bab"+(count==1?"y":"ies"));
+							}
+							isPregnant.append(" growing in your belly."
+											+ " You can't help but let out a shocked cry as you feel your "
+												+(count==1?"child":"children")+" growing inside of you, and spend the next few minutes stroking and rubbing your swollen abdomen in a state of panic."
+											+ " Eventually, however, you start to calm down a little, and decide that you should probably go and see Lilaya as soon as possible.");
+						}
+						else {
+							isPregnant.append("You start to calm down a little as the initial shock starts to wear off."
+											+ " If anyone knows what to do, it'll be Lilaya.");
+						}
 						sb.append("<p>"
 									+ "For the last few hours, your belly has been gradually swelling."
 									+ " The progress was so slow that you didn't even realise anything was happening, but as you glance down at your stomach, there's no mistaking it."
@@ -4154,15 +4223,7 @@ public class StatusEffect {
 											+ "Wait! Of course! <b>Lilaya!</b> She'll know what to do!)]"
 								+ "</p>"
 								+ "<p>"
-									+ (target.getBodyMaterial()==BodyMaterial.SLIME
-										?"As you take one last look at your swollen, slimy stomach, you suddenly realise that you can see "
-												+Util.intToString(target.getPregnantLitter().getTotalLitterCount())+" little slime core"+(target.getPregnantLitter().getTotalLitterCount()==1?"":"s")+" growing in "
-												+ (target.hasVagina()?"the place where your womb should be.":"your belly.")
-											+ " You can't help but let out a shocked cry as you see your "+(target.getPregnantLitter().getTotalLitterCount()==1?"child":"children")
-												+" growing inside of you, and spend the next few minutes stroking and rubbing your swollen abdomen in a state of panic."
-											+ " Eventually, however, you start to calm down a little, and decide that you should probably go and see Lilaya as soon as possible."
-										:"You start to calm down a little as the initial shock starts to wear off."
-											+ " If anyone knows what to do, it'll be Lilaya.")
+									+ isPregnant.toString()
 								+ "</p>"
 								+ "<p style='text-align:center;'>"
 									+ "<b style='color:"+ PresetColour.GENERIC_SEX.toWebHexString() + ";'>You're pregnant!</b>"
@@ -4170,19 +4231,34 @@ public class StatusEffect {
 					}
 					
 				} else {
+					if(target.getBodyMaterial()==BodyMaterial.SLIME) {
+						isPregnant.append("</p>"
+									+ "<p>"
+										+ "Looking a little closer at your swollen stomach, you see "+Util.intToString(count)+" little slime core"
+											+(count==1?"":"s")+" growing in "+ (target.hasVagina()?"the place where your womb should be.":"your belly.")
+										+ " You can't help but let out a happy little sigh as you see your "+(count==1?"child":"children")
+										+" growing inside of you, and spend the next few minutes stroking and rubbing your swollen abdomen in a state of motherly bliss.");
+					}
+					else if(target.hasTraitActivated(Perk.OBSERVANT) && (target.hasTraitActivated(Perk.FETISH_BROODMOTHER) || target.hasFetish(Fetish.FETISH_PREGNANCY))) {
+						isPregnant.append("</p>"
+									+ "<p>"
+										+ "Looking a little closer at your swollen stomach, you sense "+Util.intToString(count));
+						if(target.isVaginaEggLayer()) {
+							isPregnant.append(" egg"+(count==1?"":"s"));
+						}
+						else {
+							isPregnant.append(" little bab"+(count==1?"y":"ies"));
+						}
+						isPregnant.append(" growing in your belly."
+										+ " You can't help but let out a happy little sigh as you feel your "+(count==1?"child":"children")
+										+" growing inside of you, and spend the next few minutes stroking and rubbing your swollen abdomen in a state of motherly bliss.");
+					}
 					sb.append("<p>"
 							+ "For the last couple of hours, your belly has been gradually swelling."
 							+ " The progress was so slow that you didn't even realise anything was happening, but as you glance down at your stomach, there's no mistaking it."
 							+ " You're pregnant again."
 							+ " You start stroking your abdomen, making soft little gasps as the familiar feeling of being knocked up returns to you."
-							+ (target.getBodyMaterial()==BodyMaterial.SLIME
-								?"</p>"
-								+ "<p>"
-									+ "Looking a little closer at your swollen, slimy stomach, you see "+Util.intToString(target.getPregnantLitter().getTotalLitterCount())+" little slime core"
-										+(target.getPregnantLitter().getTotalLitterCount()==1?"":"s")+" growing in "+ (target.hasVagina()?"the place where your womb should be.":"your belly.")
-									+ " You can't help but let out a happy little sigh as you see your "+(target.getPregnantLitter().getTotalLitterCount()==1?"child":"children")
-									+" growing inside of you, and spend the next few minutes stroking and rubbing your swollen abdomen in a state of motherly bliss."
-								:"")
+							+ isPregnant.toString()
 						+ "</p>"
 						+ "<p>"
 							+ (target.hasFetish(Fetish.FETISH_PREGNANCY)
@@ -4306,6 +4382,7 @@ public class StatusEffect {
 		}
 	};
 	
+	// Edited here! -- Ysette
 	public static AbstractStatusEffect PREGNANT_1 = new AbstractStatusEffect(80,
 			"pregnant",
 			"pregnancy1",
@@ -4315,12 +4392,36 @@ public class StatusEffect {
 			Util.newArrayListOfValues("-5% [style.colourHealth(Maximum "+Attribute.HEALTH_MAXIMUM.getName()+")]")) {
 		@Override
 		public String getDescription(GameCharacter target) {
+			PlayerCharacter player = Main.game.getPlayer();
+			StringBuilder xrayCheck = new StringBuilder();
+			int count = 0;
+			for(Litter litter : target.getPregnantLitters()) {
+				count += litter.getTotalLitterCount();
+			}
+			if(target.getBodyMaterial()==BodyMaterial.SLIME) {
+				xrayCheck.append(" Through the [npc.skinColour] [npc.skin] that makes up [npc.her] body, you can see "+Util.intToString(count)+" little slime core"
+									+(count==1?"":"s")+" growing inside of [npc.herHim].");
+			}
+			else if(player.hasTraitActivated(Perk.OBSERVANT) 
+				&& (player.hasTraitActivated(Perk.FETISH_BROODMOTHER) 
+				|| player.hasTraitActivated(Perk.FETISH_SEEDER) 
+				|| player.hasFetish(Fetish.FETISH_PREGNANCY)
+				|| player.hasFetish(Fetish.FETISH_IMPREGNATION))) {
+					xrayCheck.append(" Through the your astute observation and sensitivity to pregnancy, you can sense "+Util.intToString(count));
+					if(target.isVaginaEggLayer()) {
+						xrayCheck.append(" egg"+(count==1?"":"s"));
+					}
+					else {
+						xrayCheck.append(" little bab"+(count==1?"y":"ies"));
+					}
+					xrayCheck.append(" growing inside of [npc.herHim].");
+			}
+			else {
+				xrayCheck.append(" Due to the fact that the arcane accelerates people's pregnancies, [npc.she]'ll move onto the next stage with alarming speed.");
+			}
 			return UtilText.parse(target,
 						"From one of [npc.namePos] recent sexual encounters, [npc.sheHas] been impregnated!"
-							+ (target.getBodyMaterial()==BodyMaterial.SLIME
-								?" Through the [npc.skinColour] [npc.skin] that makes up [npc.her] body, you can see "+Util.intToString(target.getPregnantLitter().getTotalLitterCount())+" little slime core"
-									+(target.getPregnantLitter().getTotalLitterCount()==1?"":"s")+" growing inside of [npc.herHim]."
-								:" Due to the fact that the arcane accelerates people's pregnancies, [npc.she]'ll move onto the next stage with alarming speed."));
+							+ xrayCheck.toString());
 		}
 		@Override
 		public String extraRemovalEffects(GameCharacter target) {
@@ -4357,18 +4458,38 @@ public class StatusEffect {
 				return "";
 			}
 			
+			int count = 0;
+			for(Litter litter : target.getPregnantLitters()) {
+				count += litter.getTotalLitterCount();
+			}
+
+			StringBuilder isPregnant = new StringBuilder();
+			if(target.getBodyMaterial()==BodyMaterial.SLIME) {
+				isPregnant.append("<p>"
+							+ "Clearly visible through the translucent slime which your body is made up of, you see that the "
+								+Util.intToString(count)+" slime core"+(count==1?"":"s")
+							+ " growing inside of you "+(count==1?"has":"have")+" gotten a lot larger..."
+							+ "</p>");
+			}
+			else if(target.hasTraitActivated(Perk.OBSERVANT) && (target.hasTraitActivated(Perk.FETISH_BROODMOTHER) || target.hasFetish(Fetish.FETISH_PREGNANCY))) {
+				isPregnant.append("<p>"
+							+ "With your observation and sensitivity to pregnancy, you sense that the " +Util.intToString(count));
+				if(target.isVaginaEggLayer()) {
+					isPregnant.append(" egg"+(count==1?"":"s"));
+				}
+				else {
+					isPregnant.append(" little bab"+(count==1?"y":"ies"));
+				}
+				isPregnant.append(" growing inside of you "+(count==1?"has":"have")+" gotten a lot larger..." + "</p>");
+			}
+
 			if (!((PlayerCharacter) target).isQuestCompleted(QuestLine.SIDE_FIRST_TIME_PREGNANCY)) {
 				return "<p>"
 							+ "Even though the change has been gradual, you're suddenly hit by the realisation that your belly has swollen to a massive size."
 							+ " You can't resist rubbing your hands over the huge bump in your abdomen, and you wonder just how big it's going to get."
 							+ " As this is your first time getting pregnant, you're not quite sure what to expect, but you're reassured as you remember that Lilaya's always there to help."
 						+ "</p>"
-						+ (target.getBodyMaterial()==BodyMaterial.SLIME
-								?"<p>"
-									+ "Clearly visible through the translucent slime which your body is made up of, you see that the "
-										+Util.intToString(target.getPregnantLitter().getTotalLitterCount())+" slime core"+(target.getPregnantLitter().getTotalLitterCount()==1?"":"s")+" growing inside of you have gotten a lot larger..."
-								+ "</p>"
-								:"")
+						+ isPregnant.toString()
 						+ "<p style='text-align:center;'>"
 							+ "<b style='color:" + PresetColour.GENERIC_SEX.toWebHexString() + ";'>You're now heavily pregnant!</b>"
 						+ "</p>"
@@ -4390,12 +4511,7 @@ public class StatusEffect {
 							+ " You can't resist rubbing your hands over the huge bump in your abdomen, smiling fondly at the comforting feeling."
 							+ " Having been through all this before, you know that you've still got a way to go before you're ready to give birth."
 						+ "</p>"
-						+ (target.getBodyMaterial()==BodyMaterial.SLIME
-							?"<p>"
-								+ "Clearly visible through the translucent slime which your body is made up of, you see that the "
-									+Util.intToString(target.getPregnantLitter().getTotalLitterCount())+" slime core"+(target.getPregnantLitter().getTotalLitterCount()==1?"":"s")+" growing inside of you have gotten a lot larger..."
-							+ "</p>"
-							:"")
+						+ isPregnant.toString()
 						+ "<p style='text-align:center;'>"
 							+ "<b style='color:" + PresetColour.GENERIC_SEX.toWebHexString() + ";'>You're now heavily pregnant!</b>"
 						+ "</p>"
@@ -4421,6 +4537,7 @@ public class StatusEffect {
 		}
 	};
 	
+	// Edited here! -- Ysette
 	public static AbstractStatusEffect PREGNANT_2 = new AbstractStatusEffect(80,
 			"heavily pregnant",
 			"pregnancy2",
@@ -4430,12 +4547,36 @@ public class StatusEffect {
 			Util.newArrayListOfValues("-10% [style.colourHealth(Maximum "+Attribute.HEALTH_MAXIMUM.getName()+")]")) {
 		@Override
 		public String getDescription(GameCharacter target) {
+			PlayerCharacter player = Main.game.getPlayer();
+			StringBuilder xrayCheck = new StringBuilder();
+			int count = 0;
+			for(Litter litter : target.getPregnantLitters()) {
+				count += litter.getTotalLitterCount();
+			}
+			if(target.getBodyMaterial()==BodyMaterial.SLIME) {
+				xrayCheck.append(" Through the [npc.skinColour] [npc.skin] that makes up [npc.her] body, you can see "+Util.intToString(count)+" slime core"
+									+(count==1?"":"s")+" growing inside of [npc.herHim].");
+			}
+			else if(player.hasTraitActivated(Perk.OBSERVANT)
+				&& (player.hasTraitActivated(Perk.FETISH_BROODMOTHER) 
+				|| player.hasTraitActivated(Perk.FETISH_SEEDER) 
+				|| player.hasFetish(Fetish.FETISH_PREGNANCY)
+				|| player.hasFetish(Fetish.FETISH_IMPREGNATION))) {
+					xrayCheck.append(" Through the your astute observation and sensitivity to pregnancy, you can sense "+Util.intToString(count));
+					if(target.isVaginaEggLayer()) {
+						xrayCheck.append(" egg"+(count==1?"":"s"));
+					}
+					else {
+						xrayCheck.append(" little bab"+(count==1?"y":"ies"));
+					}
+					xrayCheck.append(" growing inside of [npc.herHim].");
+			}
+			else {
+				xrayCheck.append(" Due to the fact that the arcane accelerates people's pregnancies, [npc.she]'ll move onto the next stage with alarming speed.");
+			}
 			return UtilText.parse(target,
 						"[npc.NamePos] stomach has swollen considerably, making it obvious that [npc.sheIs] heavily pregnant."
-							+ (target.getBodyMaterial()==BodyMaterial.SLIME
-								?" Through the [npc.skinColour] [npc.skin] that makes up [npc.her] body, you can see "+Util.intToString(target.getPregnantLitter().getTotalLitterCount())+" little slime core"
-									+(target.getPregnantLitter().getTotalLitterCount()==1?"":"s")+" growing inside of [npc.herHim]..."
-								:" Due to the fact that the arcane accelerates people's pregnancies, [npc.she]'ll move onto the final stage with alarming speed."));
+							+ xrayCheck.toString());
 		}
 		@Override
 		public String extraRemovalEffects(GameCharacter target) {
@@ -4472,19 +4613,32 @@ public class StatusEffect {
 				return "";
 			}
 			
+			int count = 0;
+			for(Litter litter : target.getPregnantLitters()) {
+				count += litter.getTotalLitterCount();
+			}
+			StringBuilder isPregnant = new StringBuilder();
+
 			if (!((PlayerCharacter) target).isQuestCompleted(QuestLine.SIDE_FIRST_TIME_PREGNANCY)) {
+				if(target.getBodyMaterial()==BodyMaterial.SLIME) {
+					isPregnant.append(" Clearly visible through the translucent slime which your body is made up of, you see that the "
+											+Util.intToString(count)+" slime core"
+											+(count==1?"":"s")+" growing inside of you "+(count==1?"has":"have")
+											+" grown to be just as large as your own, and you know that you're now ready to give birth.");
+				}
+				else {
+					if(target.isVaginaEggLayer()) {
+						isPregnant.append(" Although you can feel the hard shells of your clutch of eggs pressing out against the inner walls of your womb, you don't find the sensation to be in any way uncomfortable."
+											+ " If anything, the feeling only seems to be boosting your maternal instincts, and you often catch yourself daydreaming about laying and incubating your eggs.");
+					}
+					else {
+						isPregnant.append(" Some time in the last couple of hours, you felt a strange rumble in your pregnant bump, and after panicking for a little while, you realised that it was your offspring kicking about in your womb."
+											+ " You keep feeling another kick every now and then, and you know that you're ready to give birth.");
+					}
+				}
 				return "<p>"
 							+ "By now, your stomach has completely ballooned out in front of you, and you're having to arch your back and support yourself with one hand as you walk around."
-							+ (target.getBodyMaterial()==BodyMaterial.SLIME
-								?" Clearly visible through the translucent slime which your body is made up of, you see that the "
-										+Util.intToString(target.getPregnantLitter().getTotalLitterCount())+" slime core"
-										+(target.getPregnantLitter().getTotalLitterCount()==1?"":"s")+" growing inside of you "+(target.getPregnantLitter().getTotalLitterCount()==1?"has":"have")
-										+" grown to be just as large as your own, and you know that you're now ready to give birth."
-								:(target.isVaginaEggLayer()
-									?" Although you can feel the hard shells of your clutch of eggs pressing out against the inner walls of your womb, you don't find the sensation to be in any way uncomfortable."
-										+ " If anything, the feeling only seems to be boosting your maternal instincts, and you often catch yourself daydreaming about laying and incubating your eggs."
-									:" Some time in the last couple of hours, you felt a strange rumble in your pregnant bump, and after panicking for a little while, you realised that it was your offspring kicking about in your womb."
-										+ " You keep feeling another kick every now and then, and you know that you're ready to give birth."))
+							+ isPregnant.toString()
 						+ "</p>"
 						+ "<p>"
 							+ UtilText.parseThought("I really should go and see Lilaya...", Main.game.getPlayer())
@@ -4505,17 +4659,25 @@ public class StatusEffect {
 							+ "<b style='color:" + PresetColour.GENERIC_SEX.toWebHexString() + ";'>You're now ready to give birth!</b>" 
 						+ "</p>";
 			} else {
+				if(target.getBodyMaterial()==BodyMaterial.SLIME) {
+					isPregnant.append(" Clearly visible through the translucent slime which your body is made up of, you see that the "
+											+Util.intToString(count)+" slime core"
+											+(count==1?"":"s")+" growing inside of you "+(count==1?"has":"have")
+											+" grown to be just as large as your own, and you know that you're now ready to give birth.");
+				}
+				else {
+					if(target.isVaginaEggLayer()) {
+						isPregnant.append(" Although you can feel the hard shells of your clutch of eggs pressing out against the inner walls of your womb, you don't find the sensation to be in any way uncomfortable."
+											+ " If anything, the feeling only seems to be boosting your maternal instincts, and you often catch yourself daydreaming about laying and incubating your eggs.");
+					}
+					else {
+						isPregnant.append(" Some time in the last couple of hours, you felt a familiar rumble in your pregnant bump, and from experience, you instantly recognised that it was your offspring kicking about in your womb."
+											+ " You keep feeling another kick every now and then, and you know that you're ready to give birth.");
+					}
+				}
 				return "<p>"
 							+ "By now, your stomach has completely ballooned out in front of you, and you're having to arch your back and support yourself with one hand as you walk around."
-							+ (target.getBodyMaterial()==BodyMaterial.SLIME
-								?" Clearly visible through the translucent slime which your body is made up of, you see that the "
-										+Util.intToString(target.getPregnantLitter().getTotalLitterCount())+" slime core"+(target.getPregnantLitter().getTotalLitterCount()==1?"":"s")+" growing inside of you "
-										+(target.getPregnantLitter().getTotalLitterCount()==1?"has":"have")+" grown to be just as large as your own, and you know that you're now ready to give birth."
-								:(target.isVaginaEggLayer()
-									?" Although you can feel the hard shells of your clutch of eggs pressing out against the inner walls of your womb, you don't find the sensation to be in any way uncomfortable."
-										+ " If anything, the feeling only seems to be boosting your maternal instincts, and you often catch yourself daydreaming about laying and incubating your eggs."
-									:" Some time in the last couple of hours, you felt a familiar rumble in your pregnant bump, and from experience, you instantly recognised that it was your offspring kicking about in your womb."
-										+ " You keep feeling another kick every now and then, and you know that you're ready to give birth."))
+							+ isPregnant.toString()
 						+ "</p>"
 						+ "<p>"
 							+ UtilText.parseThought("I really should go and see Lilaya... Or maybe I'll stay like this for a little while!", Main.game.getPlayer())
@@ -4544,6 +4706,8 @@ public class StatusEffect {
 			return true;
 		}
 	};
+
+	// Edited here! -- Ysette
 	public static AbstractStatusEffect PREGNANT_3 = new AbstractStatusEffect(80,
 			"ready for birthing",
 			"pregnancy3",
@@ -4553,14 +4717,35 @@ public class StatusEffect {
 			Util.newArrayListOfValues("-15% [style.colourHealth(Maximum "+Attribute.HEALTH_MAXIMUM.getName()+")]")) {
 		@Override
 		public String getDescription(GameCharacter target) {
+			PlayerCharacter player = Main.game.getPlayer();
+			StringBuilder xrayCheck = new StringBuilder();
+			int count = 0;
+			for(Litter litter : target.getPregnantLitters()) {
+				count += litter.getTotalLitterCount();
+			}
+			if(target.getBodyMaterial()==BodyMaterial.SLIME) {
+				xrayCheck.append(" Through the [npc.skinColour] [npc.skin] that makes up [npc.her] body, you can see "+Util.intToString(count)+" fully-grown slime core"
+									+(count==1?"":"s")+" growing inside of [npc.herHim].");
+			}
+			else if(player.hasTraitActivated(Perk.OBSERVANT)
+				&& (player.hasTraitActivated(Perk.FETISH_BROODMOTHER) 
+				|| player.hasTraitActivated(Perk.FETISH_SEEDER) 
+				|| player.hasFetish(Fetish.FETISH_PREGNANCY)
+				|| player.hasFetish(Fetish.FETISH_IMPREGNATION))) {
+					xrayCheck.append(" Through the your astute observation and sensitivity to pregnancy, you can sense "+Util.intToString(count));
+					if(target.isVaginaEggLayer()) {
+						xrayCheck.append(" egg"+(count==1?"":"s"));
+					}
+					else {
+						xrayCheck.append(" bab"+(count==1?"y":"ies"));
+					}
+					xrayCheck.append(" growing inside of [npc.herHim].");
+			}
 			return UtilText.parse(target,
 							(target.isTaur()
 								?"[npc.NamePos] belly has inflated to a colossal size, making it clear to anyone who glances [npc.her] way that [npc.sheIs] ready to give birth."
 								:"[npc.NamePos] belly has inflated to a colossal size, and [npc.sheIs] finding that [npc.sheHasFull] to support [npc.her] back with one hand as [npc.she] [npc.verb(walk)].")
-							+ (target.getBodyMaterial()==BodyMaterial.SLIME
-								?" Through the [npc.skinColour] [npc.skin] that makes up [npc.her] body, you can see "+Util.intToString(target.getPregnantLitter().getTotalLitterCount())+" fully-grown slime core"
-									+(target.getPregnantLitter().getTotalLitterCount()==1?"":"s")+"."
-								:"")
+							+ xrayCheck.toString()
 							+(target.isPlayer()
 								?" It might be a good idea to visit Lilaya..."
 								:""));

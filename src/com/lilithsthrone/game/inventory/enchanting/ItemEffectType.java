@@ -405,18 +405,33 @@ public class ItemEffectType {
 				
 				target.getPotentialPartnersAsMother().removeIf((pp) -> !pp.getFatherId().equals(target.getPregnantLitter().getFatherId()));
 				
-				GameCharacter father = target.getPregnantLitter().getFather();
-				String unknownFatherName = "Unknown!";
+				// Edited here! -- Ysette
+				StringBuilder litterSB = new StringBuilder();
+				for(Litter litter : target.getPregnantLitters()) {
+					GameCharacter father = litter.getFather();
+					String fatherName = "Unknown!";
+					String fatherRace = "";
 				if(father==null) {
 					try {
-						OffspringSeed offspring0 = target.getPregnantLitter().getOffspringSeed().iterator().next();
+							OffspringSeed offspring0 = litter.getOffspringSeed().iterator().next();
 						if(!offspring0.getFatherName().equals("???")) {
-							unknownFatherName = offspring0.getFatherName();
+								fatherName = offspring0.getFatherName();
+								fatherRace = Util.capitaliseSentence(litter.getFatherRace().getName(Main.game.getNpc(GenericAndrogynousNPC.class).getBody()));
 						}
 					} catch(Exception ex) {
 					}
 				}
-				
+					else {
+						fatherName = father.getNameIgnoresPlayerKnowledge();
+						fatherRace = Util.capitaliseSentence(litter.getFatherRace().getName(father.getBody()));
+					}
+					litterSB.append(
+						"<br/>Father: " + fatherName + " (" + fatherRace + ")" + "<br/>"
+						+ "Litter size: " + litter.getTotalLitterCount() + "<br/>"
+						+ "[style.colourFeminine(Daughters)]: " +(litter.getDaughtersFromFather()+litter.getDaughtersFromMother())+"<br/>"
+						+ "[style.colourMasculine(Sons)]: " +(litter.getSonsFromFather()+litter.getSonsFromMother())+"<br/>"
+					);
+				}
 				return "<p style='text-align:center;'>"
 						+ "The digital readout lights up with two parallel red lines, with flashing pink text next to that displaying:"
 						+ "<br/><b>'[style.italicsArcane(Pregnant!)]'</b>"
@@ -424,12 +439,7 @@ public class ItemEffectType {
 					+ "<p style='text-align:center;'>"
 						+ "Underneath the flashing pregnancy confirmation, there's some extra information, which reads:<br/>"
 						+ "<i>"
-						+ "Father: "+(father!=null
-										?father.getNameIgnoresPlayerKnowledge()+" ("+Util.capitaliseSentence(target.getPregnantLitter().getFatherRace().getName(father.getBody()))+")"
-										:unknownFatherName+" ("+Util.capitaliseSentence(target.getPregnantLitter().getFatherRace().getName(Main.game.getNpc(GenericAndrogynousNPC.class).getBody()))+")")+"<br/>"
-						+ "Litter size: " +target.getPregnantLitter().getTotalLitterCount()+"<br/>"
-						+ "[style.colourFeminine(Daughters)]: " +(target.getPregnantLitter().getDaughtersFromFather()+target.getPregnantLitter().getDaughtersFromMother())+"<br/>"
-						+ "[style.colourMasculine(Sons)]: " +(target.getPregnantLitter().getSonsFromFather()+target.getPregnantLitter().getSonsFromMother())+"<br/>"
+						+ litterSB.toString()
 						+ "</i>"
 					+ "</p>";
 				
