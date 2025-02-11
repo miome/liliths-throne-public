@@ -6542,7 +6542,7 @@ public abstract class GameCharacter implements XMLSaving {
 		
 		if(withExtraModifiers
 				&& this.hasTrait(Perk.ORGASMIC_LEVEL_DRAIN, true)) {
-			xpIncrement =  Math.max(1, (int)((float)xpIncrement * 0.05f));
+			xpIncrement =  Math.max(1, (int)((float)xpIncrement * 0.025f));
 		}
 		
 		experience += xpIncrement;
