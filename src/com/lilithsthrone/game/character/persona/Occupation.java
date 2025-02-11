@@ -236,8 +236,13 @@ public enum Occupation {
 	
 	NPC_MODEL(Perk.JOB_MISC, "model", "-"),
 
+	NPC_DISCIPLE(Perk.JOB_CHEF,  "disciple",  "This disciple lives with his shizun and cooks for him")  {
+		@Override
+		public boolean isAtWork(int hour) { return false; }
+	},
+
 	NPC_TRADER(Perk.JOB_NPC_SHOP_MANAGER, "trader", "[npc.Name] is a trader and makes a living by buying and selling various goods.", OccupationTag.HAS_PREREQUISITES),
-	
+
 	
 	
 	// Player histories:
