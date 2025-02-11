@@ -21243,7 +21243,7 @@ public abstract class GameCharacter implements XMLSaving {
 					for (Litter litter : this.getPregnantLitters()) {
 						// Find litter father if there's one
 						if (litter.getFather()!=null && partner != null && litter.getFather() == partner) {
-							List<OffspringSeed> offspring = new ArrayList<>(litter.getOffspringSeed()); // Add children here: 
+							/*List<OffspringSeed> offspring = new ArrayList<>(litter.getOffspringSeed()); // Add children here:
 							for (int i = 0; i < numberOfChildren; i++) { 
 								OffspringSeed os = new OffspringSeed(this, partner, partnerBody);
 								offspring.add(os);
@@ -21263,7 +21263,8 @@ public abstract class GameCharacter implements XMLSaving {
 							pregnantLitters.add(newLitter);
 							pregnantLitter = pregnantLitters.get(0); // In case it's the first litter
 							checkNewLitter = false;
-							break;
+							break;*/
+                            return pregnancyDescription;
 						}
 					}
 					
