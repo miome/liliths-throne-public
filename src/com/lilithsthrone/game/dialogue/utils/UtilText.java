@@ -545,6 +545,9 @@ public class UtilText {
 				if(target.hasPersonalityTrait(PersonalityTrait.STUTTER)) {
 					modifiedSentence = Util.addStutter(modifiedSentence, 4);
 				}
+				if(target.hasPersonalityTrait(PersonalityTrait.LOUD)) {
+					modifiedSentence=modifiedSentence.toUpperCase();
+				}
 			}
 			
 			if(splitOnConditional.length>1) {
@@ -9869,7 +9872,7 @@ public class UtilText {
 		engine.put("itemGen", Main.game.getItemGen());
 		engine.put("flags", Main.game.getDialogueFlags());
 		engine.put("dialogueManager", Main.game.getDialogueManager());
-		
+
 		// Java classes:
 		for(Month month : Month.values()) {
 			engine.put("MONTH_"+month, month);

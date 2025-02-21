@@ -407,24 +407,55 @@ public enum PersonalityTrait {
 		public List<PersonalityTrait> getMutuallyExclusiveSettings() {
 			return Util.newArrayListOfValues(MUTE);
 		}
+
 		@Override
 		public String getAdditionDescription(GameCharacter target) {
 			return UtilText.parse(target,
 					"<p style='text-align:center;'>"
 							+ (target.hasPersonalityTrait(SLOVENLY)
-								?"[style.colourDisabled([npc.Name] already speaks in a slovenly manner, so nothing happens...)]"
-								:"[npc.Name] [npc.verb(find)] [npc.herself] [style.colourMinorBad(speaking in a slovenly manner)]!")
-						+ "</p>");
+							? "[style.colourDisabled([npc.Name] already speaks in a slovenly manner, so nothing happens...)]"
+							: "[npc.Name] [npc.verb(find)] [npc.herself] [style.colourMinorBad(speaking in a slovenly manner)]!")
+							+ "</p>");
 		}
+
 		@Override
 		public String getRemovalDescription(GameCharacter target) {
 			return UtilText.parse(target,
 					"<p style='text-align:center;'>"
 							+ (!target.hasPersonalityTrait(SLOVENLY)
-								?"[style.colourDisabled([npc.Name] already [npc.do]n't speak in a slovenly manner, so nothing happens...)]"
-								:"[npc.Name] [npc.verb(find)] [npc.herself] [style.colourMinorGood(no longer speaking in a slovenly manner)]!")
-						+ "</p>");
+							? "[style.colourDisabled([npc.Name] already [npc.do]n't speak in a slovenly manner, so nothing happens...)]"
+							: "[npc.Name] [npc.verb(find)] [npc.herself] [style.colourMinorGood(no longer speaking in a slovenly manner)]!")
+							+ "</p>");
 		}
+	},
+	LOUD(false,
+				 PersonalityCategory.SPEECH,
+			"loud",
+						 "[npc.Name] [npc.verb(speak)] loudly.",
+						 "[style.italicsBad(All of [npc.namePos] in-game speech will be affected by this!)]", PresetColour.BASE_BROWN) {
+			@Override
+			public List<PersonalityTrait> getMutuallyExclusiveSettings() {
+				return Util.newArrayListOfValues(MUTE);
+			}
+			@Override
+			public String getAdditionDescription(GameCharacter target) {
+				return UtilText.parse(target,
+						"<p style='text-align:center;'>"
+								+ (target.hasPersonalityTrait(LOUD)
+								?"[style.colourDisabled([npc.Name] already speaks in a loud manner, so nothing happens...)]"
+								:"[npc.Name] [npc.verb(find)] [npc.herself] [style.colourMinorBad(speaking very loudly)]!")
+								+ "</p>");
+			}
+			@Override
+			public String getRemovalDescription(GameCharacter target) {
+				return UtilText.parse(target,
+						"<p style='text-align:center;'>"
+								+ (!target.hasPersonalityTrait(LOUD)
+								?"[style.colourDisabled([npc.Name] already [npc.do]n't speak loudly, so nothing happens...)]"
+								:"[npc.Name] [npc.verb(find)] [npc.herself] [style.colourMinorGood(no longer speaking loudly]!")
+								+ "</p>");
+			}
+
 	},;
 	
 	private boolean specialRequirements;

@@ -4831,6 +4831,9 @@ public abstract class GameCharacter implements XMLSaving {
 					sb.append(pt.getRemovalDescription(this));
 				}
 			}
+            if((trait==PersonalityTrait.CONFIDENT || trait==PersonalityTrait.BRAVE) && Math.random()<0.5f){
+                this.addPersonalityTrait(PersonalityTrait.LOUD);
+            }
 		}
 		if(personalityTraits.add(trait) && Main.game.isStarted() && this.getBody()!=null) {
 			sb.append(trait.getAdditionDescription(this));
