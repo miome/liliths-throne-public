@@ -435,7 +435,7 @@ public enum PersonalityTrait {
 						 "[style.italicsBad(All of [npc.namePos] in-game speech will be affected by this!)]", PresetColour.BASE_BROWN) {
 			@Override
 			public List<PersonalityTrait> getMutuallyExclusiveSettings() {
-				return Util.newArrayListOfValues(MUTE);
+				return Util.newArrayListOfValues(MUTE, LISP);
 			}
 			@Override
 			public String getAdditionDescription(GameCharacter target) {
