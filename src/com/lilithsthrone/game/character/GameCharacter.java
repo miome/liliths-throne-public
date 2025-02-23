@@ -6530,7 +6530,7 @@ public abstract class GameCharacter implements XMLSaving {
 	}
 	
 	public String incrementExperience(int increment, boolean withExtraModifiers) {
-		if (getLevel() == LEVEL_CAP) {
+		if (getLevel() == LEVEL_CAP || withExtraModifiers) {
 			experience = 0;
 			return "";
 		}
