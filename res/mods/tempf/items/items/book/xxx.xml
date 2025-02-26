@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<item>
+	<coreAttributes>
+		<value>100000</value> 
+		<determiner><![CDATA[]]></determiner>
+		<name><![CDATA[[style.glowPurpleDark(PORNOMICON)]]]></name>
+		<namePlural pluralByDefault="false"><![CDATA[[style.glowPurpleDark(PORNOMICON)]]]></namePlural>
+		<description><![CDATA[
+			Bound in dark purple leather that seems to pulse with an unseen rhythm, the [style.glowPurpleDark(PORNOMICON)] is a book now soul-bonded to you. 
+			The promise of knowledge, both arcane and lewd, whispers into your ear whenever you hold it in your hands... 
+			<br/><br/>
+			Will you be able to resist its allure, or be doomed to submit yourself to horrors beyond mortal comprehension?
+		]]></description> 
+		
+		<useDescriptor>read</useDescriptor>
+		
+		<sexUse>false</sexUse>
+		<combatUseAllies>false</combatUseAllies>
+		<combatUseEnemies>false</combatUseEnemies>
+		<consumedOnUse>false</consumedOnUse>
+		
+		<rarity>QUEST</rarity> 
+		
+		<imageName>book.svg</imageName> 
+		
+		<colourPrimary>CLOTHING_PURPLE_VERY_DARK</colourPrimary>
+		<colourSecondary>CLOTHING_STEEL</colourSecondary>
+		<colourTertiary>CLOTHING_PINK_HOT</colourTertiary>
+		
+		<statusEffects/>
+		
+		<effectTooltipLines>
+			<line><![CDATA[Read its content.]]></line>
+		</effectTooltipLines>
+		
+		<applyEffects/>
+		
+		<itemTags>
+			<tag>NO_RANDOM_SPAWN</tag>
+			<tag>NOT_FOR_SALE</tag>
+			<tag>REMOVE_FROM_DEBUG_SPAWNER</tag>
+		</itemTags>
+		
+	</coreAttributes>
+
+	<useDescriptions>
+		<selfUse><![CDATA[
+			#IF(npc.isPlayer())
+				[##npc.setAffection('blackWomb', 1)]
+			#ENDIF
+		]]></selfUse>
+		<otherUse><![CDATA[
+			#IF(!npc2.isPlayer() && !npc2.isUnique())
+				[##npc.setAffection('blackWomb', 2)]
+			#ENDIF
+		]]></otherUse>
+	</useDescriptions>
+</item>

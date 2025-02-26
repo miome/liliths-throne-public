@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dialogueFlags>
+	<flag dailyReset="false">FirstOffering</flag>
+	<flag dailyReset="false">FirstMassOffering</flag>
+	
+	<flag dailyReset="true">MassOfferingDaily</flag>
+</dialogueFlags>

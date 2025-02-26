@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<tattoo>
+	<coreAttributes>
+		<value>500</value> 
+		
+		<name><![CDATA[spiral knot]]></name>
+		
+		<description><![CDATA[A depiction of a Celtic spiral knot, believed to symbolise the transition between the physical and spiritual worlds. It looks different than you remember ...]]></description>
+		<bodyOverviewDescription><![CDATA[a tattoo which depicts a Celtic spiral knot. it has changed.]]></bodyOverviewDescription>
+		
+		<imageName>tempf_spiral.svg</imageName>
+
+		<!--<availabilityRequirements><![CDATA[npc.hasItemType(ITEM_tempf_book_xxx)]]></availabilityRequirements>-->
+                <availabilityRequirements unique="true">false</availabilityRequirements>
+
+
+		<slotAvailability/>
+		
+		<primaryColours values="ALL" defaultColour="CLOTHING_BLUE_LIGHT"/> 
+		<secondaryColours/> 
+		<tertiaryColours/> 
+		
+	</coreAttributes>
+	
+</tattoo>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<tattoo>
+	<coreAttributes>
+		<value>500</value> 
+		
+		<name><![CDATA[tentacle-marked limb]]></name>
+		
+		<description><![CDATA[A mysterious mark, symbol of a brush with the eldritch arcane.]]></description>
+		<bodyOverviewDescription><![CDATA[Mark of a tentacle left on the body]]></bodyOverviewDescription>
+		
+		<imageName>tempf_limbmarked.svg</imageName>
+		<availabilityRequirements><![CDATA[npc.hasItemType(ITEM_tempf_book_xxx)]]></availabilityRequirements>
+
+
+		<slotAvailability>
+			<slot>SOCK</slot>
+			<slot>HAND</slot>
+		</slotAvailability>
+
+		<primaryColours values="ALL" defaultColour="CLOTHING_BLUE_LIGHT"/> 
+		<secondaryColours/> 
+		<tertiaryColours/> 
+		
+	</coreAttributes>
+	
+</tattoo>

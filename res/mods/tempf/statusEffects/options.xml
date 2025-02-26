@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<statusEffect>
+	<renderingPriority>70</renderingPriority>
+	
+	<!-- 'true' if you want this status effect to be displayed in the affected character's status effect panel. This should pretty much always be 'true'. -->
+	<renderInEffectsPanel>false</renderInEffectsPanel>
+	
+	<!-- The category which this status effect falls into. You can omit this field if you want it to be set to DEFAULT (which is the standard category).
+	Categories, along with their meanings, can be found here: https://github.com/Innoxia/liliths-throne-public/blob/dev/src/com/lilithsthrone/game/character/effects/StatusEffectCategory.java -->
+	<category>DEFAULT</category>
+	
+	<!-- 'BENEFICIAL' if this is a good status effect for a character to have, 'NEUTRAL' if it's neither, or 'DETRIMENTAL' if it's a bad one. -->
+	<beneficial>NEUTRAL</beneficial>
+	
+	<!-- 'true' if you want this status effect to be rendered during combat, and if the 'applyEffects' element should be applied to the affected character on every combat round during which it is active.
+	This should only be set to true if this a status effect which is applied and used *only* in combat.
+	Status effects which are marked as combat status effects are not ever applied outside of combat. -->
+	<combatEffect>false</combatEffect>
+	
+	<!-- 'true' if you want this status effect to be rendered during sex. -->
+	<sexEffect>false</sexEffect>
+	
+	<tags/>
+	
+	<!-- The name of this set bonus. The character under the effect is passed in as the 'npc' parsing argument, so if you want to, you can include parsing elements such as [npc.name]. -->
+	<name><![CDATA[BLACKWOMB]]></name>
+	
+	<!-- The description of this status effect. The character under the effect is passed in as the 'npc' parsing argument, so if you want to, you can include parsing elements such as [npc.name]. -->
+	<description><![CDATA[
+		HAIL SHUB-NIGGURATH, THE DARK MOTHER OF A THOUSAND YOUNG
+	]]></description>
+	
+	<!-- The name of the icon which should be used to represent this status effect. The icon must be an svg file, and must be placed in the same folder as this XML file. -->
+	<imageName>book.svg</imageName>
+	
+	<!-- The colour which should be associated with this status effect. Just like with clothing and weapon recolouring, this is used to recolour the image you used above.
+	A PresetColour value should be used here, drawn from: https://github.com/Innoxia/liliths-throne-public/blob/dev/src/com/lilithsthrone/utils/colours/PresetColour.java -->
+	<colourPrimary>CLOTHING_PURPLE_VERY_DARK</colourPrimary>
+	<colourSecondary>CLOTHING_STEEL</colourSecondary>
+	<colourTertiary>CLOTHING_PINK_HOT</colourTertiary>
+	
+	<attributeModifiers/>
+	
+	<combatMoves/>
+	
+	<spells/>
+
+	<extraEffects/>
+
+	<applicationCondition><![CDATA[
+		[#game.isInNewWorld() && npc.isPlayer()]
+	]]></applicationCondition>
+	
+	<applyEffect><![CDATA[
+		#IF(npc.getAffectionMap().get('blackWomb') == 1)
+			[##npc.setAffection('blackWomb', 0); game.setContent(DN_tempf_book_book_null.getResponse(0, 0))]
+		#ELSEIF(npc.getAffectionMap().get('blackWomb') == 2)
+			[##npc.setAffection('blackWomb', 0); game.setContent(DN_tempf_book_book_null.getResponse(0, 1))]
+		#ENDIF
+	]]></applyEffect>
+	
+	<!-- In a similar manner to the 'applyEffect' element above, the game processes logic when a status effect is removed. (This logic is performed while the character is still under the effects of this status effect.) -->
+	<applyRemovalEffect/>
+	
+	<!-- In a similar manner to the 'applyEffect' element above, the game processes logic after a status effect has been removed. (This logic is performed immediately after the effect is removed, so the character is no longer under the effects of this status effect.) -->
+	<applyPostRemovalEffect/>
+	
+</statusEffect>

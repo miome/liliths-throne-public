@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   cursor="default"
+   version="1.1"
+   viewBox="0 0 256 256"
+   id="svg34"
+   sodipodi:docname="x-sign.svg"
+   inkscape:version="1.3.1 (9b9bdc1480, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview34"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="3.0546875"
+     inkscape:cx="128"
+     inkscape:cy="128"
+     inkscape:window-width="1854"
+     inkscape:window-height="1010"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg34"
+     showgrid="false" />
+  <defs
+     id="defs18">
+    <linearGradient
+       id="linearGradient924"
+       x1="18.12"
+       x2="21.466"
+       y1="241.29"
+       y2="228.73"
+       gradientTransform="matrix(.0086692 .99996 .99996 -.0086692 -.22047 .26984)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#917c6f"
+         offset="0"
+         id="stop1" />
+      <stop
+         stop-color="#ac9d93"
+         offset="1"
+         id="stop2" />
+    </linearGradient>
+    <linearGradient
+       id="innoGrad4">
+      <stop
+         stop-color="#ffb380"
+         offset="0"
+         id="stop3" />
+      <stop
+         stop-color="#fca"
+         offset="1"
+         id="stop4" />
+    </linearGradient>
+    <linearGradient
+       id="innoGrad5"
+       x1="149.74"
+       x2="147.34"
+       y1="110.12"
+       y2="107.69"
+       gradientTransform="matrix(.0086692 .99996 .99996 -.0086692 -.22047 .26984)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#916f6f"
+         offset="0"
+         id="stop5" />
+      <stop
+         stop-color="#ac9393"
+         offset="1"
+         id="stop6" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient1284"
+       x1="30"
+       x2="30.714"
+       y1="226.18"
+       y2="225.42"
+       gradientTransform="matrix(.0086692 .99996 .99996 -.0086692 -.22047 .26984)"
+       gradientUnits="userSpaceOnUse"
+       xlink:href="#innoGrad4" />
+    <linearGradient
+       id="linearGradient1292"
+       x1="37.634"
+       x2="38.214"
+       y1="219.17"
+       y2="218.59"
+       gradientTransform="matrix(.0086692 .99996 .99996 -.0086692 -.22047 .26984)"
+       gradientUnits="userSpaceOnUse"
+       xlink:href="#innoGrad4" />
+    <linearGradient
+       id="linearGradient1306"
+       x1="40.045"
+       x2="40.938"
+       y1="216.76"
+       y2="215.78"
+       gradientTransform="matrix(.0086692 .99996 .99996 -.0086692 -.22047 .26984)"
+       gradientUnits="userSpaceOnUse"
+       xlink:href="#innoGrad4" />
+    <linearGradient
+       id="linearGradient1314"
+       x1="42.455"
+       x2="43.348"
+       y1="214.21"
+       y2="213.32"
+       gradientTransform="matrix(.0086692 .99996 .99996 -.0086692 -.22047 .26984)"
+       gradientUnits="userSpaceOnUse"
+       xlink:href="#innoGrad4" />
+    <linearGradient
+       id="linearGradient1322"
+       x1="50.58"
+       x2="51.071"
+       y1="206.49"
+       y2="206.04"
+       gradientTransform="matrix(.0086692 .99996 .99996 -.0086692 -.22047 .26984)"
+       gradientUnits="userSpaceOnUse"
+       xlink:href="#innoGrad4" />
+    <linearGradient
+       id="innoGrad3"
+       x1="27.009"
+       x2="54.821"
+       y1="229.57"
+       y2="202.83"
+       gradientTransform="matrix(.0086692 .99996 .99996 -.0086692 -.22047 .26984)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#f95"
+         offset="0"
+         id="stop7" />
+      <stop
+         stop-color="#ff7f2a"
+         offset=".088"
+         id="stop8" />
+      <stop
+         stop-color="#f95"
+         offset=".265"
+         id="stop9" />
+      <stop
+         stop-color="#ff7f2a"
+         offset=".446"
+         id="stop10" />
+      <stop
+         stop-color="#ff7f2a"
+         offset=".601"
+         id="stop11" />
+      <stop
+         stop-color="#f95"
+         offset=".733"
+         id="stop12" />
+      <stop
+         stop-color="#ff7f2a"
+         offset=".863"
+         id="stop13" />
+      <stop
+         stop-color="#f95"
+         offset="1"
+         id="stop14" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient903"
+       x1="200.1"
+       x2="191.22"
+       y1="65.966"
+       y2="57.051"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#916f6f"
+         offset="0"
+         id="stop15" />
+      <stop
+         stop-color="#ac9393"
+         offset="1"
+         id="stop16" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient943"
+       x1="185.93"
+       x2="178.95"
+       y1="77.051"
+       y2="70.746"
+       gradientUnits="userSpaceOnUse"
+       xlink:href="#linearGradient924" />
+    <linearGradient
+       id="linearGradient951"
+       x1="181.93"
+       x2="175.36"
+       y1="82.508"
+       y2="76.271"
+       gradientUnits="userSpaceOnUse"
+       xlink:href="#linearGradient924" />
+    <linearGradient
+       id="linearGradient938"
+       x1="18.12"
+       x2="21.466"
+       y1="241.29"
+       y2="228.73"
+       gradientTransform="matrix(.0086692 .99996 .99996 -.0086692 -.22047 .26984)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#fd5"
+         offset="0"
+         id="stop17" />
+      <stop
+         stop-color="#fea"
+         offset="1"
+         id="stop18" />
+    </linearGradient>
+  </defs>
+  <ellipse
+     style="fill:#c02f2f;stroke:#000000;stroke-width:3;stroke-linejoin:round;fill-opacity:1;stroke-dasharray:none"
+     id="path22"
+     cx="130.23338"
+     cy="130.46803"
+     rx="89.238487"
+     ry="83.833763" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:192px;line-height:1.25;font-family:Dhurjati;-inkscape-font-specification:Dhurjati;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1;stroke-width:3;stroke-dasharray:none;stroke-linejoin:round"
+     x="85.554993"
+     y="179.0844"
+     id="text22"><tspan
+       sodipodi:role="line"
+       id="tspan22"
+       x="85.554993"
+       y="179.0844">X</tspan></text>
+</svg>

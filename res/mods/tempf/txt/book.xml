@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dialogue>
+
+	<!-- OPTIONS -->
+	<htmlContent tag="null"><![CDATA[
+		<p>
+			That is not dead which can eternal lie, and with strange aeons even death may die.
+		</p>
+	]]></htmlContent>
+
+	<htmlContent tag="OPTIONS"><![CDATA[
+		<p>
+			You open up the pages of the book, the title [style.glowPurpleDark(PORNOMICON)] catches your eye, before you start looking through its contents. 
+		</p>
+		#IF(pc.getAttributeValue(ATTRIBUTE_MAJOR_CORRUPTION) < 70)
+			<p>
+				The text is written in a shifting script, its meaning mostly elusive to you. 
+				You catch onto some words, like "offering", "birth", "gateway"... none of them comforting you in the slightest. 
+			</p>
+			<p>
+				The deep purple ink seemingly pulsates with a rhythm disturbingly akin to a heartbeat, and you find yourself getting a growing headache as you read...
+			</p>
+		#ELSE
+			<p>
+				The text is written in a shifting script, its meaning still quite elusive to you. 
+				You catch onto some words, like "offering", "birth", "gateway"... and you find your mind wandering, whether you can be what it insinuates. 
+			</p>
+			<p>
+				The deep purple ink seemingly pulsates with a rhythm disturbingly akin to a heartbeat, and you find yourself getting aroused as you read...
+			</p>
+		#ENDIF
+	]]>
+	</htmlContent>
+
+	<htmlContent tag="OFFERING"><![CDATA[
+		[##function calcExp(num, num2) {
+			if(num < num2) {
+				num2 = num;
+			}
+			return ((num * (num + 1) / 2) - ((num - num2) * (num - num2 + 1) / 2)) * 10;
+		}]
+		[## var str = ''; var limit = 5; var level = npc2.getTrueLevel(); function applySpecialLevelDrain(npc, npc2) {
+			str += "<p style='text-align:center; margin:0;'>" 
+					+ "[style.italicsBad(As [npc2.she] [npc2.verb(orgasm)] repeatedly by the tentacles, [npc2.name] [npc2.verb(feel)] [npc2.herself] getting weaker and weaker...)]"
+					+ "</p>";
+			if(level <= limit) {
+				limit = level - 1;
+			}
+			str += npc2.levelDown(limit);
+			str += npc.incrementExperience(calcExp(level, limit), false);
+		}]
+		[##function cumDescription() {
+			var str = '';
+			if(pc.hasPenisIgnoreDildo()) {
+				var cumQuantity = pc.getPenisRawOrgasmCumQuantity();
+				str += "<p>Your [pc.cock+] twitches, and you feel your [pc.balls] tightening as you start to cum. As your [pc.balls+] tense up, ";
+
+				if(pc.getPenisOrgasmCumQuantity() == CUM_PRODUCTION_ZERO_NONE) {
+					str += "not even a single drop of [pc.cum+] is produced, making you feel [style.boldBad(frustrated and horny)]!";
+					pc.addStatusEffect(SE_FRUSTRATED_NO_ORGASM, (4*60*60));
+				}
+				else if(pc.isWearingCondom()) {
+					str += "[#pc.getPenisOrgasmCumQuantity().getDescriptor()] [pc.cum+] spurts into the condom you're wearing, ";
+					var condomEffect = pc.getClothingInSlot(IS_PENIS).getCondomEffect().getPotency();
+					if(condomEffect=="MINOR_DRAIN"
+						|| (cumQuantity > CUM_PRODUCTION_FIVE_HUGE.getMaximumValue() && condomEffect=="MINOR_BOOST")
+						|| (cumQuantity > CUM_PRODUCTION_SIX_EXTREME.getMaximumValue() && (condomEffect=="MINOR_BOOST" || condomEffect=="BOOST"))) {
+							str += "but [style.italicsTerrible(the condom broke)] as you're cumming, splattering cum all over yourself instead!";
+							str += "[#sex.applyCummedOnEffects(CA_PENIS, pc, pc, true)]";
+					}
+					else {
+						str += "your [pc.cum] [style.boldGood(safely caught in your condom)], saving yourself from a potentially [#pc.getCumModifiers().get(RND.nextInt(pc.getCumModifiers().size())).getName()] situation!";
+						str += "[#pc.addItem(
+							game.getItemGen().generateFilledCondom(
+									pc.getClothingInSlot(IS_PENIS).getClothingType().equals(CT_innoxia_penis_condom_webbing)
+										?ITEM_CONDOM_USED_WEBBING
+										:ITEM_CONDOM_USED,
+									pc.getClothingInSlot(IS_PENIS).getColour(0),
+									pc, pc.getCum(), pc.getPenisRawOrgasmCumQuantity()),
+							false, true)]";
+					}
+					pc.getClothingInSlot(IS_PENIS).setSealed(false);
+					pc.unequipClothingIntoVoid(pc.getClothingInSlot(IS_PENIS), true, pc);
+				}
+				else if(pc.getLowestZLayerCoverableArea(CA_PENIS) != null) {
+					str += "[#pc.getPenisOrgasmCumQuantity().getDescriptor()] [pc.cum+] spurts into the [#pc.getLowestZLayerCoverableArea(CA_PENIS).getName()] you're wearing!";
+					str += "[#sex.applyCummedOnEffects(CA_PENIS, pc, pc, true)]";
+				}
+				else if (pc.hasFetish(FETISH_CUM_STUD) || pc.hasFetish(FETISH_CUM_ADDICT)) {
+					str += "you aim your [pc.cock+] towards yourself, before [#pc.getPenisOrgasmCumQuantity().getDescriptor()] [pc.cum+] spurts out all over your stomach! [pc.She] can't help but let out [pc.a_moan] as you feel it running down over your [pc.skin].";
+					str += "[#sex.applyCummedOnEffects(CA_STOMACH, pc, pc, true)]";
+				}
+				else {
+					str += "[#pc.getPenisOrgasmCumQuantity().getDescriptor()] [pc.cum+] spurts out all over the floor.";
+				}
+				str += "[#pc.incrementPenisStoredCum(-(pc.getPenisRawOrgasmCumQuantity()))]</p>";
+			}
+
+			if(pc.hasVagina()) {
+				str += "<p>A desperate, shuddering heat suddenly crashes up from your [pc.pussy+], and you let out a manic squeal as a blinding wave of pure ecstasy washes over you. Your [pc.pussy+] clenches down hard, ";
+				var vaginaClothing = pc.getLowestZLayerCoverableArea(CA_VAGINA);
+				if(vaginaClothing!=null && vaginaClothing.getItemTags().contains(ITEM_TAG_PLUGS_VAGINA)) {
+					str += "causing you to let out a series of high-pitched moans as your vaginal muscles grip and squeeze around the [#vaginaClothing.getName()] inserted into your [pc.pussy]. ";
+				} else {
+					str += "and the wave of disappointment upon finding itself empty almost overwhelms the pleasure that radiates up through your groin. ";
+				}
+				if(pc.isVaginaSquirter()) {
+					str += "As your [pc.pussy+] uncontrollably spasms and quivers with delight, it suddenly squirts out a huge amount of hot, [pc.girlcum+]! ";
+					if(vaginaClothing!=null) {
+						if(!vaginaClothing.getItemTags().contains(ITEM_TAG_PLUGS_VAGINA) && !vaginaClothing.getItemTags().contains(ITEM_TAG_SEALS_VAGINA)) {
+							str += "[pc.She] let out a deep sigh as you feel your [#vaginaClothing.getName()] [#vaginaClothing.getClothingType().isPlural()?'are':'is'] quickly getting dirtied by your fluids. ";
+						} else {
+							str += "As your [#vaginaClothing.getName()] [#vaginaClothing.getClothingType().isPlural()?'are':'is'] sealing your [pc.pussy], nothing gets dirtied by your fluids. ";
+						}
+						vaginaClothing.setDirty(pc, true);
+					}
+				}
+				str += "</p>";
+			}
+			
+			if(!pc.hasPenisIgnoreDildo() && !pc.hasVagina())
+				str += "<p>With an ear-splitting scream and trembling legs, a crashing wave of pure ecstasy suddenly washes through you. The muscles within your genderless mound start to spasm and contract, and you're soon left as a panting, moaning wreck as an intense pseudo-orgasm crashes over you. </p>";
+			
+			return str;
+		}]
+		
+		<p>
+			The book floats out of your grasp, moving ominously towards [npc2.nameFull(true)]. It opens up, its contents facing towards [npc2.herHim] as the pages flutter past, one by one... 
+			The air trembles, the ground beneath you pulses as if something vast and unseen stirred below. A scent, thick and cloying, rises from the earth — sweet like overripe fruit, yet tinged with rot.
+		</p>
+		<p>
+			Then it appears. A fissure tears through the air below [npc2.name], spreading reality apart like a pair of pussylips; a throbbing, undulating abyss, its edges lined with questing tendrils slick with unknowable fluids.
+		</p>
+
+		#IF(pc.getAttributeValue(ATTRIBUTE_MAJOR_CORRUPTION) < 70)
+            #IF(!flags.hasFlag('tempf_FirstOffering'))
+				<p>
+					[pc.speech(Wh... what even...?)] You can only mutter in horror at the... thing you've unleashed, watching helplessly as they latch onto [npc2.her] limbs. 
+				</p>
+			#ELSE
+				<p>
+					You gulp, watching the scene unfold before you in equal parts terror and fascination, your [pc.eyes] tracing each tentacle as they latch onto [npc2.her] limbs. 
+				</p>
+			#ENDIF
+		#ELSE
+			<p>
+				Unable to resist the call beyond the void, you slowly run your [pc.fingers] along your crotch, [pc.moaning] in tandem with the pulsing tune of the abyss as the Dark Mother's fingers close around [npc2.her] limbs. 
+			</p>
+		#ENDIF
+
+		<p>
+			As [npc2.she] [npc.verb(thrash)] about in their grasps, panic settling in [npc2.her] [npc2.eyes], a tentacle snakes up [npc.her] [#(npc.getLegCount() < 2?"tail":"legs")] and 
+			#IF(npc2.hasVagina())
+				sink itself into [npc2.her] [npc2.pussy+], 
+			#ELSEIF(npc2.hasPenisIgnoreDildo())
+				wrap itself around [npc2.her] [npc2.cock+], 
+			#ELSE
+				grind itself around [npc2.her] mound, 
+			#ENDIF
+			making the [npc2.race] [npc2.moan] out from the foreign experience. 
+			As more and more tentacles wrap around [npc2.her] body, slipping themselves into [npc2.her] orifices, [npc2.her] resistance falters as well... until you can only hear [npc2.her] pleasure-filled [npc2.moans] coming from it. 
+		</p>
+		
+		#IF(pc.getAttributeValue(ATTRIBUTE_MAJOR_CORRUPTION) < 70)
+            #IF(!flags.hasFlag('tempf_FirstOffering'))
+				<p>
+					[pc.speech(Oh god...)] You sink to your knees, swallowing the bile that threatens to rise. Your train of thought is interrupted as your body shudders, suddenly hit with wave after waves of pleasure!
+				</p>
+				#IF(npc2.getLevel() > 1)
+					[#applySpecialLevelDrain(pc, npc2); str]
+				#ELSE
+					<p style='text-align:center; margin:0;'>
+						As [npc2.name] is too weak, the strength you absorbed is negligible... 
+					</p>
+				#ENDIF
+				[#cumDescription()]
+				<p>
+					You lie flat on the floor, panting heavilly from the strange experience. The pleasure you felt... it's nothing like an orgasm, but more of a whole-body climax. 
+				</p>
+			#ELSE
+				<p>
+					You [pc.moan] as a familiar heat rises from within, trying to hold it off for however long you can... but it's futile. 
+				</p>
+				#IF(npc2.getLevel() > 1)
+					[#applySpecialLevelDrain(pc, npc2); str]
+				#ELSE
+					<p style='text-align:center; margin:0;'>
+						As [npc2.name] is too weak, the strength you absorbed is negligible... 
+					</p>
+				#ENDIF
+				[#cumDescription()]
+				<p>
+					You lie flat on the floor, panting heavilly as you let the pleasure runs its course... You're left wondering to yourself why did you do let another person be taken. 
+				</p>
+			#ENDIF
+		#ELSE
+			<p>
+				You sink onto the floor as you prepare to receive the Dark Mother's blessing... and soon enough, a wave of ecstasy crashes into you, making you [pc.moan] out loudly from the sheer intensity! 
+			</p>
+			#IF(npc2.getLevel() > 1)
+				[#applySpecialLevelDrain(pc, npc2); str]
+			#ELSE
+				<p style='text-align:center; margin:0;'>
+					As [npc2.name] is too weak, the strength you absorbed is negligible... 
+				</p>
+			#ENDIF
+			[#cumDescription()]
+			<p>
+				#IF(pc.getLowestZLayerCoverableArea(CA_PENIS) != null)
+					Pulling your clothes away, you 
+				#ELSE
+					You 
+				#ENDIF
+				#IF(pc.hasPenisIgnoreDildo())
+					rapidly stroke your [pc.cock+] as you keep cumming, letting your [pc.cum+] fly into the air, 
+				#ELSEIF(pc.hasVagina())
+					rapidly finger yourself as you keep cumming, spraying your [pc.girlcum+] all over the floor, 
+				#ELSE
+					rapidly grind your [pc.fingers] against your genderless mound as you keep cumming, bucking your hips into the air, 
+				#ENDIF
+				celebrating another successful offering! 
+			</p>
+		#ENDIF
+
+		<p>
+			With a shudder, the mass of wriggling appendages sink back into the gateway, carrying your offering with them. You watch with baited breath as the portal convulses, its edges folding inward like the closing mouth of some titanic, unseen maw.
+		</p>
+		<p>
+			And then, it was gone. Not leaving even a trace of its existence.
+		</p>
+		
+		#IF(pc.getAttributeValue(ATTRIBUTE_MAJOR_CORRUPTION) < 70)
+            #IF(!flags.hasFlag('tempf_FirstOffering'))
+				[##flags.setFlag('tempf_FirstOffering', true)]
+				<p>
+					Sitting back up, you gather your belongings before quickly leaving the area. You're apprehensive about using this again... 
+				<p>
+			#ELSE
+				<p>
+					Sitting back up, you gather your belongings before leaving the area. At first, you're apprehensive about using this book again... yet you find yourself tempted for more... more power... <i>more pleasure...</i>
+				<p>
+			#ENDIF
+		#ELSE
+			<p>
+				Breathing heavily as the pleasure fades away, you gather your belongings before leaving the area. Time to find the next victim... 
+			</p>
+		#ENDIF
+		[##game.banishNPC(game.getNonCompanionCharactersPresent(false).get(0))]
+		[#flags.setSavedLong('darkYoungCount', flags.getSavedLong('darkYoungCount') + 1); pc.incrementAttribute(ATTRIBUTE_MAJOR_CORRUPTION, 5)]
+	]]>
+	</htmlContent>
+
+	<htmlContent tag="MASS_OFFERING"><![CDATA[
+		[##function cumDescription() {
+			var str = '';
+			if(pc.hasPenisIgnoreDildo()) {
+				var cumQuantity = pc.getPenisRawOrgasmCumQuantity();
+				str += "<p>Your [pc.cock+] twitches, and you feel your [pc.balls] tightening as you start to cum. As your [pc.balls+] tense up, ";
+
+				if(pc.getPenisOrgasmCumQuantity() == CUM_PRODUCTION_ZERO_NONE) {
+					str += "not even a single drop of [pc.cum+] is produced, making you feel [style.boldBad(frustrated and horny)]!";
+					pc.addStatusEffect(SE_FRUSTRATED_NO_ORGASM, (4*60*60));
+				}
+				else if(pc.isWearingCondom()) {
+					str += "[#pc.getPenisOrgasmCumQuantity().getDescriptor()] [pc.cum+] spurts into the condom you're wearing, ";
+					var condomEffect = pc.getClothingInSlot(IS_PENIS).getCondomEffect().getPotency();
+					if(condomEffect=="MINOR_DRAIN"
+						|| (cumQuantity > CUM_PRODUCTION_FIVE_HUGE.getMaximumValue() && condomEffect=="MINOR_BOOST")
+						|| (cumQuantity > CUM_PRODUCTION_SIX_EXTREME.getMaximumValue() && (condomEffect=="MINOR_BOOST" || condomEffect=="BOOST"))) {
+							str += "but [style.italicsTerrible(the condom broke)] as you're cumming, splattering cum all over yourself instead!";
+							str += "[#sex.applyCummedOnEffects(CA_PENIS, pc, pc, true)]";
+					}
+					else {
+						str += "your [pc.cum] [style.boldGood(safely caught in your condom)], saving yourself from a potentially [#pc.getCumModifiers().get(RND.nextInt(pc.getCumModifiers().size())).getName()] situation!";
+						str += "[#pc.addItem(
+							game.getItemGen().generateFilledCondom(
+									pc.getClothingInSlot(IS_PENIS).getClothingType().equals(CT_innoxia_penis_condom_webbing)
+										?ITEM_CONDOM_USED_WEBBING
+										:ITEM_CONDOM_USED,
+									pc.getClothingInSlot(IS_PENIS).getColour(0),
+									pc, pc.getCum(), pc.getPenisRawOrgasmCumQuantity()),
+							false, true)]";
+					}
+					pc.getClothingInSlot(IS_PENIS).setSealed(false);
+					pc.unequipClothingIntoVoid(pc.getClothingInSlot(IS_PENIS), true, pc);
+				}
+				else if(pc.getLowestZLayerCoverableArea(CA_PENIS) != null) {
+					str += "[#pc.getPenisOrgasmCumQuantity().getDescriptor()] [pc.cum+] spurts into the [#pc.getLowestZLayerCoverableArea(CA_PENIS).getName()] you're wearing!";
+					str += "[#sex.applyCummedOnEffects(CA_PENIS, pc, pc, true)]";
+				}
+				else if (pc.hasFetish(FETISH_CUM_STUD) || pc.hasFetish(FETISH_CUM_ADDICT)) {
+					str += "you aim your [pc.cock+] towards yourself, before [#pc.getPenisOrgasmCumQuantity().getDescriptor()] [pc.cum+] spurts out all over your stomach! [pc.She] can't help but let out [pc.a_moan] as you feel it running down over your [pc.skin].";
+					str += "[#sex.applyCummedOnEffects(CA_STOMACH, pc, pc, true)]";
+				}
+				else {
+					str += "[#pc.getPenisOrgasmCumQuantity().getDescriptor()] [pc.cum+] spurts out all over the floor.";
+				}
+				str += "[#pc.incrementPenisStoredCum(-(pc.getPenisRawOrgasmCumQuantity()))]</p>";
+			}
+
+			if(pc.hasVagina()) {
+				str += "<p>A desperate, shuddering heat suddenly crashes up from your [pc.pussy+], and you let out a manic squeal as a blinding wave of pure ecstasy washes over you. Your [pc.pussy+] clenches down hard, ";
+				var vaginaClothing = pc.getLowestZLayerCoverableArea(CA_VAGINA);
+				if(vaginaClothing!=null && vaginaClothing.getItemTags().contains(ITEM_TAG_PLUGS_VAGINA)) {
+					str += "causing you to let out a series of high-pitched moans as your vaginal muscles grip and squeeze around the [#vaginaClothing.getName()] inserted into your [pc.pussy]. ";
+				} else {
+					str += "and the wave of disappointment upon finding itself empty almost overwhelms the pleasure that radiates up through your groin. ";
+				}
+				if(pc.isVaginaSquirter()) {
+					str += "As your [pc.pussy+] uncontrollably spasms and quivers with delight, it suddenly squirts out a huge amount of hot, [pc.girlcum+]! ";
+					if(vaginaClothing!=null) {
+						if(!vaginaClothing.getItemTags().contains(ITEM_TAG_PLUGS_VAGINA) && !vaginaClothing.getItemTags().contains(ITEM_TAG_SEALS_VAGINA)) {
+							str += "[pc.She] let out a deep sigh as you feel your [#vaginaClothing.getName()] [#vaginaClothing.getClothingType().isPlural()?'are':'is'] quickly getting dirtied by your fluids. ";
+						} else {
+							str += "As your [#vaginaClothing.getName()] [#vaginaClothing.getClothingType().isPlural()?'are':'is'] sealing your [pc.pussy], nothing gets dirtied by your fluids. ";
+						}
+						vaginaClothing.setDirty(pc, true);
+					}
+				}
+				str += "</p>";
+			}
+			
+			if(!pc.hasPenisIgnoreDildo() && !pc.hasVagina())
+				str += "<p>With an ear-splitting scream and trembling legs, a crashing wave of pure ecstasy suddenly washes through you. The muscles within your genderless mound start to spasm and contract, and you're soon left as a panting, moaning wreck as an intense pseudo-orgasm crashes over you. </p>";
+			
+			return str;
+		}]
+		[## var output = "<p style='text-align:center; margin:0;'>"; var exp = 0; var corruption = 0;
+			function massOffering(char) {
+				if (!char.isUnique() 
+					&& (char.getOccupation()== 'NPC_MUGGER' || char.getOccupation() == 'NPC_PROSTITUTE') 
+					&& char.getHomeLocationPlace().isDangerous() 
+					&& ! (char.getFather() == pc || char.getMother() == pc) ) {
+						exp += char.getExperienceNeededForNextLevel();
+						corruption += 5;
+						output += char.getName().substring(0,1).toUpperCase() + char.getName().substring(1);
+						if (pc.getAttributeValue(ATTRIBUTE_MAJOR_CORRUPTION) < 70) {
+							output += ' [style.boldBad(OFFERED)]<br/>' ; 
+						}
+						else {
+							output += ' [style.boldGood(ACCEPTED)]<br/>' ; 
+						}
+						game.banishNPC(char); 
+						flags.setSavedLong('darkYoungCount', flags.getSavedLong('darkYoungCount') + 1); 
+					} 
+				}
+			game.getAllNPCs().forEach(massOffering);
+			output += '</p>';
+		]
+		<p>
+			You run your fingers along the pulsing text, landing on a shifting title with an image of tendrils grabbing lots of people. 
+			#IF(pc.getAttributeValue(ATTRIBUTE_MAJOR_CORRUPTION) < 70)
+				#IF(!flags.hasFlag('tempf_FirstMassOffering'))
+					You can't quite make out what it's saying, but there's "welcome" in it, so it shouldn't be that bad, right? [pc.speech(Y' welcome n'ghft fhalma, l' reach h' bthnknahorr ph'nglui c' bthnkk, ng l' ah llll mgepahmggoka h' bthnknythgof'n...)]
+				#ELSE
+					With the whispers growing louder in your ear, you mutter the incantation underneath your breath... [pc.speech(Y' welcome n'ghft fhalma... l' reach h' bthnknahorr ph'nglui c' bthnkk... ng l' ah llll mgepahmggoka h' bthnknythgof'n...)]
+				#ENDIF
+			#ELSE
+				Smiling with glee, you recite the incantation: [pc.speech(Y' welcome n'ghft fhalma, l' reach h' bthnknahorr ph'nglui c' bthnkk, ng l' ah llll mgepahmggoka h' bthnknythgof'n!)]
+			#ENDIF
+		</p>
+		<p>
+			The book trembles, glowing in unnatural colours as the pages turn without your input, floating away from your hands. 
+		</p>
+		<p>
+			Then the screams started. 
+		</p>
+		<p>
+			You heard them in the distance, crying out in terror before promptly silenced. Your mind suddenly flashes with people — some just in passing, others you know deeply — getting all their orifices ravaged by squirming tentacles while being dragged into an undulating abyss. 
+			You know that they're not hallucinations; the book is showing you what's happening to them right now. 
+		</p>
+		#IF(pc.getAttributeValue(ATTRIBUTE_MAJOR_CORRUPTION) < 70)
+			#IF(!flags.hasFlag('tempf_FirstMassOffering'))
+				[##flags.setFlag('tempf_FirstMassOffering', true)]
+				<p>
+					You panic as you try to reverse, to stop what the book is doing, but it's too late. [style.boldBad(The deed is done.)] The book floats back into your hands when it's done, showing all the people that you've sent to their doom: 
+				</p>
+				[#output]
+				<p>
+					As you read through each name in horror, you find your body getting feverish as a foreign energy, not quite like the arcane, pours into you like a tidal wave! You let out [pc.a_moan+], collapsing on your knees as you orgasm on the spot! 
+				</p>
+				[#cumDescription()]
+				[#pc.incrementExperience(exp, false)]
+				[#pc.incrementAttribute(ATTRIBUTE_MAJOR_CORRUPTION, corruption)]
+				<p>
+					Panting heavily at the horrifying yet strangely pleasureable experience, you shakily stand back up before quickly running away, the scenes still fresh in your mind... 
+				</p>
+			#ELSE
+				<p>
+					Trying to ignore the flashing images in your mind, each one more erotic than the last, you wait until book finishes its job. The book floats back into your hands when it's done, showing all the people that you've sent to their doom: 
+				</p>
+				[#output]
+				<p>
+					As you read through each name, swallowing the guilt forming in your heart, you find a familiar energy coursing relentlessly into you, making you let out [pc.a_moan+] and orgasm on the spot! 
+				</p>
+				[#cumDescription()]
+				[#pc.incrementExperience(exp, false)]
+				[#pc.incrementAttribute(ATTRIBUTE_MAJOR_CORRUPTION, corruption)]
+				<p>
+					Panting heavily as the pleasure fades away, you take in a deep breath as you gather your thoughts... is it really worth sacrificing people for power...? With that in thought, you quickly leave the area, not liking that your answer is slowly changing... 
+				</p>
+			#ENDIF
+		#ELSE
+			<p>
+				Masturbating at the mental scenes, your find yourself wanting to join them too, to be embraced by the Dark Mother... but alas, you need to finish the task <b>SHE</b> has given to you. The book floats back into your hands when it's done, showing all the people that you've offered to <b>HER</b>: 
+			</p>
+			[#output]
+			<p>
+				You just scan through each name half-heartedly, waiting for <b>HER</b> blessing... and soon enough, your body is trembling in orgasmic bliss as power surges into you, making you cum on the spot! 
+			</p>
+			[#cumDescription()]
+			[#pc.incrementExperience(exp, false)]
+			[#pc.incrementAttribute(ATTRIBUTE_MAJOR_CORRUPTION, corruption)]
+			<p>
+				Panting in exhilaration as the high fades away, you take in a deep breath as you gather your thoughts... feeling regret that this only works for people you know so far. Shrugging to yourself, you move off to look for more victims... 
+			</p>
+		#ENDIF
+	]]>
+	</htmlContent>
+
+	<htmlContent tag="CLOSE_BOOK"><![CDATA[
+		#IF(pc.getAttributeValue(ATTRIBUTE_MAJOR_CORRUPTION) < 70)
+			<p>
+				You close the book, the uncomfortable whispers in your ear finally fading away. Shuddering from the experience, you quickly keep it in your inventory. 
+			</p>
+		#ELSE
+			<p>
+				You reluctantly close the book, the tantalizing whispers linger in your ears, before fading away. You sigh exasperatedly, before keeping it in your inventory. 
+			</p>
+		#ENDIF
+	]]>
+	</htmlContent>
+
+</dialogue>

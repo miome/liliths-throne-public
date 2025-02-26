@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<item>
+	<coreAttributes>
+		<value>0</value> 
+		<determiner><![CDATA[a]]></determiner>
+		<name><![CDATA[mysterious book]]></name>
+		<namePlural pluralByDefault="false"><![CDATA[mysterious books]]></namePlural>
+		<description><![CDATA[
+			A titleless book, bound in dark purple leather that seems to pulse with an unseen rhythm. What secrets will you uncover if you read from it? 
+		]]></description> 
+		
+		<useDescriptor>read</useDescriptor>
+		
+		<sexUse>false</sexUse>
+		<combatUseAllies>false</combatUseAllies>
+		<combatUseEnemies>false</combatUseEnemies>
+		<consumedOnUse>true</consumedOnUse>
+		
+		<rarity>JINXED</rarity> 
+		
+		<imageName>book.svg</imageName> 
+		
+		<colourPrimary>CLOTHING_PURPLE_VERY_DARK</colourPrimary>
+		<colourSecondary>CLOTHING_STEEL</colourSecondary>
+		<colourTertiary>CLOTHING_PINK_HOT</colourTertiary>
+		
+		<statusEffects/>
+		
+		<effectTooltipLines>
+			<line><![CDATA[
+				???
+			]]></line>
+		</effectTooltipLines>
+		
+		<applyEffects/>
+		
+		<itemTags>
+			<tag>NO_RANDOM_SPAWN</tag>
+			<tag>NOT_FOR_SALE</tag>
+		</itemTags>
+		
+	</coreAttributes>
+
+	<useDescriptions>
+		<selfUse><![CDATA[
+			#IF(npc.isPlayer())
+				[##flags.setSavedLong('darkYoungCount', 0); flags.setSavedLong('darkYoungMana', 0); npc.setAffection('blackWomb', 1)]
+			#ELSE
+				The moment [npc.name] [npc.verb(hold)] the book, it immediately vanishes, before reappearing in your hands. 
+				[#pc.addItem(itemGen.generateItem(ITEM_tempf_book_book))]
+			#ENDIF
+		]]></selfUse>
+		<otherUse><![CDATA[
+			The moment [npc2.name] [npc2.verb(hold)] the book, it immediately vanishes, before reappearing in your hands. 
+			[#pc.addItem(itemGen.generateItem(ITEM_tempf_book_book))]
+		]]></otherUse>
+	</useDescriptions>
+</item>

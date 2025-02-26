@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dialogueNodes>
+    <scene id="null">
+        <preParsingEffects/>
+        <content folderPath="mods/tempf/txt/book">null</content>
+        <secondsPassed><![CDATA[0]]></secondsPassed>
+        <continuesDialogue>false</continuesDialogue>
+        <travelDisabled>true</travelDisabled>
+        <responseTabs/>
+        <responses>
+            <response>
+                <responseTabIndex><![CDATA[0]]></responseTabIndex>
+                <index><![CDATA[0]]></index>
+                <responseTitle><![CDATA[???]]></responseTitle>
+                <responseTooltip><![CDATA[
+                ]]></responseTooltip>
+                <nextDialogue><![CDATA[tempf_book_book_options]]></nextDialogue>
+            </response>
+            <response>
+                <responseTabIndex><![CDATA[0]]></responseTabIndex>
+                <index><![CDATA[1]]></index>
+                <responseTitle><![CDATA[???]]></responseTitle>
+                <responseTooltip><![CDATA[
+                ]]></responseTooltip>
+                <nextDialogue><![CDATA[tempf_book_book_offering]]></nextDialogue>
+            </response>
+        </responses>
+    </scene>
+
+    <scene id="options">
+        <preParsingEffects><![CDATA[
+            #IF(!pc.hasItemType(ITEM_tempf_book_xxx))
+                [#game.appendToTextEndStringBuilder(pc.addItem(itemGen.generateItem(ITEM_tempf_book_xxx)))]
+            #ENDIF
+            [##var num = 0; function countNPC(char) {
+				if (!char.isUnique() 
+					&& (char.getOccupation()== 'NPC_MUGGER' || char.getOccupation() == 'NPC_PROSTITUTE') 
+					&& char.getHomeLocationPlace().isDangerous() 
+					&& ! (char.getFather() == pc || char.getMother() == pc) ) {
+						num += 1; 
+					} 
+				}
+			game.getAllNPCs().forEach(countNPC)]
+        ]]></preParsingEffects>
+        <content folderPath="mods/tempf/txt/book">OPTIONS</content>
+        <secondsPassed><![CDATA[0]]></secondsPassed>
+        <continuesDialogue>false</continuesDialogue>
+        <travelDisabled>true</travelDisabled>
+        <responseTabs/>
+        <responses>
+            <response>
+                <availabilityConditional><![CDATA[
+                    true
+                ]]></availabilityConditional>
+                <availabilityConditional><![CDATA[
+                    [#!flags.hasFlag('tempf_MassOfferingDaily')]
+                ]]></availabilityConditional>
+                <responseTabIndex><![CDATA[0]]></responseTabIndex>
+                <index><![CDATA[1]]></index>
+                <responseTitle><![CDATA[
+                    #IF(pc.getAttributeValue(ATTRIBUTE_MAJOR_CORRUPTION) < 70)
+                        Goka nilgh'ri
+                    #ELSE
+                        Mass Offering
+                    #ENDIF
+                ]]></responseTitle>
+                <responseTooltip><![CDATA[
+                    #IF(!flags.hasFlag('tempf_MassOfferingDaily'))
+                        #IF(pc.getAttributeValue(ATTRIBUTE_MAJOR_CORRUPTION) < 70)
+                            #IF(!flags.hasFlag('tempf_FirstMassOffering'))
+                                You don't know what this does... do you want to find out? 
+                            #ELSEIF(num < 1)
+                                You don't know enough people to use this spell. 
+                            #ELSE
+                                Offer random people to the book. 
+                            #ENDIF
+                        #ELSE
+                            Offer the masses to the Dark Mother. 
+                        #ENDIF
+                    #ELSE
+                        You've used this spell today. 
+                    #ENDIF
+                ]]></responseTooltip>
+                <nextDialogue><![CDATA[
+                    #IF(!flags.hasFlag('tempf_MassOfferingDaily') && num > 0)
+                        tempf_book_book_mass_offering
+                    #ELSE
+                        null
+                    #ENDIF
+                ]]></nextDialogue>
+            </response>
+            <response>
+                <responseTabIndex><![CDATA[0]]></responseTabIndex>
+                <index><![CDATA[0]]></index>
+                <responseTitle><![CDATA[Close]]></responseTitle>
+                <responseTooltip><![CDATA[
+                    Close the book. 
+                ]]></responseTooltip>
+                <nextDialogue><![CDATA[default]]></nextDialogue>
+                <effects><![CDATA[
+					[#game.appendToTextStartStringBuilder(game.parseFromFile('mods/tempf/txt/book', 'CLOSE_BOOK'))]
+				]]></effects>
+            </response>
+        </responses>
+    </scene>
+    
+    <scene id="offering">
+        <content folderPath="mods/tempf/txt/book">OFFERING</content>
+        <secondsPassed><![CDATA[0]]></secondsPassed>
+        <continuesDialogue>false</continuesDialogue>
+        <travelDisabled>true</travelDisabled>
+        <responseTabs/>
+        <responses>
+            <response>
+                <responseTabIndex><![CDATA[0]]></responseTabIndex>
+                <index><![CDATA[0]]></index>
+                <responseTitle><![CDATA[Close]]></responseTitle>
+                <responseTooltip><![CDATA[
+                    The deed is done. Your offering has been accepted. 
+                ]]></responseTooltip>
+                <nextDialogue><![CDATA[default]]></nextDialogue>
+            </response>
+        </responses>
+    </scene>
+
+    <scene id="mass_offering">
+        <preParsingEffects><![CDATA[
+            [##flags.setFlag('tempf_MassOfferingDaily', true)]
+        ]]></preParsingEffects>
+        <content folderPath="mods/tempf/txt/book">MASS_OFFERING</content>
+        <secondsPassed minutes="true"><![CDATA[5]]></secondsPassed>
+        <continuesDialogue>false</continuesDialogue>
+        <travelDisabled>true</travelDisabled>
+        <responseTabs/>
+        <responses>
+            <response>
+                <responseTabIndex><![CDATA[0]]></responseTabIndex>
+                <index><![CDATA[0]]></index>
+                <responseTitle><![CDATA[Leave]]></responseTitle>
+                <responseTooltip><![CDATA[
+                    The deed is done. Your offerings has been accepted. 
+                ]]></responseTooltip>
+                <nextDialogue><![CDATA[default]]></nextDialogue>
+            </response>
+        </responses>
+    </scene>
+</dialogueNodes>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<statusEffect>
+	<renderingPriority>70</renderingPriority>
+	
+	<!-- 'true' if you want this status effect to be displayed in the affected character's status effect panel. This should pretty much always be 'true'. -->
+	<renderInEffectsPanel>true</renderInEffectsPanel>
+	
+	<!-- The category which this status effect falls into. You can omit this field if you want it to be set to DEFAULT (which is the standard category).
+	Categories, along with their meanings, can be found here: https://github.com/Innoxia/liliths-throne-public/blob/dev/src/com/lilithsthrone/game/character/effects/StatusEffectCategory.java -->
+	<category>DEFAULT</category>
+	
+	<!-- 'BENEFICIAL' if this is a good status effect for a character to have, 'NEUTRAL' if it's neither, or 'DETRIMENTAL' if it's a bad one. -->
+	<beneficial>NEUTRAL</beneficial>
+	
+	<!-- 'true' if you want this status effect to be rendered during combat, and if the 'applyEffects' element should be applied to the affected character on every combat round during which it is active.
+	This should only be set to true if this a status effect which is applied and used *only* in combat.
+	Status effects which are marked as combat status effects are not ever applied outside of combat. -->
+	<combatEffect>false</combatEffect>
+	
+	<!-- 'true' if you want this status effect to be rendered during sex. -->
+	<sexEffect>false</sexEffect>
+	
+	<tags/>
+	
+	<!-- The name of this set bonus. The character under the effect is passed in as the 'npc' parsing argument, so if you want to, you can include parsing elements such as [npc.name]. -->
+	<name><![CDATA[[style.glowPurpleDark(PORNOMICON)]]]></name>
+	
+	<!-- The description of this status effect. The character under the effect is passed in as the 'npc' parsing argument, so if you want to, you can include parsing elements such as [npc.name]. -->
+	<description><![CDATA[
+		As the new master of the [style.glowPurpleDark(PORNOMICON)], you now have access to spells foreign to this plane of existence. 
+		<br/><br/>
+		[style.glowPurpleDark(Current foreign mana:)] [#flags.getSavedLong('darkYoungMana')]/[#var str = flags.getSavedLong('darkYoungCount') * 10; str = str.toString(); str]
+	]]></description>
+	
+	<!-- The name of the icon which should be used to represent this status effect. The icon must be an svg file, and must be placed in the same folder as this XML file. -->
+	<imageName>book.svg</imageName>
+	
+	<!-- The colour which should be associated with this status effect. Just like with clothing and weapon recolouring, this is used to recolour the image you used above.
+	A PresetColour value should be used here, drawn from: https://github.com/Innoxia/liliths-throne-public/blob/dev/src/com/lilithsthrone/utils/colours/PresetColour.java -->
+	<colourPrimary>CLOTHING_PURPLE_VERY_DARK</colourPrimary>
+	<colourSecondary>CLOTHING_STEEL</colourSecondary>
+	<colourTertiary>CLOTHING_PINK_HOT</colourTertiary>
+	
+	<attributeModifiers/>
+	
+	<combatMoves/>
+	
+	<spells/>
+
+	<extraEffects/>
+
+	<applicationCondition><![CDATA[
+		[#game.isInNewWorld() && npc.isPlayer() && npc.hasItemType(ITEM_tempf_book_xxx)]
+	]]></applicationCondition>
+
+	<!-- Status effects execute an 'applyEffect(GameCharacter npcet, int secondsPassed)' method every time the game ends a turn.
+	The 'npcet' is the character who is under the effect of this particular status effect, while the 'secondsPassed' is how much time, in seconds, has passed on this turn.
+	During combat, the 'secondsPassed' argument is always 1 (to represent 1 turn ending).
+	If the method returns a String, then the game's flow is interrupted to display the 'Important status effects' screen to the player, along with whatever String was returned by this applyEffect() method.
+	You can define your own effects to be parsed here, just like hard-coded status effects. While your options are a little limited by what the parser can access, you should be able to apply a good range of effects.
+	The 'interval' attribute is an integer representing how often this effect should be applied (measured in seconds).
+		For example, an interval of 3600 would make this effect be applied only once per hour (60*60=3600).
+		Use an interval of 0 to make this effect be applied on every turn.
+	'npc' is the parser npcet for the character affected by this status effect.
+	SECONDS_PASSED is a special tag which is converted into an integer value of the time that passed during the last turn's end (in seconds).
+	TOTAL_SECONDS_PASSED is a special tag which is converted into a long value of the total time that's passed while under the effect of this status effect (in seconds).
+		This can be used with a TOTAL_SECONDS_PASSED==0 check to apply an effect when this status effect is initially added.
+	Important note: In combat, 'seconds passed' is actually represented by the number of combat turns passed.
+		So, for example, TOTAL_SECONDS_PASSED would be converted into 2 if the character had been under the status effect's influence for two turns in combat.
+	As a final note, all tabs are stripped from the returned String after it is parsed, so it's safe to use tabs *not spaces* for formatting.
+	This particular status effect does not apply an effect, but if you wanted to apply one, you could do something like this:
+	-->
+	<applyEffect interval="300"><![CDATA[
+        #IF(flags.getSavedLong('darkYoungMana') < flags.getSavedLong('darkYoungCount') * 10)
+		    [##flags.setSavedLong('darkYoungMana', flags.getSavedLong('darkYoungMana') + flags.getSavedLong('darkYoungCount'))]
+            #IF(flags.getSavedLong('darkYoungMana') > flags.getSavedLong('darkYoungCount') * 10)
+                [##flags.setSavedLong('darkYoungMana', flags.getSavedLong('darkYoungCount') * 10)]
+            #ENDIF
+        #ENDIF
+	]]></applyEffect>
+	
+	<!-- In a similar manner to the 'applyEffect' element above, the game processes logic when a status effect is removed. (This logic is performed while the character is still under the effects of this status effect.) -->
+	<applyRemovalEffect/>
+	
+	<!-- In a similar manner to the 'applyEffect' element above, the game processes logic after a status effect has been removed. (This logic is performed immediately after the effect is removed, so the character is no longer under the effects of this status effect.) -->
+	<applyPostRemovalEffect/>
+	
+</statusEffect>

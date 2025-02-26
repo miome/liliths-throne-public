@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 256 256"
+   version="1.1"
+   id="svg3"
+   sodipodi:docname="sword_beam.svg"
+   inkscape:version="1.3.1 (9b9bdc1480, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="namedview3"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="3.0546875"
+     inkscape:cx="129.96419"
+     inkscape:cy="107.37596"
+     inkscape:window-width="1854"
+     inkscape:window-height="1010"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer1"
+     inkscape:label="Layer 1"
+     transform="rotate(-44.172388,114.55051,153.64958)">
+    <path
+       id="rect3"
+       style="vector-effect:non-scaling-stroke;fill:#ff8080;stroke:#ffe680;stroke-width:3.09065;stroke-linecap:round;stroke-linejoin:round;-inkscape-stroke:hairline;paint-order:stroke markers fill;fill-opacity:1"
+       d="M 184.29883 23.322266 L 197.99805 72.712891 L 156.90234 58.154297 L 181.76953 91.689453 L 5.1035156 90.746094 L 5.1035156 161.54297 L 176.94727 162.58008 L 152.83398 181.54492 L 196.43945 180.67383 L 182.95508 227.61719 L 251.18359 175.65234 L 251.18359 77.722656 L 184.29883 23.322266 z "
+       transform="rotate(44.172388,114.55051,153.64958)" />
+    <path
+       id="rect4"
+       style="display:inline;vector-effect:non-scaling-stroke;fill:#ffd5d5;stroke:#ffe680;stroke-width:3.09065;stroke-linecap:round;stroke-linejoin:round;-inkscape-stroke:hairline;paint-order:stroke markers fill;fill-opacity:1"
+       d="M 199.82617 46.324219 L 224.09766 92.056641 L 173.41602 68.445313 L 222.4668 106.18359 L 5.1035156 106.39063 L 5.1035156 145.70898 L 219.625 148.83398 L 170.47266 175.22656 L 223.08594 162.08594 L 196.24805 209.30859 L 251.18359 155.93945 L 251.18359 99.1875 L 199.82617 46.324219 z "
+       transform="rotate(44.172388,114.55051,153.64958)" />
+  </g>
+</svg>
