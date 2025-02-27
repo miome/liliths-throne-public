@@ -2,17 +2,17 @@
 
 <clothing>
 	<coreAttributes>
-		<value>200</value>
+		<value>250</value>
 		<determiner><![CDATA[a]]></determiner>
-		<name><![CDATA[hair comb]]></name>
+		<name><![CDATA[hair comb with pearls and gemstone]]></name>
 		<namePlural pluralByDefault="false"><![CDATA[hair combs]]></namePlural>
-		<description><![CDATA[A hair comb decorated with pearls.]]></description>
+		<description><![CDATA[A hair comb decorated with pearls and a smooth gemstone.]]></description>
 		<physicalResistance>0</physicalResistance>
 		<femininity>FEMININE</femininity>
 		<slot>HAIR</slot>
 		<rarity>COMMON</rarity>
 		<clothingSet/>
-		<imageName>pearl_comb.svg</imageName>
+		<imageName>gemstone_comb.svg</imageName>
 		<imageEquippedName/>
 		<enchantmentLimit/>
 		<effects/>
@@ -29,12 +29,12 @@
 		
 		<incompatibleSlots/>
 		
-		<primaryColours values="ALL" />
+		<primaryColours values="ALL_METALS" />
 		<primaryColoursDye values="ALL_WITH_METALS"/>
-		<secondaryColours values="ALL_METALS" />
+		<secondaryColours values="ALL_WITH_METALS" />
 		<secondaryColoursDye values="ALL_WITH_METALS"/>
-		<tertiaryColours/>
-		<tertiaryColoursDye/>
+		<tertiaryColours values="ALL_WITH_METALS"/>
+		<tertiaryColoursDye values="ALL_WITH_METALS"/>
 	
 		<itemTags>
 			<tag>GIFT</tag>

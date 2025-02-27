@@ -3,9 +3,9 @@
 	<coreAttributes>
 		<value>50</value>
 		<determiner><![CDATA[some]]></determiner>
-		<name><![CDATA[bandage]]></name>
-		<namePlural pluralByDefault="true"><![CDATA[badages]]></namePlural>
-		<description><![CDATA[long bandages that can be worn on your legs.]]></description>
+		<name><![CDATA[Bandage]]></name>
+		<namePlural pluralByDefault="true"><![CDATA[bandages]]></namePlural>
+		<description><![CDATA[Long bandages that can be worn on your legs.]]></description>
 		<physicalResistance>0</physicalResistance>
 		<femininity>ANDROGYNOUS</femininity>
 		<slot>SOCK</slot> 
