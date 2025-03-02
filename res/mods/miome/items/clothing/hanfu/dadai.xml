@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<clothing>
+
+	<coreAtributes>
+	
+		<authorTag><![CDATA[The maker's stamp indicates it was made by Miome]]></authorTag>
+
+		<value>500</value> 
+
+		<determiner><![CDATA[an]]></determiner>
+
+		<name><![CDATA[dadai]]></name>
+
+		<namePlural pluralByDefault="false"><![CDATA[dadai]]></namePlural> 
+
+		<description><![CDATA[Made to be worn with hanfu, this cloth belt is tied in the front with a decorative knot. The length of the tails indicate the status of the wearer in society.]]></description> 
+
+		<physicalResistance>0</physicalResistance> 
+
+		<femininity>ANDROGYNOUS</femininity> 
+
+		<slot>HIPS</slot> 
+
+		<rarity>COMMON</rarity> 
+
+		<imageName>dadai.svg</imageName> 
+
+		<imageEquippedName/> 
+
+		<effects/> 
+
+		<blockedPartsList> 
+
+			<blockedParts>
+
+				<displacementType>REMOVE_OR_EQUIP</displacementType> 
+
+				<clothingAccessRequired>
+				</clothingAccessRequired>
+
+				<blockedBodyParts> 
+				</blockedBodyParts>
+
+				<clothingAccessBlocked> 
+				</clothingAccessBlocked>
+
+				<concealedSlots/> 
+			</blockedParts>
+
+		</blockedPartsList>
+
+		<incompatibleSlots/> 
+
+		<primaryColours values="ALL"/> 
+		<primaryColoursDye values="ALL"/>
+		<secondaryColours/> 
+		<tertiaryColours/> 
+
+		<itemTags> 
+			<tag>SOLD_BY_NYAN</tag>
+		</itemTags>
+	</coreAtributes>
+
+	<replacementText type="REMOVE_OR_EQUIP">
+		<self>
+		  <![CDATA[[npc.Name] [npc.verb(ties)] the dadai around [npc.her] waist.]]>
+		</self>
+		<other>
+		  <![CDATA[[npc.Name] [npc.verb(ties)] the dadai around [npc2.namePos] waist.]]>
+		</other>
+		<otherRough>
+		  <![CDATA[[npc.Name] [npc.verb(ties)] the dadai around [npc2.namePos] waist as forcefully much as possible.]]>
+		</otherRough>
+	</replacementText>
+
+	<displacementText type="REMOVE_OR_EQUIP">
+		<self>
+		  <![CDATA[[npc.Name] [npc.verb(unties)] [npc.her] dadai.]]>
+		</self>
+		<other>
+		  <![CDATA[[npc.Name] [npc.verb(unties)] [npc2.namePos] dadai.]]>
+		</other>
+		<otherRough>
+		  <![CDATA[[npc.Name] [npc.verb(rip)] the dadai off [npc2.namePos] waist.]]>
+		</otherRough>
+	</displacementText>
+	
+</clothing>
