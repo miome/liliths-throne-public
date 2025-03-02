@@ -148,6 +148,7 @@
 	</profiles>
 
 	<build>
+		<directory>${project.basedir}/target8</directory>
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
 			<resource>
