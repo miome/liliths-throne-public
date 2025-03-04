@@ -13,7 +13,7 @@
 		<slot>LEG</slot>
 		<rarity>COMMON</rarity>
 		<clothingSet/>
-		<imageName>zhongku.svg</imageName>
+		<imageName>zhongku_opt.svg</imageName>
 		<imageEquippedName/>
 		
 		<effects/>

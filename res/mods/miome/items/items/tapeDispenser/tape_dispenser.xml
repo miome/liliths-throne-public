@@ -46,7 +46,7 @@
 		<rarity>RARE</rarity> 
 		
 		<!-- The file name of this item's image when in the character's inventory. The only supported file type is .svg. I use the free program "Inkscape" to make .svg images for the game. -->
-		<imageName>tape_dispenser.svg</imageName>
+		<imageName>tape_dispenser_opt.svg</imageName>
 		
 		<!-- Your item can be coloured any way you like, but if you'd like the game to automatically re-colour your item, you can specify available colours here.
 		Red is used as base colour for the primary colour of the graphic in-game, and the game will only recognise and change the following colours:

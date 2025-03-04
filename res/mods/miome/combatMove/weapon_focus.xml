@@ -92,7 +92,7 @@
 	<canTargetSelf>false</canTargetSelf>
 	
 	<!-- The name of the icon which should be used to represent this combat move. The icon must be an svg file, and must be placed in the same folder as this XML file. -->
-	<imageName>weapon_focus.svg</imageName>
+	<imageName>weapon_focus_opt.svg</imageName>
 	
 	<!-- The colours which should be associated with this status effect. Just like with clothing and weapon recolouring, this is used to recolour the image you used above.
 	A PresetColour value should be used here, drawn from: https://github.com/Innoxia/liliths-throne-public/blob/dev/src/com/lilithsthrone/utils/colours/PresetColour.java -->

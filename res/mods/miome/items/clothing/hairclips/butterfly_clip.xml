@@ -12,7 +12,7 @@
 		<slot>HAIR</slot>
 		<rarity>COMMON</rarity>
 		<clothingSet/>
-		<imageName>butterfly_clip.svg</imageName>
+		<imageName>butterfly_clip_opt.svg</imageName>
 		<imageEquippedName/>
 		<enchantmentLimit/>
 		<effects/>

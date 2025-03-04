@@ -1,0 +1,156 @@
+<weapon>
+    <coreAttributes>
+        <value>
+            5000
+        </value>
+        <melee>
+            false
+        </melee>
+        <twoHanded>
+            true
+        </twoHanded>
+        <determiner/>
+        <name>
+            <![CDATA[nameless_guqin]]>
+        </name>
+        <namePlural pluralByDefault="false">
+            <![CDATA[nameless_guqins]]>
+        </namePlural>
+        <description>
+            <![CDATA[A tool of spiritual cultivation in the shape the classic chinese harp. It manipulates the emotions of others, inflaming passions, or calming a troubled mind.]]>
+        </description>
+        <attackDescriptor>
+            pluck
+        </attackDescriptor>
+        <attackTooltipDescription>
+            <![CDATA[Play a note at [npc2.name] with your guqin.]]>
+        </attackTooltipDescription>
+        <rarity>
+            COMMON
+        </rarity>
+        <weaponSet/>
+        <equipText>
+            <![CDATA[[npc.Name] [npc.verb(position)] [npc.her] guqin to float in the air before [npc.she], so that [npc.she] may play it at a moment's notice.]]>
+        </equipText>
+        <unequipText>
+            <![CDATA[[npc.Name] wraps [npc.her] guqin carefully in its carry bag, before putting it away.]]>
+        </unequipText>
+        <imageName>
+            nameless_guqin.svg
+        </imageName>
+        <imageEquippedName>
+            nameless_guqin.svg
+        </imageEquippedName>
+        <damage>
+            5
+        </damage>
+        <aoe chance="100">
+            5
+        </aoe>
+        <aoe chance="100">
+            5
+        </aoe>
+        <aoe chance="100">
+            5
+        </aoe>
+        <aoe chance="100">
+            5
+        </aoe>
+        <aoe chance="100">
+            5
+        </aoe>
+        <arcaneCost>
+            0
+        </arcaneCost>
+        <damageVariance>
+            HIGH
+        </damageVariance>
+        <availableDamageTypes>
+            <damageType>
+                LUST
+            </damageType>
+        </availableDamageTypes>
+        <spells/>
+        <effects>
+            <effect itemEffectType="WEAPON" limit="0" potency="MAJOR_BOOST" primaryModifier="CLOTHING_ATTRIBUTE" secondaryModifier="DAMAGE_WEAPON" timer="0"/>
+            <effect itemEffectType="WEAPON" limit="0" potency="MAJOR_BOOST" primaryModifier="CLOTHING_ATTRIBUTE" secondaryModifier="CRITICAL_DAMAGE" timer="0"/>
+        </effects>
+        <primaryColours>
+            <colour>
+                CLOTHING_DESATURATED_BROWN
+            </colour>
+            <colour>
+                CLOTHING_BROWN_DARK
+            </colour>
+            <colour>
+                CLOTHING_BROWN_VERY_DARK
+            </colour>
+            <colour>
+                CLOTHING_BLACK
+            </colour>
+        </primaryColours>
+        <primaryColoursDye values="ALL"/>
+        <secondaryColours values="ALL"/>
+        <secondaryColoursDye values="ALL"/>
+        <customColours>
+            <customColour c0="#6C5353" c1="#916F6F" c2="#AC9393" c3="#C8B7B7" c4="#E3DBDB" copyColourIndex="0">
+                <defaultColours>
+                    <colour>
+                        CLOTHING_DESATURATED_BROWN
+                    </colour>
+                </defaultColours>
+                <extraColours values="ALL_WITH_METALS"/>
+            </customColour>
+            <customColour c0="#6C5D53" c1="#917C6F" c2="#AC9D93" c3="#C8BEB7" c4="#E3DEDB" copyColourIndex="1">
+                <defaultColours>
+                    <colour>
+                        CLOTHING_STEEL
+                    </colour>
+                </defaultColours>
+                <extraColours values="ALL_METAL"/>
+            </customColour>
+        </customColours>
+        <itemTags>
+            <tag>
+                SOLD_BY_VICKY
+            </tag>
+            <tag>
+                WEAPON_BLADE
+            </tag>
+        </itemTags>
+    </coreAttributes>
+    <hitDescriptions>
+        <hitText>
+            <![CDATA[
+		[npc.Name] strums [npc.her] guqin at [npc2.name], grinning as the wave of arcane-infused sound hits [npc2.her] body!
+		]]>
+        </hitText>
+        <hitText>
+            <![CDATA[
+		Plucking a note at [npc2.name] with [npc.her] guqin, [npc.name] [npc.verb(grin)] as [npc.she] [npc.verb(see)] the arcane-infused sound travels straight through [npc2.her] body!
+		]]>
+        </hitText>
+        <hitText>
+            <![CDATA[
+		[npc.Name] plays a note at [npc2.name] with [npc.her] guqin, causing [npc2.herHim] to stagger back as the arcane-infused sound passes right through [npc2.her] chest!
+		]]>
+        </hitText>
+    </hitDescriptions>
+    <missDescriptions>
+        <missText>
+            <![CDATA[
+		[npc.Name] strums [npc.her] guqin at [npc2.name], but [npc.verb(end)] up missing [npc2.herHim]!
+		]]>
+        </missText>
+        <missText>
+            <![CDATA[
+		Playing at [npc2.name] with [npc.her] guqin, [npc.name] [npc.verb(let)] out a frustrated cry as [npc.she] [npc.verb(miss)] [npc.her] target!
+		]]>
+        </missText>
+        <missText>
+            <![CDATA[
+		With a quick step forwards, [npc.name] plucks a note at [npc2.name] with [npc.her] guqin, but [npc.she] [npc.verb(miss)] [npc.her] target!
+		]]>
+        </missText>
+    </missDescriptions>
+</weapon>

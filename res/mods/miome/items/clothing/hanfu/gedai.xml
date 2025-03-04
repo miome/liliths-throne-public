@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<clothing>
+
+	<coreAtributes>
+	
+		<authorTag><![CDATA[The maker's stamp indicates it was made by Miome]]></authorTag>
+
+		<value>1000</value> 
+
+		<determiner><![CDATA[an]]></determiner>
+
+		<name><![CDATA[gedai]]></name>
+
+		<namePlural pluralByDefault="false"><![CDATA[gedai]]></namePlural> 
+
+		<description><![CDATA[Made to be worn with hanfu, this cloth-covered leather belt closes at the front with a hook-style buckle. It is layered and decorated with various ornaments.]]></description> 
+
+		<physicalResistance>1</physicalResistance> 
+
+		<femininity>ANDROGYNOUS</femininity> 
+
+		<slot>HIPS</slot> 
+
+		<rarity>COMMON</rarity> 
+
+		<imageName>gedai_opt.svg</imageName> 
+
+		<imageEquippedName/> 
+
+		<effects/> 
+
+		<blockedPartsList> 
+
+			<blockedParts>
+
+				<displacementType>REMOVE_OR_EQUIP</displacementType> 
+
+				<clothingAccessRequired>
+				</clothingAccessRequired>
+
+				<blockedBodyParts> 
+				</blockedBodyParts>
+
+				<clothingAccessBlocked> 
+				</clothingAccessBlocked>
+
+				<concealedSlots/> 
+			</blockedParts>
+
+		</blockedPartsList>
+
+		<incompatibleSlots/> 
+
+		<primaryColours values="ALL"/> 
+		<primaryColoursDye values="ALL"/>
+                <secondaryColours values="ALL"/>
+                <secondaryColoursDye values="ALL"/>
+                <tertiaryColours values="ALL"/>
+                <tertiaryColoursDye values="ALL"/>
+
+		<itemTags> 
+			<tag>SOLD_BY_NYAN</tag>
+		</itemTags>
+	</coreAtributes>
+
+	<replacementText type="REMOVE_OR_EQUIP">
+		<self>
+		  <![CDATA[[npc.Name] [npc.verb(buckles)] the gedai around [npc.her] waist.]]>
+		</self>
+		<other>
+		  <![CDATA[[npc.Name] [npc.verb(buckles)] the gedai around [npc2.namePos] waist.]]>
+		</other>
+		<otherRough>
+		  <![CDATA[[npc.Name] [npc.verb(buckles)] the gedai around [npc2.namePos] waist as forcefully much as possible.]]>
+		</otherRough>
+	</replacementText>
+
+	<displacementText type="REMOVE_OR_EQUIP">
+		<self>
+		  <![CDATA[[npc.Name] [npc.verb(unbuckles)] [npc.her] gedai.]]>
+		</self>
+		<other>
+		  <![CDATA[[npc.Name] [npc.verb(unbuckles)] [npc2.namePos] gedai.]]>
+		</other>
+		<otherRough>
+		  <![CDATA[[npc.Name] [npc.verb(rip)] the gedai off [npc2.namePos] waist.]]>
+		</otherRough>
+	</displacementText>
+	
+</clothing>

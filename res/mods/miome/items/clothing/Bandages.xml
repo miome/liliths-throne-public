@@ -11,7 +11,7 @@
 		<slot>SOCK</slot> 
 		<rarity>COMMON</rarity>
 		<clothingSet/> 
-		<imageName>Bandages.svg</imageName>
+		<imageName>Bandages_opt.svg</imageName>
 		<imageEquippedName/>
 		<effects/>
 		

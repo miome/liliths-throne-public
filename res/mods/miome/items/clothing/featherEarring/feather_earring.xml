@@ -12,7 +12,7 @@
 		<slot>PIERCING_EAR</slot>
 		<rarity>COMMON</rarity>
 		<clothingSet/>
-		<imageName>feather_earring.svg</imageName>
+		<imageName>feather_earring_opt.svg</imageName>
 		<imageEquippedName/>
 		<enchantmentLimit/>
 		<effects/>

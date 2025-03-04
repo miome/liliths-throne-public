@@ -28,9 +28,9 @@
 		
 		<unequipText><![CDATA[[npc.Name] wraps [npc.her] guqin carefully in its carry bag, before putting it away.]]></unequipText>
 		
-		<imageName>guqin.svg</imageName> 
+		<imageName>guqin_opt.svg</imageName> 
 		
-		<imageEquippedName>guqin.svg</imageEquippedName> 
+		<imageEquippedName>guqin_opt.svg</imageEquippedName> 
 		
 		<damage>15</damage> 
                 <aoe chance="100">15</aoe>

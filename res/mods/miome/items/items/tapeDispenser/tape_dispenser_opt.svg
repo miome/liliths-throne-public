@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" cursor="default" viewBox="0 0 256 256">
+    <defs>
+        <linearGradient id="linearGradient924" x1="18.12" x2="21.466" y1="241.29" y2="228.73" gradientTransform="scale(1 -1) rotate(-89.503 -.246 -.024)" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#917c6f"/>
+            <stop offset="1" stop-color="#ac9d93"/>
+        </linearGradient>
+        <linearGradient id="innoGrad4">
+            <stop offset="0" stop-color="#ffb380"/>
+            <stop offset="1" stop-color="#fca"/>
+        </linearGradient>
+    </defs>
+    <path fill="#ff2a2a" stroke="#000" d="M169.51 130.302l-1.667 7.313-25.936 12.102-13.76-.41-5.983-5.567s21.657-10.442 47.345-13.438z"/>
+    <path fill="#f55" stroke="#000" d="M126.733 145.824l43.96-16.584-23.506-.031-39.973 15.45z"/>
+    <path fill="#fff" stroke="#000" d="M162.06 32.65l-.415 87.293-15.005.278-16.202-68.69s-.47-19.564 31.623-18.882z"/>
+    <path fill="#ff2a2a" stroke="#000" d="M146.873 128.924l-3.154-14.432-39.99 12.884 4.225 17.246z"/>
+    <path fill="#bdbdbd" stroke="#000" d="M127.229 31.957C108.55 34.16 94.303 52.922 94.262 75.369c.048 22.78 14.713 41.697 33.7 43.475l.003.242 23.582.773.367-8.91c9.663-8.169 15.423-21.427 15.455-35.58 0-12.685-4.606-24.744-12.623-33.049l.395-9.57-20.612-.867c-2.412-.138-4.831-.236-7.3.074z"/>
+    <ellipse cx="149.436" cy="76.175" fill="#242424" stroke="#1b1b1b" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.591" paint-order="stroke markers fill" rx="36.554" ry="43.718"/>
+    <ellipse cx="162.311" cy="76.547" fill="#2c2c2c" stroke="#1b1b1b" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.591" paint-order="stroke markers fill" rx="36.554" ry="43.718"/>
+    <path fill="#f55" stroke="#000" d="M74.734 88.636l39.508-1.037 12.282 58.12-19.232-1.103-31.5-36.412z"/>
+    <path fill="#ff8080" stroke="#000" d="M74.487 88.687l-20.733 12.52 17.894 28.079 6.563-1.127z"/>
+    <g>
+        <path fill="#2e2e2e" stroke="#000" d="M106.43 138.45s-22.782 1.102-31.45.264c-8.326-2.542-12.664-10.707-7.993-20.76 1.755.047 36.466-3.466 36.466-3.466v0z"/>
+        <ellipse cx="105.74" cy="125.947" fill="#646464" fill-opacity=".994" stroke="#1b1b1b" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.162" paint-order="stroke markers fill" rx="11.466" ry="11.729"/>
+    </g>
+    <path fill="#fff" stroke="#000" d="M63.645 116.73l-3.735-12.346 13.829-6.523 22.758-1.442-12.062 6.033 10.875 15.026z"/>
+    <path fill="#ff8080" stroke="#000" d="M110.216 126.884l4.103-39.01-17.98 8.788-12.234 5.734 20.6 25.985zM171.117 66.765s-.087-.374-9.787-1.391c-14.834 7.04-3.522 25.143.422 23.086 9.83-1.62 9.824-2.44 9.824-2.44z"/>
+    <ellipse cx="170.797" cy="76.506" fill="#faa" stroke="#1b1b1b" stroke-linecap="round" stroke-linejoin="round" stroke-width=".949" paint-order="stroke markers fill" rx="7.118" ry="9.805"/>
+    <path fill="#6d6d6d" stroke="#000" d="M164.57 139.582l.38 2.615-2.384 4.68 17.051 46.513-33.664 14.177-1.67-14.534-5.45-15.44-6.214-19.133-4.586-9.783 16.475-6.76z"/>
+    <path fill="#ff8080" stroke="#000" d="M146.096 207.901s-4.145 2.356-2.23 5.733l1.916 3.377 36.517-15.974-3.106-9.352z"/>
+    <path fill="none" stroke="#000" d="M59.637 104.933l25.653-.324"/>
+</svg>

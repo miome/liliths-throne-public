@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100">
+    <defs>
+        <linearGradient id="linearGradient9">
+            <stop offset="0" stop-color="#fff6d5" stop-opacity=".994"/>
+            <stop offset="1" stop-color="#ffd42a"/>
+        </linearGradient>
+        <linearGradient id="linearGradient80">
+            <stop offset="0" stop-color="#fff"/>
+            <stop offset="1" stop-color="#ffb380"/>
+        </linearGradient>
+        <linearGradient id="innoGrad8">
+            <stop offset="0" stop-color="#faa"/>
+            <stop offset="1" stop-color="#f55"/>
+        </linearGradient>
+        <linearGradient id="innoGrad6">
+            <stop offset="0" stop-color="#ff7f2a"/>
+            <stop offset="1" stop-color="#ffb380"/>
+        </linearGradient>
+        <linearGradient id="innoGrad5">
+            <stop offset="0" stop-color="#ffe6d5"/>
+            <stop offset="1" stop-color="#fca"/>
+        </linearGradient>
+        <linearGradient id="innoGrad3">
+            <stop offset="0" stop-color="#ffd5d5"/>
+            <stop offset="1" stop-color="#ff8080"/>
+        </linearGradient>
+        <linearGradient id="innoGrad0">
+            <stop offset="0" stop-color="#ffd5d5"/>
+            <stop offset="1" stop-color="#faa"/>
+        </linearGradient>
+        <linearGradient id="linearGradient178931" x1="13.842" x2="20.092" y1="19.724" y2="29.992" gradientUnits="userSpaceOnUse" xlink:href="#innoGrad8"/>
+        <radialGradient id="radialGradient81" cx="70.751" cy="17.918" r="6.42" fx="70.751" fy="17.918" gradientTransform="matrix(1 0 0 .9775 0 .458)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient80"/>
+        <radialGradient id="radialGradient101" cx="70.751" cy="17.918" r="6.42" fx="70.751" fy="17.918" gradientTransform="matrix(1 0 0 .9775 0 .458)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient80"/>
+        <radialGradient id="radialGradient102" cx="70.751" cy="17.918" r="6.42" fx="70.751" fy="17.918" gradientTransform="matrix(1 0 0 .9775 0 .458)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient80"/>
+        <radialGradient id="radialGradient103" cx="70.751" cy="17.918" r="6.42" fx="70.751" fy="17.918" gradientTransform="matrix(1 0 0 .9775 0 .458)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient80"/>
+        <radialGradient id="radialGradient104" cx="70.751" cy="17.918" r="6.42" fx="70.751" fy="17.918" gradientTransform="matrix(1 0 0 .9775 0 .458)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient80"/>
+        <radialGradient id="radialGradient105" cx="70.751" cy="17.918" r="6.42" fx="70.751" fy="17.918" gradientTransform="matrix(1 0 0 .9775 0 .458)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient80"/>
+        <radialGradient id="radialGradient10" cx="76.906" cy="20.018" r="7.136" fx="76.906" fy="20.018" gradientTransform="matrix(1 0 0 1.3178 0 -6.362)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient9"/>
+        <radialGradient id="radialGradient20" cx="70.751" cy="17.918" r="6.42" fx="70.751" fy="17.918" gradientTransform="matrix(1 0 0 .9775 0 .458)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient80"/>
+        <radialGradient id="radialGradient30" cx="70.751" cy="17.918" r="6.42" fx="70.751" fy="17.918" gradientTransform="matrix(1 0 0 .9775 -.3 -.523)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient80"/>
+        <radialGradient id="radialGradient31" cx="70.751" cy="17.918" r="6.42" fx="70.751" fy="17.918" gradientTransform="matrix(1 0 0 .9775 -4.711 11.771)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient80"/>
+        <radialGradient id="radialGradient32" cx="70.751" cy="17.918" r="6.42" fx="70.751" fy="17.918" gradientTransform="matrix(1 0 0 .9775 -5.77 23.853)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient80"/>
+        <radialGradient id="radialGradient33" cx="70.751" cy="17.918" r="6.42" fx="70.751" fy="17.918" gradientTransform="matrix(1 0 0 .9775 0 .458)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient80"/>
+        <radialGradient id="radialGradient34" cx="70.751" cy="17.918" r="6.42" fx="70.751" fy="17.918" gradientTransform="matrix(1 0 0 .9775 12.891 37.874)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient80"/>
+        <radialGradient id="radialGradient41" cx="70.751" cy="17.918" r="6.42" fx="70.751" fy="17.918" gradientTransform="matrix(1 0 0 .9775 .166 1.526)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient80"/>
+        <radialGradient id="radialGradient42" cx="70.751" cy="17.918" r="6.42" fx="70.751" fy="17.918" gradientTransform="matrix(1 0 0 .9775 0 .458)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient80"/>
+        <radialGradient id="radialGradient43" cx="70.751" cy="17.918" r="6.42" fx="70.751" fy="17.918" gradientTransform="matrix(1 0 0 .9775 0 .458)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient80"/>
+        <radialGradient id="radialGradient44" cx="70.751" cy="17.918" r="6.42" fx="70.751" fy="17.918" gradientTransform="matrix(1 0 0 .9775 0 .458)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient80"/>
+        <radialGradient id="radialGradient47" cx="70.751" cy="17.918" r="6.42" fx="70.751" fy="17.918" gradientTransform="matrix(1 0 0 .9775 0 .458)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient80"/>
+        <radialGradient id="radialGradient48" cx="70.751" cy="17.918" r="6.42" fx="70.751" fy="17.918" gradientTransform="matrix(1 0 0 .9775 -3.43 8.8)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient80"/>
+    </defs>
+    <g>
+        <path fill="#ff8080" stroke="#000" stroke-width="1.4" d="M59.502 31.993l-2.587-1.596-5.129-2.505-7.088-2.68-10.673-2.354-1.646-.075-.839.14-1.096 1.016-.106.781.02.577.524.98.408.252-.068-.042L17.4 49.355l-.074.425.299.278.314.1.346-.257c4.562-7.734 9.613-15.301 14.035-23.083-.15.008-.067-.023.203 0l1.383.196L20.25 49.61l-.074.424.299.278.356.032.304-.188 13.823-22.868c.039-.136.297-.073.865-.03l.917.189L23 50.178l-.073.425.299.278.356.032.304-.189L37.812 27.69c1.358.222-1.67-.316 1.543.243l-.042.068v0L25.49 50.868l-.074.424.298.278.383.142.278-.298c4.546-7.791 9.516-15.343 13.978-23.181l.683.172.875.258-13.697 22.663-.073.425.23.236.382.142.347-.257 13.755-22.91v0l.042-.068.943.3.943.3-13.545 22.57-.1.314.256.346.425.074.236-.23 13.739-22.732.833.325.9.368-13.654 22.596-.1.314.256.346.425.074.278-.298 13.697-22.664 1.666.651-13.571 22.46-.074.424.257.346.356.032.346-.256 13.613-22.528c.592.195 1.139.481 1.692.762L39.017 55.452l-.142.382.299.278.382.142.278-.298 13.74-22.732c.547.281 1.098.555 1.65.83L41.531 56.25l-.142.382.299.278.382.142.278-.298c4.479-7.45 13.742-22.169 13.742-22.169l.63.392.75.462-.067.038s-9.1 14.822-13.667 22.227l-.032.356.257.346.424.074.236-.23 13.715-22.236s.47.255.7.39c.252.15.748.463.748.463L45.822 58.897l-.074.424.256.346.425.074.278-.298L60.56 37.44s.527.369.775.572c.231.188.665.598.665.598L48.19 60.545l-.142.382.298.278.383.142.346-.256 13.77-21.867a336256.344 336256.344 0 001.33 1.196L50.278 62.491l-.142.383.299.278.382.142.278-.299L64.907 41.06l.733.64.623.667L52.409 64.37l-.142.382.299.278.382.142.278-.298 13.728-21.799.759.75.623.666L54.356 66.7l-.073.424.188.304.424.074.305-.188L69.053 45.31l.555.624.487.582-14.106 22.412-.142.382.257.347.424.073.278-.298 13.964-22.03.487.583.445.65-13.98 22.208-.142.382.257.346.424.074.346-.256 13.77-21.867.58.734.446.65-13.938 22.14-.142.382.257.346.424.074.346-.256L74.036 51.86l.497.87.377.609-13.938 22.139-.142.382.257.347.424.073.278-.298 13.733-21.775c.378.57.342.462.512.693l1.159.223.812-.25.693-.514.415-1.435-.25-.813-.832-1.547-6.616-8.78-5.33-5.073-4.2-3.249z"/>
+        <g fill="#f55" stroke="#000" stroke-width=".7">
+            <path d="M30.887 25.88l-.221.366-13.84 22.897-.146.853.63.594.739.232.691-.511.063-.106c4.403-7.466 9.255-14.804 13.586-22.346l.228.123-12.94 21.413-.148.855.688.643.758.066.597-.367L34.6 29.045l.357.193-12.53 20.727-.146.857.686.639.76.066.597-.367L36.938 30.3l.214.115-12.234 20.238-.148.86.625.58.869.324.595-.643.034-.056c3.961-6.79 8.211-13.446 12.216-20.252l.307.164L27.643 51.11l-.147.838.54.553.814.303.703-.52 11.783-19.627.64.346-11.289 18.81-.212.672.58.79.965.163.51-.496L43.94 34.057l.569.306-11.188 18.512-.213.676.58.783.98.172.544-.582 11.203-18.54.498.268-10.963 18.141-.137.789.573.772.85.074.624-.461 11.03-18.254.566.303-10.982 18.173-.303.811.682.633.869.324.593-.639L51.363 38.04l.524.281-10.899 17.666-.299.813.678.635.87.32.595-.637.031-.055c3.565-5.928 8.455-13.688 10.971-17.697l.357.192c-2.459 4.003-7.3 11.893-10.964 17.834l-.077.12-.062.723.533.725.967.164.508-.494 11.1-17.998.368.2-11.312 17.845-.139.793.551.75.98.168.54-.575 11.302-17.95.567.302-11.405 18.113-.304.817.681.633.801.296.695-.52 11.512-18.276.496.267-11.793 18.73-.3.813.675.637.871.318.59-.627 11.866-18.847.568.304-12.139 19.282-.3.814.677.635.87.32.59-.633 12.212-19.394.643.345-12.776 20.29-.129.763.448.729.916.16.615-.383 12.904-20.498.29.156L55.448 68.66l-.277.746.592.8.98.171.54-.576 13.519-21.332.092.049.09.13-13.803 21.926-.278.744.592.805.918.156.64-.474 13.83-21.963-.452.023.406-.304.525.28-.523-.282.207-.157-2.26-3.144-.857-.863-.002-.002-.02-.02-.463.438.35-.555-1.62-1.635-.402.639-1.195 1.9-.64-.347 1.712-2.721-1.562-1.576-.402.638-1.653 2.625-.566-.308 2.156-3.424-.615-.621-.988-.887-.38.602-2.076 3.298-.496-.27 2.49-3.952-.285-.336c-1.728-2.034-3.81-3.12-5.974-4.25l-.037-.022-.219.385-.072.043-.078.127s-2.064 3.353-2.647 4.303l-.355-.192c.595-.949 2.617-4.222 2.64-4.26l.364-.577-2.036-.94-.277.453-2.635 4.27-.521-.283 2.847-4.713-1.974-.91-.278.458-2.496 4.131-.566-.306 2.754-4.557-2.045-.945-.277.459-2.403 3.974-.496-.27 2.66-4.402-1.972-.912-.278.46-2.31 3.824-.567-.31 2.567-4.247-1.533-.71c-.477-.141-.87-.117-1.3-.136-.517-.022-1.09-.107-1.948-.64l-.278-.059-.22.365-1.801 2.979-.307-.166c.503-.856 1.043-1.683 1.535-2.545l.408-.715-2.275-.477-.22.364-1.4 2.314-.214-.115 1.582-2.617-2.324-.493-.22.366-1.01 1.672-.36-.194 1.168-1.931-2.326-.493-.22.366-.597.986-.228-.125c.088-.154.19-.301.277-.455l.067-.08.078-.186.012-.215-.05-.173-.068-.114s-.042-.052-.06-.07a.58.58 0 00-.09-.072c-.19-.127-.194-.09-.25-.106a5.688 5.688 0 00-.383-.086c-.287-.057-.637-.122-.734-.142zm42.476 23.962l-.474.754-13.965 22.181-.278.748.596.8.912.157.643-.474 13.215-20.983.006.012.185.3-13.771 21.874-.278.746.592.8.985.17.537-.577 13.761-21.82h-.109l.227-.165-.008-.246-.02-.068c0-.002-.036-.08-.043-.092-.027-.05-.058-.1-.11-.186-.101-.17-.263-.436-.444-.732a51.657 51.657 0 00-.983-1.56l-.002-.004-.156-.22-.322-.56-.038.06zm-29.988-20.58c.264.174.332.235.6.412l-1.91 3.183-.64-.347zm15.164 7.568c.121.069.289.168.408.24l-2.334 3.682-.369-.201zm2.186 1.475c.103.076.168.12.232.172.078.064.148.133.266.24l-2.13 3.38-.564-.304zm8.41 8l.02.023.2.238-.515.82-.29-.156zm1.695 2.119l.047.068c-.007-.004-.059-.03-.066-.035z" color="#000"/>
+        </g>
+        <path fill="none" stroke="#ff2a2a" d="M30.842 26.634l12.232 2.406 10.809 4.398 9.127 5.83 7.262 7.307 5.472 7.861"/>
+        <path fill="#ff8080" d="M59.502 31.993l-2.587-1.596-5.129-2.505-7.088-2.68-10.673-2.354-1.646-.075-.839.14-1.096 1.016-.106.781.02.577.524.98.408.252-.068-.042L17.4 49.355l-.074.425.299.278.314.1.346-.257c4.562-7.734 9.613-15.301 14.035-23.083-.15.008-.067-.023.203 0l1.383.196L20.25 49.61l-.074.424.299.278.356.032.304-.188 13.823-22.868c.039-.136.297-.073.865-.03l.917.189L23 50.178l-.073.425.299.278.356.032.304-.189L37.812 27.69c1.358.222-1.67-.316 1.543.243l-.042.068L25.49 50.868l-.074.424.298.278.383.142.278-.298c4.546-7.791 9.516-15.343 13.978-23.181l.683.172.875.258-13.697 22.663-.073.425.23.236.382.142.347-.257 13.755-22.91.042-.068.943.3.943.3-13.545 22.57-.1.314.256.346.425.074.236-.23 13.739-22.732.833.325.9.368-13.654 22.596-.1.314.256.346.425.074.278-.298 13.697-22.664 1.666.651-13.571 22.46-.074.424.257.346.356.032.346-.256 13.613-22.528c.592.195 1.139.481 1.692.762L39.017 55.452l-.142.382.299.278.382.142.278-.298 13.74-22.732c.547.281 1.098.555 1.65.83L41.531 56.25l-.142.382.299.278.382.142.278-.298c4.479-7.45 13.742-22.169 13.742-22.169l.63.392.75.462-.067.038s-9.1 14.822-13.667 22.227l-.032.356.257.346.424.074.236-.23 13.715-22.236s.47.255.7.39c.252.15.748.463.748.463L45.822 58.897l-.074.424.256.346.425.074.278-.298L60.56 37.44s.527.369.775.572c.231.188.665.598.665.598L48.19 60.545l-.142.382.298.278.383.142.346-.256 13.77-21.867a336256.344 336256.344 0 001.33 1.196L50.278 62.491l-.142.383.299.278.382.142.278-.299L64.907 41.06l.733.64.623.667L52.409 64.37l-.142.382.299.278.382.142.278-.298 13.728-21.799.759.75.623.666L54.356 66.7l-.073.424.188.304.424.074.305-.188L69.053 45.31l.555.624.487.582-14.106 22.412-.142.382.257.347.424.073.278-.298 13.964-22.03.487.583.445.65-13.98 22.208-.142.382.257.346.424.074.346-.256 13.77-21.867.58.734.446.65-13.938 22.14-.142.382.257.346.424.074.346-.256L74.036 51.86l.497.87.377.609-13.938 22.139-.142.382.257.347.424.073.278-.298 13.733-21.775c.378.57.342.462.512.693l1.159.223.812-.25.693-.514.415-1.435-.25-.813-.832-1.547-6.616-8.78-5.33-5.073-4.2-3.249z"/>
+        <path fill="none" stroke="#faa" stroke-linecap="round" d="M77.747 53s-2.891-4.567-4.508-6.73c-1.35-1.806-2.77-3.571-4.327-5.202-1.635-1.712-3.374-3.338-5.245-4.787a51.123 51.123 0 00-7.028-4.587c-3.004-1.619-6.177-2.929-9.387-4.086a54.543 54.543 0 00-6.937-2.006c-2.725-.59-8.277-1.211-8.277-1.211"/>
+    </g>
+    <g paint-order="stroke markers fill">
+        <g transform="matrix(.79902 0 0 .79902 22.669 33.246)">
+            <ellipse cx="69.038" cy="20.366" fill="url(#radialGradient81)" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.493" rx="5.673" ry="5.529"/>
+            <ellipse cx="66.901" cy="23.43" fill="#ffe6d5" rx=".564" ry=".564"/>
+            <circle cx="69.177" cy="23.982" r="1" fill="#ffe6d5"/>
+        </g>
+        <g transform="matrix(.79902 0 0 .79902 18.393 27.122)">
+            <ellipse cx="69.038" cy="20.366" fill="url(#radialGradient101)" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.493" rx="5.673" ry="5.529"/>
+            <ellipse cx="66.901" cy="23.43" fill="#ffe6d5" rx=".564" ry=".564"/>
+            <circle cx="69.177" cy="23.982" r="1" fill="#ffe6d5"/>
+        </g>
+        <g transform="matrix(.79902 0 0 .79902 13.039 21.734)">
+            <ellipse cx="69.038" cy="20.366" fill="url(#radialGradient102)" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.493" rx="5.673" ry="5.529"/>
+            <ellipse cx="66.901" cy="23.43" fill="#ffe6d5" rx=".564" ry=".564"/>
+            <circle cx="69.177" cy="23.982" r="1" fill="#ffe6d5"/>
+        </g>
+    </g>
+    <g paint-order="stroke markers fill">
+        <g transform="translate(-19.466 6.274) scale(.7787)">
+            <ellipse cx="69.038" cy="20.366" fill="url(#radialGradient105)" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.493" rx="5.673" ry="5.529"/>
+            <ellipse cx="66.901" cy="23.43" fill="#ffe6d5" rx=".564" ry=".564"/>
+            <circle cx="69.177" cy="23.982" r="1" fill="#ffe6d5"/>
+        </g>
+        <g transform="translate(-11.342 8.548) scale(.7787)">
+            <ellipse cx="69.038" cy="20.366" fill="url(#radialGradient104)" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.493" rx="5.673" ry="5.529"/>
+            <ellipse cx="66.901" cy="23.43" fill="#ffe6d5" rx=".564" ry=".564"/>
+            <circle cx="69.177" cy="23.982" r="1" fill="#ffe6d5"/>
+        </g>
+        <g transform="translate(-3.223 11.407) scale(.7787)">
+            <ellipse cx="69.038" cy="20.366" fill="url(#radialGradient103)" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.493" rx="5.673" ry="5.529"/>
+            <ellipse cx="66.901" cy="23.43" fill="#ffe6d5" rx=".564" ry=".564"/>
+            <circle cx="69.177" cy="23.982" r="1" fill="#ffe6d5"/>
+        </g>
+    </g>
+    <g stroke-width="1.162" transform="matrix(.4643 0 0 .4643 20.502 15.838)">
+        <ellipse cx="69.038" cy="20.366" fill="url(#radialGradient20)" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.493" paint-order="stroke markers fill" rx="5.673" ry="5.529"/>
+    </g>
+    <g stroke-width="1.162" paint-order="stroke markers fill" transform="matrix(.4643 0 0 .4643 20.502 15.838)">
+        <ellipse cx="81.929" cy="57.782" fill="url(#radialGradient34)" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.493" rx="5.673" ry="5.529"/>
+        <ellipse cx="67.439" cy="23.018" fill="#ffe6d5" rx=".564" ry=".564"/>
+        <circle cx="69.752" cy="23.059" r="1" fill="#ffe6d5"/>
+    </g>
+    <g stroke-width="1.162" paint-order="stroke markers fill" transform="matrix(.4643 0 0 .4643 21.031 31.32)">
+        <ellipse cx="69.038" cy="20.366" fill="url(#radialGradient33)" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.493" rx="5.673" ry="5.529"/>
+        <ellipse cx="66.901" cy="23.43" fill="#ffe6d5" rx=".564" ry=".564"/>
+        <circle cx="69.177" cy="23.982" r="1" fill="#ffe6d5"/>
+    </g>
+    <g stroke-width="1.162" paint-order="stroke markers fill" transform="matrix(.4643 0 0 .4643 20.502 15.838)">
+        <ellipse cx="63.268" cy="43.761" fill="url(#radialGradient32)" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.493" rx="5.673" ry="5.529"/>
+        <ellipse cx="62.326" cy="46.686" fill="#ffe6d5" rx=".564" ry=".564"/>
+        <circle cx="64.976" cy="46.845" r="1" fill="#ffe6d5"/>
+    </g>
+    <g stroke-width="1.162" paint-order="stroke markers fill" transform="matrix(.4643 0 0 .4643 25.347 12.779)">
+        <ellipse cx="68.738" cy="19.385" fill="url(#radialGradient30)" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.493" rx="5.673" ry="5.529"/>
+        <ellipse cx="66.901" cy="23.43" fill="#ffe6d5" rx=".564" ry=".564"/>
+        <circle cx="69.177" cy="23.982" r="1" fill="#ffe6d5"/>
+    </g>
+    <g stroke-width="1.162" paint-order="stroke markers fill" transform="matrix(.4643 0 0 .4643 20.502 15.838)">
+        <ellipse cx="64.327" cy="31.679" fill="url(#radialGradient31)" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.493" rx="5.673" ry="5.529"/>
+        <ellipse cx="62.569" cy="34.283" fill="#ffe6d5" rx=".564" ry=".564"/>
+        <ellipse cx="80.771" cy="60.853" fill="#ffe6d5" rx=".564" ry=".564"/>
+        <circle cx="83.188" cy="60.937" r="1" fill="#ffe6d5"/>
+    </g>
+    <g stroke-width="1.162" paint-order="stroke markers fill" transform="matrix(.4643 0 0 .4643 37.714 23.526)">
+        <ellipse cx="69.038" cy="20.366" fill="url(#radialGradient44)" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.493" rx="5.673" ry="5.529"/>
+        <ellipse cx="66.901" cy="23.43" fill="#ffe6d5" rx=".564" ry=".564"/>
+        <circle cx="69.177" cy="23.982" r="1" fill="#ffe6d5"/>
+    </g>
+    <g stroke-width="1.162" paint-order="stroke markers fill" transform="matrix(.4643 0 0 .4643 38.275 18.503)">
+        <ellipse cx="69.038" cy="20.366" fill="url(#radialGradient43)" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.493" rx="5.673" ry="5.529"/>
+        <ellipse cx="66.901" cy="23.43" fill="#ffe6d5" rx=".564" ry=".564"/>
+        <circle cx="69.177" cy="23.982" r="1" fill="#ffe6d5"/>
+    </g>
+    <g stroke-width="1.162" paint-order="stroke markers fill" transform="matrix(.4643 0 0 .4643 36.105 13.444)">
+        <ellipse cx="69.038" cy="20.366" fill="url(#radialGradient42)" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.493" rx="5.673" ry="5.529"/>
+        <ellipse cx="66.901" cy="23.43" fill="#ffe6d5" rx=".564" ry=".564"/>
+        <circle cx="69.177" cy="23.982" r="1" fill="#ffe6d5"/>
+    </g>
+    <g stroke-width="1.162" paint-order="stroke markers fill" transform="matrix(.4643 0 0 .4643 30.764 10.764)">
+        <ellipse cx="69.204" cy="21.434" fill="url(#radialGradient41)" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.493" rx="5.673" ry="5.529"/>
+        <ellipse cx="66.901" cy="23.43" fill="#ffe6d5" rx=".564" ry=".564"/>
+        <circle cx="69.177" cy="23.982" r="1" fill="#ffe6d5"/>
+    </g>
+    <g stroke-width="1.162" paint-order="stroke markers fill" transform="matrix(.4643 0 0 .4643 37.229 24.43)">
+        <ellipse cx="65.608" cy="28.708" fill="url(#radialGradient48)" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.493" rx="5.673" ry="5.529"/>
+        <ellipse cx="63.584" cy="31.842" fill="#ffe6d5" rx=".564" ry=".564"/>
+        <circle cx="29.381" cy="16.318" r="1" fill="#ffe6d5"/>
+        <circle cx="66.566" cy="31.905" r="1" fill="#ffe6d5"/>
+    </g>
+    <g stroke-width="1.162" paint-order="stroke markers fill" transform="matrix(.4643 0 0 .4643 31.742 31.918)">
+        <ellipse cx="69.038" cy="20.366" fill="url(#radialGradient47)" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.493" rx="5.673" ry="5.529"/>
+        <ellipse cx="66.901" cy="23.43" fill="#ffe6d5" rx=".564" ry=".564"/>
+        <circle cx="69.608" cy="23.099" r="1" fill="#ffe6d5"/>
+    </g>
+    <g stroke-width="1.162" paint-order="stroke markers fill" transform="rotate(32.238 48.36 -3.438)">
+        <ellipse cx="76.906" cy="20.018" fill="url(#radialGradient10)" fill-opacity=".994" stroke="#000" stroke-linecap="round" stroke-linejoin="round" rx="6.886" ry="9.153"/>
+        <circle cx="53.22" cy="64.533" r=".779" fill="#fff6d5" transform="rotate(-32.238)"/>
+        <ellipse cx="51.26" cy="64.265" fill="#fff6d5" rx=".439" ry=".439" transform="rotate(-32.238)"/>
+        <ellipse cx="-19.799" cy="-72.921" fill="#fea" fill-opacity=".994" rx="1.988" ry="1.601" transform="rotate(116.75)"/>
+    </g>
+</svg>

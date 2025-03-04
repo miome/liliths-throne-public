@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100">
+    <defs>
+        <linearGradient id="innoGrad8">
+            <stop offset="0" stop-color="#faa"/>
+            <stop offset="1" stop-color="#f55"/>
+        </linearGradient>
+        <linearGradient id="innoGrad6">
+            <stop offset="0" stop-color="#ff7f2a"/>
+            <stop offset="1" stop-color="#ffb380"/>
+        </linearGradient>
+        <linearGradient id="innoGrad5">
+            <stop offset="0" stop-color="#ffe6d5"/>
+            <stop offset="1" stop-color="#fca"/>
+        </linearGradient>
+        <linearGradient id="innoGrad3">
+            <stop offset="0" stop-color="#ffd5d5"/>
+            <stop offset="1" stop-color="#ff8080"/>
+        </linearGradient>
+        <linearGradient id="innoGrad0">
+            <stop offset="0" stop-color="#ffd5d5"/>
+            <stop offset="1" stop-color="#faa"/>
+        </linearGradient>
+        <linearGradient id="linearGradient37477" x1="71.658" x2="70.733" y1="34.547" y2="38.296" gradientTransform="matrix(.905 0 0 1 7.706 8.381)" gradientUnits="userSpaceOnUse" xlink:href="#innoGrad5"/>
+        <linearGradient id="linearGradient178931" x1="13.842" x2="20.092" y1="19.724" y2="29.992" gradientUnits="userSpaceOnUse" xlink:href="#innoGrad8"/>
+        <radialGradient id="radialGradient2023" cx="52.855" cy="34.962" r="34.408" fx="52.855" fy="34.962" gradientTransform="matrix(.68535 -.03584 .04215 .806 -2.023 15.953)" gradientUnits="userSpaceOnUse" xlink:href="#innoGrad8"/>
+    </defs>
+    <g>
+        <path fill="#ffb380" stroke="#000" stroke-linejoin="round" stroke-width=".617" d="M17.563 47.165c-2.71 1.059-5.154 3.787-3.409 6.075 2.52 2.725 7.424 2.676 11.282 2.167 20.095-.895 40.173-2.069 60.295-2.574 2.761 1.794 6.415-2.74 2.305-3.073-3.819-.573-7.71.21-11.545-.246-19.658-.543-39.28-1.635-58.928-2.349z" color="#000"/>
+        <path fill="url(#linearGradient37477)" stroke="#000" stroke-linejoin="round" stroke-width=".631" d="M26.347 36.274a32.545 32.545 0 00-2.99.131 4.617 4.617 0 00-.162.02c-3.725.492-5.938 2.674-7.574 5.205-1.636 2.53-2.702 5.719-3.09 9.328-.015.136-.015.27 0 .406.388 3.61 1.454 6.798 3.09 9.328 1.636 2.531 3.85 4.713 7.574 5.206.054.007.107.012.162.017 3.566.345 8.825-.023 15.652-.674 6.828-.65 15.635-2.416 23.506-3.6 9.48-.892 15.704-4.024 28.883-7.019.134.013.404.024.404.024 2.45 0 4.434-1.591 4.434-3.553s-1.985-3.553-4.434-3.553a5.348 5.348 0 00-.113.006c-10.174-1.816-20.302-5.443-30.476-7.1-7.872-1.182-15.376-2.714-22.204-3.365-3.414-.325-6.435-.58-9.048-.71a68.525 68.525 0 00-3.614-.096zm-.017 5.208c2.555.02 6.86.248 11.775.716 6.614.631 14.57 1.619 22.281 2.778 7.711 1.158 15.195 2.492 20.815 3.787 2.547.587 4.685 1.167 6.25 1.685-.053.213-.08.428-.084.645.004.259.043.517.117.77-1.567.52-3.718 1.106-6.283 1.697-5.62 1.294-13.104 2.628-20.815 3.787-7.71 1.159-15.667 2.146-22.28 2.777-6.555.625-12.021.82-13.706.67-.069-.028-1.317-.589-2.434-2.316-1.116-1.728-2.04-4.324-2.392-7.317.353-2.992 1.276-5.59 2.392-7.318 1.117-1.728 2.365-2.286 2.434-2.315.421-.037 1.078-.053 1.93-.046z"/>
+        <path fill="#fff" d="M89.73 48.166c-.965-.143-2.033-.114-2.033-.114s.86.652 1.932.806c2.075.303 3.95.318 4.525 1.661.37.82.461 1.998.461 1.998s.682-1.055.182-2.273c-.756-1.767-3.048-1.784-5.068-2.078z"/>
+        <ellipse cx="92.217" cy="51.249" fill="#ffb380" fill-rule="evenodd" stroke="#000" stroke-width=".6" rx="1.364" ry="1.307"/>
+    </g>
+    <g>
+        <path fill="url(#radialGradient2023)" stroke="#000" stroke-linejoin="round" stroke-width=".62" d="M15.823 30.2c-6.46 0-11.697 5.25-11.697 11.726 0 6.476 2.463 16.698 23.393 27.237l.002-.008v.008c20.931-10.539 23.394-20.761 23.394-27.237 0-6.476-5.237-11.726-11.697-11.726-6.423 0-11.638 2.784-11.697 9.182-.06-6.398-5.275-9.183-11.698-9.182z"/>
+    </g>
+</svg>

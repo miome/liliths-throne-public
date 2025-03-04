@@ -12,7 +12,7 @@
 		<slot>HAIR</slot>
 		<rarity>COMMON</rarity>
 		<clothingSet/>
-		<imageName>pearl_comb.svg</imageName>
+		<imageName>pearl_comb_opt.svg</imageName>
 		<imageEquippedName/>
 		<enchantmentLimit/>
 		<effects/>

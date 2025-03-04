@@ -12,7 +12,7 @@
 		<slot>HAIR</slot>
 		<rarity>COMMON</rarity>
 		<clothingSet/>
-		<imageName>heart_hair_clip.svg</imageName>
+		<imageName>heart_hair_clip_opt.svg</imageName>
 		<imageEquippedName/>
 		<enchantmentLimit/>
 		<effects/>

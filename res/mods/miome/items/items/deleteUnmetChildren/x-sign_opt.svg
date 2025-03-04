@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" cursor="default" viewBox="0 0 256 256">
+    <defs>
+        <linearGradient id="linearGradient924" x1="18.12" x2="21.466" y1="241.29" y2="228.73" gradientTransform="scale(1 -1) rotate(-89.503 -.246 -.024)" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#917c6f"/>
+            <stop offset="1" stop-color="#ac9d93"/>
+        </linearGradient>
+        <linearGradient id="innoGrad4">
+            <stop offset="0" stop-color="#ffb380"/>
+            <stop offset="1" stop-color="#fca"/>
+        </linearGradient>
+    </defs>
+    <ellipse cx="130.233" cy="130.468" fill="#c02f2f" stroke="#000" stroke-linejoin="round" stroke-width="3" rx="89.238" ry="83.834"/>
+    <text style="line-height:1.25;-inkscape-font-specification:Dhurjati" x="85.555" y="179.084" fill="#fff" stroke="#000" stroke-linejoin="round" stroke-width="3" font-family="Dhurjati" font-size="192" font-weight="400">
+        <tspan x="85.555" y="179.084">X</tspan>
+    </text>
+</svg>
