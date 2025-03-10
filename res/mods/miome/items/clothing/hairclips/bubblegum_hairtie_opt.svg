@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" cursor="default" viewBox="0 0 256 256">
+    <defs>
+        <linearGradient id="linearGradient22">
+            <stop offset="0" stop-color="#ec0c93"/>
+            <stop offset="1" stop-color="#f887cd"/>
+        </linearGradient>
+        <linearGradient id="linearGradient924" x1="18.12" x2="21.466" y1="241.29" y2="228.73" gradientTransform="scale(1 -1) rotate(-89.503 -.246 -.024)" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#917c6f"/>
+            <stop offset="1" stop-color="#ac9d93"/>
+        </linearGradient>
+        <linearGradient id="innoGrad4">
+            <stop offset="0" stop-color="#ffb380"/>
+            <stop offset="1" stop-color="#fca"/>
+        </linearGradient>
+        <radialGradient id="radialGradient23" cx="109.524" cy="146.844" r="50" fx="109.524" fy="146.844" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient22"/>
+        <radialGradient id="radialGradient26" cx="109.524" cy="146.844" r="50" fx="109.524" fy="146.844" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient22"/>
+    </defs>
+    <g stroke-width="3">
+        <circle cx="120" cy="120" r="46.35" fill="url(#radialGradient23)" stroke="#000" stroke-linecap="round" stroke-linejoin="round"/>
+        <path fill="#fff" d="M113.269 87.08c4.66-19.427 56.824 14.766 40.92 27.498-8.895-8.984-32.708-24.448-40.92-27.499z"/>
+    </g>
+    <g fill="#670665">
+        <circle cx="103.864" cy="146.422" r="5"/>
+        <circle cx="118.923" cy="152.315" r="5"/>
+    </g>
+    <g stroke="#fff" transform="translate(66.128 48.777)">
+        <circle cx="120" cy="120" r="46.35" fill="url(#radialGradient26)" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+        <path fill="#fff" d="M113.269 87.08c4.66-19.427 56.824 14.766 40.92 27.498-8.895-8.984-32.708-24.448-40.92-27.499z"/>
+    </g>
+    <g fill="#670665" transform="translate(48.777 25.862)">
+        <circle cx="103.864" cy="146.422" r="5"/>
+        <circle cx="110.084" cy="161.153" r="5"/>
+    </g>
+    <path fill="#797979" stroke="#000" stroke-linecap="round" stroke-linejoin="round" d="M99.683 146.169c-93.977 60.58-28.596 144.136 58.435 46.322 2.423-1.714 5.12-8.357-2.62-8.511-60.706 80.122-148.89 38.34-47.467-35.029-1.389-3.613-3.464-6.062-8.348-2.782z"/>
+    <path fill="#747474" stroke="#000" stroke-linecap="round" stroke-linejoin="round" d="M115.424 151.261c-93.977 60.58-14.013 84.183 37.138 25.952 2.424-1.714 3.73-6.968-4.008-7.122-17.882 32.668-123.66 55.932-27.56-13.732 1.62-2.456-1.612-5.83-5.57-5.098z"/>
+</svg>

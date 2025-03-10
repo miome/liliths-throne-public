@@ -4,15 +4,15 @@
 	<coreAttributes>
 		<value>10</value>
 		<determiner><![CDATA[a]]></determiner>
-		<name><![CDATA[horseshoe hair clip]]></name>
-		<namePlural pluralByDefault="false"><![CDATA[horseshoe hair clips]]></namePlural>
-		<description><![CDATA[A cheap plastic hair clip in the shape of a horseshoe.]]></description>
+		<name><![CDATA[peach hair clip]]></name>
+		<namePlural pluralByDefault="false"><![CDATA[peach hair clips]]></namePlural>
+		<description><![CDATA[A cheap plastic hair clip in the shape of a peach.]]></description>
 		<physicalResistance>0</physicalResistance>
 		<femininity>FEMININE</femininity>
 		<slot>HAIR</slot>
 		<rarity>COMMON</rarity>
 		<clothingSet/>
-		<imageName>horseshoe_hair_clip_opt.svg</imageName>
+		<imageName>peach_clip_opt.svg</imageName>
 		<imageEquippedName/>
 		<enchantmentLimit/>
 		<effects/>
@@ -29,10 +29,10 @@
 		
 		<incompatibleSlots/>
 		
-		<primaryColours values="ALL" />
-		<primaryColoursDye values="ALL_WITH_METALS"/>
-		<secondaryColours values="ALL_METALS" />
-		<secondaryColoursDye values="ALL_WITH_METALS"/>
+		<primaryColours values="ALL_METALS" />
+		<primaryColoursDye values="ALL_METALS"/>
+		<secondaryColours/>
+		<secondaryColoursDye/>
 		<tertiaryColours/>
 		<tertiaryColoursDye/>
 	

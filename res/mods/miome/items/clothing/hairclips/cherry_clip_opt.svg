@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" cursor="default" viewBox="0 0 256 256">
+    <defs>
+        <linearGradient id="linearGradient20">
+            <stop offset="0" stop-color="#ff2a2a"/>
+            <stop offset="1" stop-color="#faa"/>
+        </linearGradient>
+        <linearGradient id="linearGradient5">
+            <stop offset="0" stop-color="#ff2a2a"/>
+            <stop offset="1" stop-color="#faa"/>
+        </linearGradient>
+        <linearGradient id="linearGradient924" x1="18.12" x2="21.466" y1="241.29" y2="228.73" gradientTransform="scale(1 -1) rotate(-89.503 -.246 -.024)" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#917c6f"/>
+            <stop offset="1" stop-color="#ac9d93"/>
+        </linearGradient>
+        <linearGradient id="innoGrad4">
+            <stop offset="0" stop-color="#ffb380"/>
+            <stop offset="1" stop-color="#fca"/>
+        </linearGradient>
+        <radialGradient id="radialGradient20" cx="141.095" cy="137.167" r="28.008" fx="141.095" fy="137.167" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient5"/>
+        <radialGradient id="radialGradient22" cx="90.845" cy="131.815" r="28.008" fx="90.845" fy="131.815" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient20"/>
+    </defs>
+    <g transform="translate(1.964 55.652)">
+        <path fill="#ffb380" stroke="#000" stroke-linecap="round" stroke-linejoin="round" d="M92.645 69.402h72.348v11.785H92.645z"/>
+        <path fill="none" stroke="#f95" stroke-width="2.7" d="M164.568 79.113H94.67l-.23-9.243"/>
+        <path fill="none" stroke="#ffe6d5" stroke-width="2.7" d="M95.948 71.69h66.871l.229 8.018"/>
+        <circle cx="101.648" cy="116.101" r="27.008" fill="url(#radialGradient22)" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <circle cx="150.916" cy="117.852" r="27.008" fill="url(#radialGradient20)" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <path fill="#00d92f" stroke="#000" d="M136.82 24.293s-1.757 12.65-3.806 17.86C125.152 62.128 98.507 99.61 98.507 99.61l3.95 1.397s20.336-28.377 30.785-49.59c0 0 9.712 37.265 14.244 51.633 1.276.723 4.24-1.17 4.24-1.17L136.093 45.2c.225-.537.44-1.064.644-1.584 2.528-6.422 4.05-18.804 4.05-18.804z" overflow="visible"/>
+        <path fill="none" stroke="#000" d="M135.996 104.167s3.837-4.122 13.773.347c8.098-7.703 14.352-1.62 14.352-1.62M88.426 101.852s3.838-4.122 13.774.348c8.098-7.704 14.351-1.62 14.351-1.62"/>
+        <path fill="#fff" d="M108.767 104.593c1.75-2.432 7.87-2.32 10.721-.163 2.365 1.788 2.292 8.593 2.292 8.593s-4.996-9.54-13.013-8.43zM157.842 107.255c1.749-2.432 7.87-2.32 10.72-.163 2.365 1.788 2.292 8.593 2.292 8.593s-4.995-9.54-13.012-8.43z"/>
+    </g>
+</svg>

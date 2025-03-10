@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" cursor="default" viewBox="0 0 256 256">
+    <defs>
+        <linearGradient id="linearGradient924" x1="18.12" x2="21.466" y1="241.29" y2="228.73" gradientTransform="scale(1 -1) rotate(-89.503 -.246 -.024)" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#917c6f"/>
+            <stop offset="1" stop-color="#ac9d93"/>
+        </linearGradient>
+        <linearGradient id="innoGrad4">
+            <stop offset="0" stop-color="#ffb380"/>
+            <stop offset="1" stop-color="#fca"/>
+        </linearGradient>
+        <radialGradient id="radialGradient1580" cx="76.233" cy="81.721" r="6.242" fx="76.233" fy="81.721" gradientTransform="matrix(1.00248 0 0 1.19028 16.152 96.457)" gradientUnits="userSpaceOnUse" xlink:href="#innoGrad4-5"/>
+        <linearGradient id="innoGrad4-5">
+            <stop offset="0" stop-color="#3c65ae"/>
+            <stop offset="1" stop-color="#30518b"/>
+        </linearGradient>
+        <radialGradient id="radialGradient1570" cx="79.97" cy="79.704" r="14.055" fx="79.97" fy="79.704" gradientTransform="translate(16.152 111.805) scale(1.00248)" gradientUnits="userSpaceOnUse" xlink:href="#innoGrad4-5"/>
+        <radialGradient id="radialGradient31" cx="79.97" cy="79.704" r="14.055" fx="79.97" fy="79.704" gradientTransform="translate(16.152 111.805) scale(1.00248)" gradientUnits="userSpaceOnUse" xlink:href="#innoGrad4-5"/>
+        <radialGradient id="radialGradient32" cx="76.233" cy="81.721" r="6.242" fx="76.233" fy="81.721" gradientTransform="matrix(1.00248 0 0 1.19028 16.152 96.457)" gradientUnits="userSpaceOnUse" xlink:href="#innoGrad4-5"/>
+    </defs>
+    <g stroke="#000" stroke-linejoin="round" stroke-miterlimit="10" stroke-width=".303" transform="matrix(3.29966 0 0 3.29966 -226.51 -521.669)">
+        <circle cx="97.089" cy="197.089" r="13.589" fill="url(#radialGradient31)" stroke-width=".909"/>
+        <path fill="url(#radialGradient32)" d="M95.226 189.747l-5.053 1.846c-1.613-1.137 1.58-4.793 1.58-4.793s3.748.823 3.473 2.947zm-5.053 1.846c-1.47-.456-3.355 2.525-3.355 2.525s.775 2.463 2.18 1.872zm-1.174 4.397l3.584 2.916c-.282 2.017-3.593 1.737-3.593 1.737s-1.12-3.53.009-4.653zm3.585 2.916l3.304-4.313c1.026.103.94 4.914.94 4.914s-3.916.536-4.244-.601zm2.642-9.159l.66 4.845c2.13 1.12 2.444-4.238 2.444-4.238s-1.96-1.954-3.104-.607z"/>
+        <ellipse cx="-148.457" cy="155.612" fill="#2a477a" rx="5.231" ry="3.29" transform="rotate(-69.15)"/>
+        <ellipse cx="-148.781" cy="156.093" fill="#1e3357" rx="3.758" ry="2.363" transform="rotate(-69.15)"/>
+    </g>
+    <g stroke="#000" stroke-linejoin="round" stroke-miterlimit="10" stroke-width=".287" transform="matrix(3.48836 0 0 3.48836 -183.47 -596.608)">
+        <circle cx="97.089" cy="197.089" r="13.589" fill="url(#radialGradient1570)" stroke-width=".86"/>
+        <path fill="url(#radialGradient1580)" d="M95.226 189.747l-5.053 1.846c-1.613-1.137 1.58-4.793 1.58-4.793s3.748.823 3.473 2.947zm-5.053 1.846c-1.47-.456-3.355 2.525-3.355 2.525s.775 2.463 2.18 1.872zm-1.174 4.397l3.584 2.916c-.282 2.017-3.593 1.737-3.593 1.737s-1.12-3.53.009-4.653zm3.585 2.916l3.304-4.313c1.026.103.94 4.914.94 4.914s-3.916.536-4.244-.601zm2.642-9.159l.66 4.845c2.13 1.12 2.444-4.238 2.444-4.238s-1.96-1.954-3.104-.607z"/>
+        <ellipse cx="-148.457" cy="155.612" fill="#2a477a" rx="5.231" ry="3.29" transform="rotate(-69.15)"/>
+        <ellipse cx="-148.781" cy="156.093" fill="#1e3357" rx="3.758" ry="2.363" transform="rotate(-69.15)"/>
+    </g>
+    <g transform="rotate(-55.977 110.912 148.58)">
+        <circle cx="118.761" cy="152.717" r="5"/>
+        <circle cx="105.398" cy="145.004" r="5"/>
+        <circle cx="152.642" cy="172.284" r="5"/>
+        <circle cx="158.862" cy="187.015" r="5"/>
+        <circle cx="158.862" cy="187.015" r="5"/>
+        <path fill="#797979" stroke="#000" stroke-linecap="round" stroke-linejoin="round" d="M99.683 146.169c-93.977 60.58-28.596 144.136 58.435 46.322 2.423-1.714 5.12-8.357-2.62-8.511-60.706 80.122-148.89 38.34-47.467-35.029-1.389-3.613-3.464-6.062-8.348-2.782z"/>
+        <path fill="#747474" stroke="#000" stroke-linecap="round" stroke-linejoin="round" d="M115.424 151.261c-93.977 60.58-14.013 84.183 37.138 25.952 2.424-1.714 3.73-6.968-4.008-7.122-17.882 32.668-123.66 55.932-27.56-13.732 1.62-2.456-1.612-5.83-5.57-5.098z"/>
+    </g>
+</svg>
