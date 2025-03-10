@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<clothing>
+	<coreAttributes>
+		<value>5000</value>
+		<determiner><![CDATA[a]]></determiner>
+		<name><![CDATA[step-shake hair pin]]></name>
+		<namePlural pluralByDefault="false"><![CDATA[step-shake hair pins]]></namePlural>
+		<description><![CDATA[Made to wear with hanfu, this hairpin has hanging ornaments that make a distinctive clicking noise as the wearer walks. This particular pin is decorated with hanging wisteria flowers.]]></description>
+		<physicalResistance>0</physicalResistance>
+		<femininity>FEMININE</femininity>
+		<slot>HAIR</slot>
+		<rarity>COMMON</rarity>
+		<clothingSet/>
+		<imageName>step_shake_pin_opt.svg</imageName>
+		<imageEquippedName/>
+		<enchantmentLimit/>
+		<effects/>
+		
+		<blockedPartsList>
+			<blockedParts>
+				<displacementType>REMOVE_OR_EQUIP</displacementType>
+				<clothingAccessRequired/>
+				<blockedBodyParts/>
+				<clothingAccessBlocked/>
+				<concealedSlots/>
+			</blockedParts>
+		</blockedPartsList>
+		
+		<incompatibleSlots/>
+		
+		<primaryColours values="JUST_PURPLE" />
+		<primaryColoursDye values="ALL_WITH_METALS"/>
+		<secondaryColours values="JUST_GREEN" />
+		<secondaryColoursDye values="ALL_WITH_METALS"/>
+		<tertiaryColours values="ALL_METALS"/>
+		<tertiaryColoursDye values="ALL_WITH_METALS"/>
+	
+		<itemTags>
+			<tag>GIFT</tag><tag>SOLD_BY_NYAN</tag>
+		</itemTags>
+	</coreAttributes>
+
+  <replacementText type="REMOVE_OR_EQUIP">
+    <self>
+      <![CDATA[[npc.Name] [npc.verb(tuck)] the pin into [npc.her] [npc.hair(true)].]]>
+    </self>
+    <other>
+      <![CDATA[[npc.Name] [npc.verb(tuck)] the pin into [npc2.namePos] [npc2.hair(true)].]]>
+    </other>
+    <otherRough>
+      <![CDATA[[npc.Name] roughly [npc.verb(push)] the pin into [npc2.namePos] [npc2.hair(true)].]]>
+    </otherRough>
+  </replacementText>
+
+  <displacementText type="REMOVE_OR_EQUIP">
+    <self>
+      <![CDATA[[npc.Name] [npc.verb(take)] the pin out of [npc.her] [npc.hair(true)].]]>
+    </self>
+    <other>
+      <![CDATA[[npc.Name] [npc.verb(take)] the pin out of [npc2.namePos] [npc2.hair(true)].]]>
+    </other>
+    <otherRough>
+      <![CDATA[[npc.Name] [npc.verb(snatch)] the pin out of [npc2.namePos] [npc2.hair(true)].]]>
+    </otherRough>
+  </displacementText>
+  
+</clothing>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" cursor="default" viewBox="0 0 256 256">
+    <defs>
+        <linearGradient id="linearGradient924" x1="18.12" x2="21.466" y1="241.29" y2="228.73" gradientTransform="scale(1 -1) rotate(-89.503 -.246 -.024)" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#917c6f"/>
+            <stop offset="1" stop-color="#ac9d93"/>
+        </linearGradient>
+        <linearGradient id="innoGrad4">
+            <stop offset="0" stop-color="#ffb380"/>
+            <stop offset="1" stop-color="#fca"/>
+        </linearGradient>
+    </defs>
+    <g stroke="#000">
+        <path fill="#f55" stroke-width=".343" d="M114.545 50.718l7.807 51.459s-22.526 2.767-29.603-2.856c-3.937-6.742 18.413-34.978 18.413-34.978z" transform="matrix(2.35512 0 0 2.31254 -110.816 7.128)"/>
+        <path fill="#f55" d="M89.66 134.03L72.614 289.022l23.31 2.623.813-109.74z" transform="matrix(.80869 0 0 .79407 34.497 9.835)"/>
+        <path fill="#ff8080" stroke-linecap="round" stroke-linejoin="round" stroke-width=".265" d="M110.756 8.845c4.543 1.343 6.073 1.119 7.857 3.373 5.794 12.88 10.968 44.997 10.593 49.499-1.176 4.593-7.004 4.12-9.885 3.653-5.204-40.676-4.805-30.877-5.469-41.872.668 10.545.015 2.5 5.28 42.518 2.151 16.346 4.611 32.545 5.01 37.346-3.485-1.538-30.262 4.52-35.861-1.353.24-15.567 4.96-52.742 4.78-76.358-.112 3.807-.56 19.643-1.759 32.832-3.318 4.813-8.972 3.653-13.074-1.513 2.352-6.742 6.384-44.717 11.172-45.291 3.433-1.575 3.71-1.548 7.385-2.637 2.98 4.198 8.928 4.455 13.971-.197z" transform="matrix(2.35512 0 0 2.31254 -110.816 7.128)"/>
+        <path fill="none" stroke-width=".265" d="M92.71 35.298l-.154 69.114 3.823.495" transform="matrix(2.35512 0 0 2.31254 -110.816 7.128)"/>
+    </g>
+</svg>
