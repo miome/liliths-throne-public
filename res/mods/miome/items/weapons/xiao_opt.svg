@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="svg34" width="100%" height="100%" cursor="default" version="1.1" viewBox="0 0 256 256">
+    <defs id="defs18">
+        <linearGradient id="linearGradient924" x1="18.12" x2="21.466" y1="241.29" y2="228.73" gradientTransform="scale(1 -1) rotate(-89.503 -.246 -.024)" gradientUnits="userSpaceOnUse">
+            <stop id="stop1" offset="0" stop-color="#917c6f"/>
+            <stop id="stop2" offset="1" stop-color="#ac9d93"/>
+        </linearGradient>
+        <linearGradient id="innoGrad4">
+            <stop id="stop3" offset="0" stop-color="#ffb380"/>
+            <stop id="stop4" offset="1" stop-color="#fca"/>
+        </linearGradient>
+        <linearGradient id="innoGrad5" x1="149.74" x2="147.34" y1="110.12" y2="107.69" gradientTransform="scale(1 -1) rotate(-89.503 -.246 -.024)" gradientUnits="userSpaceOnUse">
+            <stop id="stop5" offset="0" stop-color="#916f6f"/>
+            <stop id="stop6" offset="1" stop-color="#ac9393"/>
+        </linearGradient>
+        <linearGradient id="linearGradient1284" x1="30" x2="30.714" y1="226.18" y2="225.42" gradientTransform="scale(1 -1) rotate(-89.503 -.246 -.024)" gradientUnits="userSpaceOnUse" xlink:href="#innoGrad4"/>
+        <linearGradient id="linearGradient1292" x1="37.634" x2="38.214" y1="219.17" y2="218.59" gradientTransform="scale(1 -1) rotate(-89.503 -.246 -.024)" gradientUnits="userSpaceOnUse" xlink:href="#innoGrad4"/>
+        <linearGradient id="linearGradient1306" x1="40.045" x2="40.938" y1="216.76" y2="215.78" gradientTransform="scale(1 -1) rotate(-89.503 -.246 -.024)" gradientUnits="userSpaceOnUse" xlink:href="#innoGrad4"/>
+        <linearGradient id="linearGradient1314" x1="42.455" x2="43.348" y1="214.21" y2="213.32" gradientTransform="scale(1 -1) rotate(-89.503 -.246 -.024)" gradientUnits="userSpaceOnUse" xlink:href="#innoGrad4"/>
+        <linearGradient id="linearGradient1322" x1="50.58" x2="51.071" y1="206.49" y2="206.04" gradientTransform="scale(1 -1) rotate(-89.503 -.246 -.024)" gradientUnits="userSpaceOnUse" xlink:href="#innoGrad4"/>
+        <linearGradient id="innoGrad3" x1="27.009" x2="54.821" y1="229.57" y2="202.83" gradientTransform="scale(1 -1) rotate(-89.503 -.246 -.024)" gradientUnits="userSpaceOnUse">
+            <stop id="stop7" offset="0" stop-color="#f95"/>
+            <stop id="stop8" offset=".088" stop-color="#ff7f2a"/>
+            <stop id="stop9" offset=".265" stop-color="#f95"/>
+            <stop id="stop10" offset=".446" stop-color="#ff7f2a"/>
+            <stop id="stop11" offset=".601" stop-color="#ff7f2a"/>
+            <stop id="stop12" offset=".733" stop-color="#f95"/>
+            <stop id="stop13" offset=".863" stop-color="#ff7f2a"/>
+            <stop id="stop14" offset="1" stop-color="#f95"/>
+        </linearGradient>
+        <linearGradient id="linearGradient903" x1="200.1" x2="191.22" y1="65.966" y2="57.051" gradientUnits="userSpaceOnUse">
+            <stop id="stop15" offset="0" stop-color="#916f6f"/>
+            <stop id="stop16" offset="1" stop-color="#ac9393"/>
+        </linearGradient>
+        <linearGradient id="linearGradient943" x1="185.93" x2="178.95" y1="77.051" y2="70.746" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient924"/>
+        <linearGradient id="linearGradient951" x1="181.93" x2="175.36" y1="82.508" y2="76.271" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient924"/>
+        <linearGradient id="linearGradient938" x1="18.12" x2="21.466" y1="241.29" y2="228.73" gradientTransform="scale(1 -1) rotate(-89.503 -.246 -.024)" gradientUnits="userSpaceOnUse">
+            <stop id="stop17" offset="0" stop-color="#fd5"/>
+            <stop id="stop18" offset="1" stop-color="#fea"/>
+        </linearGradient>
+    </defs>
+    <g id="g9" fill="#faa" stroke="#000" stroke-opacity="1" stroke-width="1.536" transform="matrix(.49308 -.4249 -.42506 -.49304 133.516 286.37)">
+        <path id="path7" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.536" d="M81.841 93.3c15.83-21.832 10.03-61.826-12.112-67.438-30.017-7.608 5.316 42.39-36.422 90.734-42.257 48.945-124.405-13.734-94.65 48.393-4.096-2.63-2.007 14.993-2.404 6.64-44.035-83.047 48.744-11.865 91.842-57.654 39.827-42.313 4.616-102.868 40.652-94.66C93.712 25 104.98 72.705 89.37 93.299c-.989 1.305-6.251 1.022-7.53 0z"/>
+        <ellipse id="path8" cx="93.102" cy="67.756" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.229" rx="7.529" ry="7.366"/>
+        <path id="path7-6" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1.536" d="M87.399 75.237c-6.002-.599-9.192 7.697-20.654 15.136-.01 4.613 5.78 7.284 10.464 9.833 2.772-4.682 3.791-6.825 5.689-8.92-1.416 3.171-1.384 4.85-3.203 9.571 7.94 2.964 13.823 3.68 19.658 1.44-.978-1.598-.496-5.652-1.82-8.848 5.62 11.863 3.566 8.71 7.239 6.121.553-.174-3.714-7.476-5.906-11.021-1.96-3.169-.987-8.342-6.79-12.507-1.348-.829-3.138-1.167-4.677-.805z"/>
+    </g>
+    <path id="path1" fill="#faa" stroke="#000" stroke-linecap="butt" stroke-linejoin="miter" stroke-opacity="1" stroke-width="1" d="M233.084 20.625C187.336 62.954 99.108 146.992 19.643 219.335c-.697 8.682 4.085 14.371 12.767 15.06 77.37-71.153 138.964-126.989 215.078-200.022.02-.571.01-1.125-.027-1.664a4.1 4.1 0 01-6-3.633c0-1.788.927-2.445 2.285-4.141-2.588-2.798-5.992-4.142-10.662-4.31z"/>
+    <ellipse id="path2" cx="162.429" cy="106.47" fill="#ff2a2a" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".8" rx="4.1" ry="4.1"/>
+    <ellipse id="ellipse2" cx="89.91" cy="172.889" fill="#ff2a2a" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".8" rx="4.1" ry="4.1"/>
+    <ellipse id="ellipse3" cx="103.427" cy="160.68" fill="#ff2a2a" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".8" rx="4.1" ry="4.1"/>
+    <ellipse id="ellipse4" cx="116.754" cy="148.277" fill="#ff2a2a" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".8" rx="4.1" ry="4.1"/>
+    <ellipse id="ellipse5" cx="131.313" cy="134.815" fill="#ff2a2a" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".8" rx="4.1" ry="4.1"/>
+    <ellipse id="ellipse6" cx="146.368" cy="120.738" fill="#ff2a2a" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".8" rx="4.1" ry="4.1"/>
+</svg>

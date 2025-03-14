@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<weapon>
+	<coreAttributes>
+	
+		<value>5000</value> 
+		
+		<melee>false</melee>
+		
+		<twoHanded>false</twoHanded>
+		
+		<determiner><![CDATA[]]></determiner>
+		
+		<name><![CDATA[folding fan]]></name>
+		
+		<namePlural pluralByDefault="false"><![CDATA[folding fans]]></namePlural>
+		
+		<description><![CDATA[An arcane weapon in the form of a traditional Chinese folding fan. This one is decorated with a clear winter night sky.]]></description> 
+		
+		<attackDescriptor>wave</attackDescriptor>
+		
+		<attackTooltipDescription><![CDATA[Wave at [npc2.name] with your fan.]]></attackTooltipDescription>
+		
+		<rarity>COMMON</rarity> 
+		
+		<weaponSet/> 
+		
+		<equipText><![CDATA[[npc.Name] [npc.verb(holds)] [npc.her] fan coyly before [npc.her] face, ready to use it.]]></equipText>
+		
+		<unequipText><![CDATA[[npc.Name] puts away [npc.her] fan.]]></unequipText>
+		
+		<imageName>folding_fan_moon_opt.svg</imageName> 
+		
+		<imageEquippedName>folding_fan_moon_opt.svg</imageEquippedName> 
+		
+		<damage>20</damage> 
+
+		
+		<arcaneCost>0</arcaneCost> 
+		
+		<damageVariance>LOW</damageVariance> 
+		
+		<availableDamageTypes>
+			<damageType>ICE</damageType>
+		</availableDamageTypes>
+		
+		<spells/>
+		
+		<effects> 
+              <effect itemEffectType="WEAPON" limit="0" potency="MAJOR_BOOST" primaryModifier="CLOTHING_ATTRIBUTE" secondaryModifier="DAMAGE_WEAPON" timer="0"/>
+              <effect itemEffectType="WEAPON" limit="0" potency="MAJOR_BOOST" primaryModifier="CLOTHING_ATTRIBUTE" secondaryModifier="CRITICAL_DAMAGE" timer="0"/>
+		</effects>
+		
+		<primaryColours>
+			<colour>CLOTHING_BLUE</colour>
+			<colour>CLOTHING_BLUE_LIGHT</colour>
+			<colour>CLOTHING_BLUE_DARK</colour>
+		</primaryColours> 
+		<primaryColoursDye values="ALL"/>
+		<secondaryColors values="JUST_BROWN"/>
+		<secondaryColoursDye values="ALL"/>
+		
+		<itemTags> 
+			<tag>SOLD_BY_VICKY</tag>
+			<tag>WEAPON_BLADE</tag>
+		</itemTags>
+		
+	</coreAttributes>
+	
+	<hitDescriptions>
+		<hitText><![CDATA[
+		[npc.Name] waves [npc.her] fan at [npc2.name], grinning as the wave of arcane-infused sound hits [npc2.her] body!
+		]]></hitText>
+		<hitText><![CDATA[
+		Waving [npc.her] fan at [npc2.name], [npc.name] [npc.verb(grin)] as [npc.she] [npc.verb(see)] the arcane-infused pressure wave travel straight through [npc2.her] body!
+		]]></hitText>
+		<hitText><![CDATA[
+		[npc.Name] waves at [npc2.name] with [npc.her] folding fan, causing [npc2.herHim] to stagger back as the arcane-infused pressure wave passes right through [npc2.her] chest!
+		]]></hitText>
+	</hitDescriptions>
+
+	<!-- Descriptions that are used when missing an enemy. One of the missText values will be randomly selected each time the attacker misses their target. Follow the same guidelines as equipText. -->
+	<missDescriptions>
+		<missText><![CDATA[
+		[npc.Name] waves [npc.her] folding fan at [npc2.name], but [npc.verb(end)] up missing [npc2.herHim]!
+		]]></missText>
+		<missText><![CDATA[
+		Waving at [npc2.name] with [npc.her] folding fan, [npc.name] [npc.verb(let)] out a frustrated cry as [npc.she] [npc.verb(miss)] [npc.her] target!
+		]]></missText>
+		<missText><![CDATA[
+		With a quick step forwards, [npc.name] waves [npc.her] fan at [npc2.name], but [npc.she] [npc.verb(miss)] [npc.her] target!
+		]]></missText>
+	</missDescriptions>
+	
+</weapon>
