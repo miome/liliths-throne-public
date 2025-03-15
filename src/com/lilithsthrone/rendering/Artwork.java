@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.lilithsthrone.main.Main;
-import com.lilithsthrone.threading.DocBuilders;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -49,7 +48,7 @@ public class Artwork {
 			for(File subFile : dir.listFiles(textFilter)) {
 				if (subFile.exists()) {
 					try {
-						Document doc = DocBuilders.parseDoc(subFile);
+						Document doc = Main.getDocBuilder().parse(subFile);
 						
 						// Cast magic:
 						doc.getDocumentElement().normalize();

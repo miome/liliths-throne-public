@@ -9,14 +9,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import com.lilithsthrone.threading.DocBuilders;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -299,8 +297,7 @@ public class Properties {
 	
 	public void savePropertiesAsXML(){
 		try {
-			DocumentBuilder db = DocBuilders.getNextDocBuilder();
-			Document doc = db.newDocument();
+			Document doc = Main.getDocBuilder().newDocument();
 			Element properties = doc.createElement("properties");
 			doc.appendChild(properties);
 
@@ -657,8 +654,7 @@ public class Properties {
 			StreamResult result = new StreamResult("data/properties.xml");
 		
 			transformer.transform(source, result);
-
-			db.reset();
+		
 		} catch (TransformerException e) {
 			e.printStackTrace();
 		}
@@ -677,7 +673,7 @@ public class Properties {
 		if (new File("data/properties.xml").exists())
 			try {
 				File propertiesXML = new File("data/properties.xml");
-				Document doc = DocBuilders.parseDoc(propertiesXML);
+				Document doc = Main.getDocBuilder().parse(propertiesXML);
 				
 				// Cast magic:
 				doc.getDocumentElement().normalize();

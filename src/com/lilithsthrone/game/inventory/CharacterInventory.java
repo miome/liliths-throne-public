@@ -11,7 +11,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.lilithsthrone.threading.DocBuilders;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -50,8 +49,6 @@ import com.lilithsthrone.utils.comparators.InventoryItemComparator;
 import com.lilithsthrone.utils.comparators.InventoryWeaponComparator;
 import com.lilithsthrone.utils.comparators.ReverseClothingZLayerComparator;
 import com.lilithsthrone.world.World;
-
-import javax.xml.parsers.DocumentBuilder;
 
 /**
  * Inventory for a Character. Tracks weapons equipped, clothes worn & inventory space.<br/>
@@ -123,12 +120,11 @@ public class CharacterInventory implements XMLSaving {
 	}
 	
 	public static CharacterInventory getCopyOfInventory(CharacterInventory inventoryToCopy) {
-		DocumentBuilder db = DocBuilders.getNextDocBuilder();
-		Document doc = db.newDocument();
+		Document doc = Main.getDocBuilder().newDocument();
 		Element mainNode = doc.createElement("mainNode");
 		inventoryToCopy.saveAsXML(mainNode, doc);
 		CharacterInventory newInventory = loadFromXML(mainNode, doc);
-		db.reset();
+		
 		return newInventory;
 	}
 	

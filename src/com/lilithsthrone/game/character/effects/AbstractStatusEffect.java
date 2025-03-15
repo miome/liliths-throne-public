@@ -16,7 +16,6 @@ import java.util.Set;
 
 import javax.script.ScriptException;
 
-import com.lilithsthrone.threading.DocBuilders;
 import org.w3c.dom.Document;
 
 import com.lilithsthrone.controller.xmlParsing.Element;
@@ -185,7 +184,7 @@ public abstract class AbstractStatusEffect {
 	public AbstractStatusEffect(File XMLFile, String author, boolean mod) {
 		if (XMLFile.exists()) {
 			try {
-				Document doc = DocBuilders.parseDoc(XMLFile);
+				Document doc = Main.getDocBuilder().parse(XMLFile);
 				
 				// Cast magic:
 				doc.getDocumentElement().normalize();

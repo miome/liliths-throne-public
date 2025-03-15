@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.lilithsthrone.main.Main;
-import com.lilithsthrone.threading.DocBuilders;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 
@@ -50,7 +49,7 @@ public class Element {
 	public static Element getDocumentRootElement(File xmlFile) throws XMLLoadException{
 		try{
 			String fileDirectory = xmlFile.getAbsolutePath();
-			Document parsedDocument = DocBuilders.parseDoc(xmlFile);
+			Document parsedDocument = Main.getDocBuilder().parse(xmlFile);
 			parsedDocument.getDocumentElement().normalize();
 			return new Element(parsedDocument.getDocumentElement(), fileDirectory, parsedDocument);
 			

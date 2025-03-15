@@ -18,7 +18,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.lilithsthrone.main.Main;
-import com.lilithsthrone.threading.DocBuilders;
 import org.w3c.dom.Document;
 
 import com.lilithsthrone.controller.xmlParsing.Element;
@@ -126,7 +125,7 @@ public abstract class AbstractWeaponType extends AbstractCoreType {
 
 		if (weaponXMLFile.exists()) {
 			try {
-				Document doc = DocBuilders.parseDoc(weaponXMLFile);
+				Document doc = Main.getDocBuilder().parse(weaponXMLFile);
 				
 				// Cast magic:
 				doc.getDocumentElement().normalize();

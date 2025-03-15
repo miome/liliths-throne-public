@@ -6691,7 +6691,7 @@ public class Perk {
 		hiddenPerks.sort((p1, p2) -> p1.getRenderingPriority()-p2.getRenderingPriority());
 	}
 	
-	public static void generateSubspeciesPerks() {
+	private static void generateSubspeciesPerks() {
 		List<AbstractAttribute> resistancesAdded = new ArrayList<>();
 		for(AbstractSubspecies sub : Subspecies.getAllSubspecies()) {
 			if(!resistancesAdded.contains(sub.getDamageMultiplier())) {
