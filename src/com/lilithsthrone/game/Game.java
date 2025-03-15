@@ -34,14 +34,12 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import com.lilithsthrone.threading.DocBuilders;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -474,8 +472,7 @@ public class Game implements XMLSaving {
 			}
 			// Starting stuff:
 
-			DocumentBuilder db = DocBuilders.getNextDocBuilder();
-			Document doc = db.newDocument();
+			Document doc = Main.getDocBuilder().newDocument();
 
 			// Writing game stuff to export:
 			
@@ -551,7 +548,6 @@ public class Game implements XMLSaving {
 			if(timeLog) {
 				System.out.println("Difference: "+(System.nanoTime()-timeStart)/1000000000f);
 			}
-			db.reset();
 		} catch (TransformerException tfe) {
 			tfe.printStackTrace();
 		}
@@ -575,7 +571,7 @@ public class Game implements XMLSaving {
 		
 		if (file.exists()) {
 			try {
-				Document doc = DocBuilders.parseDoc(file);
+				Document doc = Main.getDocBuilder().parse(file);
 				
 				// Cast magic:
 				doc.getDocumentElement().normalize();
@@ -622,7 +618,7 @@ public class Game implements XMLSaving {
 
 		if (file.exists()) {
 			try {
-				Document doc = DocBuilders.parseDoc(file);
+				Document doc = Main.getDocBuilder().parse(file);
 
 				// Cast magic:
 				doc.getDocumentElement().normalize();
@@ -660,7 +656,7 @@ public class Game implements XMLSaving {
 		
 		if (file.exists()) {
 			try {
-				Document doc = DocBuilders.parseDoc(file);
+				Document doc = Main.getDocBuilder().parse(file);
 				
 				// Cast magic:
 				doc.getDocumentElement().normalize();
@@ -779,8 +775,8 @@ public class Game implements XMLSaving {
 			System.out.println(timeStart);
 		}
 		// Starting stuff:
-		DocumentBuilder db = DocBuilders.getNextDocBuilder();
-		Document doc = db.newDocument();
+
+		Document doc = Main.getDocBuilder().newDocument();
 
 		// Writing game stuff to export:
 
@@ -960,7 +956,6 @@ public class Game implements XMLSaving {
 		if(timeLog) {
 			System.out.println("Difference: "+(System.nanoTime()-timeStart)/1000000000f);
 		}
-		db.reset();
 	}
 	
 	private static boolean debug = false;
@@ -972,13 +967,12 @@ public class Game implements XMLSaving {
 	}
 	
 	public static void importGame(File file) {
-		long importStarted = System.currentTimeMillis();
 		Main.game = new Game();
 		UtilText.initScriptEngine(); // Have to init the script engine before loading game variables as some classes (such as race) call parsing as part of their initialisation (Race's 'applyRaceChanges')
 		
 		if (file.exists()) {
 			try {
-				Document doc = DocBuilders.parseDoc(file);
+				Document doc = Main.getDocBuilder().parse(file);
 
 				long time = System.nanoTime();
 				if(debug) {
@@ -2175,8 +2169,6 @@ public class Game implements XMLSaving {
 		Main.game.getPlayer().updateInventoryListeners();
 		Main.game.getPlayer().updateAttributeListeners(true);
 		Main.game.getPlayer().calculateStatusEffects(0);
-		if (Main.TIME_TESTING)
-			System.out.println("importGame took: " + (System.currentTimeMillis() - importStarted) + " ms");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -2239,7 +2231,6 @@ public class Game implements XMLSaving {
 	}
 	
 	public void initNewGame(DialogueNode startingDialogueNode) {
-		long timeStarted = System.currentTimeMillis();
 		NPCMap.clear();
 		OffspringSeedMap.clear();
 		initUniqueNPCs();
@@ -2258,8 +2249,6 @@ public class Game implements XMLSaving {
 		setStarted(true);
 		
 		setContent(new Response(startingDialogueNode.getLabel(), startingDialogueNode.getDescription(), startingDialogueNode));
-		if (Main.TIME_TESTING)
-			System.out.println("initNewGame took: " + (System.currentTimeMillis() - timeStarted) + " ms");
 	}
 	
 	/**
