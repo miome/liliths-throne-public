@@ -50,7 +50,8 @@
 	<!-- The attributes which should be affected by having this status effect. The value="10" part defines how much the attribute should be numerically affected (and can be negative), while the 'DAMAGE_LUST' part defines which attribute is being affected.
 	You can define any number of attribute modifiers, but it's usually best to keep it limited to just a few.
 	Values for attributes should be drawn from here: https://github.com/Innoxia/liliths-throne-public/blob/dev/src/com/lilithsthrone/game/character/attributes/Attribute.java-->
-	<attributeModifiers/>
+	<attributeModifiers>                <modifier value="30.0">RESISTANCE_LUST</modifier> </attributeModifiers>
+
 	
 	<!-- The CombatMoves which should be unlocked for the character affected by this status effect.
 	CombatMove identifiers are defined in their constructors. When modding support for combat moves is added, the identifier will be described in the modding file there.
@@ -119,7 +120,8 @@
 	<applyEffect interval='86400'><![CDATA[
 	]]>
 	</applyEffect> -->
-	<applyEffect/>
+       <applyEffect/>
+
 	
 	<!-- In a similar manner to the 'applyEffect' element above, the game processes logic when a status effect is removed.
 	It does not require an 'interval' attribute.

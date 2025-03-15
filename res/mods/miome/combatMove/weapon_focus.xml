@@ -4,7 +4,7 @@
 	
 	<!-- The category which this status effect falls into. You can omit this field if you want it to be set to SPECIAL (which should be considered to be the standard category).
 	Categories, along with their meanings, can be found here: https://github.com/Innoxia/liliths-throne-public/blob/dev/src/com/lilithsthrone/game/combat/moves/CombatMoveCategory.java -->
-	<category>SPECIAL</category>
+	<category>SPELL</category>
 	
 	<!-- What kind of attack this is, which primarily determines when and how often NPCs will decide to use this attack during combat.
 	All available values of CombatMoveType can be found here: https://github.com/Innoxia/liliths-throne-public/blob/dev/src/com/lilithsthrone/game/combat/moves/CombatMoveType.java -->
@@ -189,7 +189,7 @@
                                 [npc.speech(Now, my dearest friend, let your light shine forth to illuminate the path forward.)]
                                 <br/>
                          #ENDIF
-			[#npc.addStatusEffect(STATUS_EFFECT_miome_weapon_radiance,5)]
+			[##npc.addStatusEffect(STATUS_EFFECT_miome_weapon_radiance,5)]
 		#ENDIF
 
 

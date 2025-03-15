@@ -8,7 +8,7 @@
 	
 	<!-- What kind of attack this is, which primarily determines when and how often NPCs will decide to use this attack during combat.
 	All available values of CombatMoveType can be found here: https://github.com/Innoxia/liliths-throne-public/blob/dev/src/com/lilithsthrone/game/combat/moves/CombatMoveType.java -->
-	<type>ATTACK</type>
+	<type>ATTACK_DEFEND</type>
 	
 	<!-- How likely it is that the NPC who has this move available to them will select it as one of their equipped moves.
 	The default weighting is 1, and if you want it to be more likely to be chosen, then give it a higher weighting. -->

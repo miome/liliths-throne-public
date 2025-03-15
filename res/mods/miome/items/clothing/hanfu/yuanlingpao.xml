@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- For a version without all of the comments, see "rental_daddy.xml". -->
+<clothing>
+	<coreAttributes>
+		<value>80</value> 
+		
+		<determiner><![CDATA[a]]></determiner>
+		
+		<name><![CDATA[yuanlingpao]]></name>
+		
+		<namePlural pluralByDefault="false"><![CDATA[yuanlingpaos]]></namePlural> 
+		
+		<description><![CDATA[The yuanlingpao is a piece of hanfu worn as outerwear, or as middlewear under a larger garment. This one is knee-lenth with narrow sleeves, giving it a pratical and adventurous impression.]]></description> 
+		
+		<physicalResistance>0</physicalResistance> 
+		
+		<femininity>ANDROGYNOUS</femininity> 
+		
+		<slot>TORSO_UNDER</slot> 
+		
+		<rarity>COMMON</rarity> 
+		
+		<clothingSet/> 
+		
+		<imageName>yuanlingpao.svg</imageName> 
+		
+		<imageEquippedName/> 
+		
+		<enchantmentLimit/>
+		
+		<effects/>
+		
+		<blockedPartsList> 
+			<blockedParts>
+				<displacementType>REMOVE_OR_EQUIP</displacementType> 
+				<clothingAccessRequired> 
+					<clothingAccess>ARMS_UP_TO_SHOULDER</clothingAccess>
+					<clothingAccess>HEAD</clothingAccess>
+				</clothingAccessRequired>
+				<blockedBodyParts>
+					<bodyPart>ARMPITS</bodyPart>
+				</blockedBodyParts>
+				<clothingAccessBlocked/>
+				<concealedSlots/>
+			</blockedParts>
+			
+			<blockedParts>
+				<displacementType>PULLS_UP</displacementType>
+				<clothingAccessRequired/>
+				<blockedBodyParts>
+					<bodyPart>BREASTS</bodyPart>
+					<bodyPart>NIPPLES</bodyPart>
+					<bodyPart>STOMACH</bodyPart>
+					<bodyPart>BACK</bodyPart>
+				</blockedBodyParts>
+				<clothingAccessBlocked>
+					<clothingAccess>CHEST</clothingAccess>
+					<clothingAccess>WAIST</clothingAccess>
+				</clothingAccessBlocked>
+				<concealedSlots values="CONCEALED_PARTIAL_TORSO"/>
+			</blockedParts>
+			
+		</blockedPartsList>
+		
+		<incompatibleSlots/> 
+		
+		<primaryColours values="ALL"/>
+		<primaryColoursDye/>
+		<secondaryColours values="ALL"/>
+		<secondaryColoursDye/>
+		<tertiaryColours/>
+		<tertiaryColoursDye/>
+		
+		<itemTags> 
+			<tag>SOLD_BY_NYAN</tag>
+		</itemTags>
+	</coreAttributes>
+
+  <replacementText type="REMOVE_OR_EQUIP">
+    <self>
+      <![CDATA[[npc.Name] [npc.verb(guide)] [npc.her] [npc.arms] through the yuanlingpao's sleeves and ties it closed.]]>
+    </self>
+    <other>
+      <![CDATA[[npc.Name] [npc.verb(guide)] [npc2.namePos] [npc2.arms] through the yuanlingpao's sleeves and ties it closed.]]>
+    </other>
+    <otherRough>
+      <![CDATA[[npc.Name] roughly [npc.verb(force)] [npc2.namePos] [npc2.arms] through the yuanlingpao's sleeves and ties it closed.]]>
+    </otherRough>
+  </replacementText>
+
+  <displacementText type="REMOVE_OR_EQUIP">
+    <self>
+      <![CDATA[[npc.Name] unties and [npc.verb(pull)] off [npc.her] yuanlingpao.]]>
+    </self>
+    <other>
+      <![CDATA[[npc.Name] unties and [npc.verb(pull)] off [npc2.namePos] yuanlingpao.]]>
+    </other>
+    <otherRough>
+      <![CDATA[[npc.Name] roughly unties and [npc.verb(pull)] off [npc2.namePos] yuanlingpao.]]>
+    </otherRough>
+  </displacementText>
+	
+  <replacementText type="PULLS_UP">
+    <self>
+      <![CDATA[[npc.Name] [npc.verb(pull)] [npc.her] yuanlingpao back down, covering [npc.her] torso.]]>
+    </self>
+    <other>
+      <![CDATA[[npc.Name] [npc.verb(pull)] [npc2.namePos] yuanlingpao back down, covering [npc2.her] torso.]]>
+    </other>
+    <otherRough>
+      <![CDATA[[npc.Name] roughly [npc.verb(yank)] [npc2.namePos] yuanlingpao back down, covering [npc2.her] torso.]]>
+    </otherRough>
+  </replacementText>
+
+  <displacementText type="PULLS_UP">
+    <self>
+      <![CDATA[[npc.Name] [npc.verb(pull)] [npc.her] yuanlingpao up to just below [npc.her] chin, fully exposing [npc.her] torso.]]>
+    </self>
+    <other>
+      <![CDATA[[npc.Name] [npc.verb(pull)] [npc2.namePos] yuanlingpao up to just below [npc2.her] chin, fully exposing [npc2.her] torso.]]>
+    </other>
+    <otherRough>
+      <![CDATA[[npc.Name] roughly [npc.verb(pull)] [npc2.namePos] yuanlingpao up to just below [npc2.her] chin, fully exposing [npc2.her] torso.]]>
+    </otherRough>
+  </displacementText>
+  
+</clothing>
