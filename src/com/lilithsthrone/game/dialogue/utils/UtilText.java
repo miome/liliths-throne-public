@@ -234,8 +234,8 @@ import com.lilithsthrone.world.places.PlaceType;
 import com.lilithsthrone.world.places.PlaceUpgrade;
 
 // Prepend 'org.open' to these if using JDK11+
-import org.openjdk.nashorn.api.scripting.NashornScriptEngine;
-import org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory;
+import jdk.nashorn.api.scripting.NashornScriptEngine;
+import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 
 /**
  * @since 0.1.0
